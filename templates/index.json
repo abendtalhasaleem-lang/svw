@@ -1,1 +1,404 @@
-{"sections":{"slideshow_jJ6K3h":{"type":"slideshow","blocks":{"slide_RN7iKn":{"type":"slide","settings":{"image_overlay_opacity":0,"heading":"Image slide","heading_size":"h1","subheading":"Tell your brand's story through images","button_label":"Button label","link":"","button_style_secondary":false,"show_text_box":true,"box_align":"middle-center","text_alignment":"center","text_alignment_mobile":"center","color_scheme":""}},"slide_LWwDWC":{"type":"slide","settings":{"image_overlay_opacity":0,"heading":"Image slide","heading_size":"h1","subheading":"Tell your brand's story through images","button_label":"Button label","link":"","button_style_secondary":false,"show_text_box":true,"box_align":"middle-center","text_alignment":"center","text_alignment_mobile":"center","color_scheme":""}}},"block_order":["slide_RN7iKn","slide_LWwDWC"],"name":"t:sections.slideshow.presets.name","settings":{"layout":"full_bleed","slide_height":"medium","slider_visual":"counter","auto_rotate":false,"change_slides_speed":5,"image_behavior":"none","show_text_below":true,"accessibility_info":"Slideshow about our brand"}},"featured_collection_DEbjeL":{"type":"featured-collection","name":"t:sections.featured-collection.presets.name","settings":{"collection":"","products_to_show":4,"title":"Featured collection","heading_size":"h1","description":"","show_description":false,"description_style":"body","columns_desktop":4,"enable_desktop_slider":false,"full_width":false,"show_view_all":true,"view_all_style":"solid","color_scheme":"","image_ratio":"adapt","image_shape":"default","show_secondary_image":false,"show_vendor":false,"show_rating":false,"quick_add":"none","columns_mobile":"2","swipe_on_mobile":false,"padding_top":36,"padding_bottom":36}}},"order":["slideshow_jJ6K3h","featured_collection_DEbjeL"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "scotland_icon_bar_NXtfiM": {
+      "type": "scotland-icon-bar",
+      "blocks": {
+        "icon_text_nYJFHy": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "truck",
+            "heading": "Next day delivery",
+            "link": ""
+          }
+        },
+        "icon_text_ai7RK6": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "clock",
+            "heading": "Same day dispatch before 4pm",
+            "link": ""
+          }
+        },
+        "icon_text_giNRPh": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "calendar",
+            "heading": "Delivery 6 days a week",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "icon_text_nYJFHy",
+        "icon_text_ai7RK6",
+        "icon_text_giNRPh"
+      ],
+      "name": "Scotland icon bar",
+      "settings": {
+        "full_width": false,
+        "content_padding_horizontal": 24,
+        "bar_padding_vertical": 14,
+        "item_gap": 16,
+        "items_per_row": 3,
+        "background_type": "gradient",
+        "background_color": "#14b8a6",
+        "gradient_color_start": "#0f766e",
+        "gradient_color_middle": "#2dd4bf",
+        "gradient_color_end": "#0f766e",
+        "gradient_angle": 90,
+        "text_color": "#ffffff",
+        "text_font_size": 13,
+        "text_font_weight": "700",
+        "text_transform": "uppercase",
+        "text_letter_spacing": 4,
+        "icon_size": 22
+      }
+    },
+    "hero_slideshow_yRF9CP": {
+      "type": "hero-slideshow",
+      "blocks": {
+        "slide_eeqWLy": {
+          "type": "slide",
+          "settings": {
+            "url": ""
+          }
+        },
+        "slide_hV6Hx8": {
+          "type": "slide",
+          "settings": {
+            "url": ""
+          }
+        },
+        "slide_qb39D9": {
+          "type": "slide",
+          "settings": {
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_eeqWLy",
+        "slide_hV6Hx8",
+        "slide_qb39D9"
+      ],
+      "name": "Scotland hero slideshow",
+      "settings": {
+        "auto_rotate": true,
+        "change_slides_speed": 5,
+        "show_arrows": true,
+        "active_indicator_color": "#27e0cc",
+        "inactive_dot_color": "#cccccc",
+        "full_width": true,
+        "container_padding": 24,
+        "border_radius": 24,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "scotland_images_grid_hAzxAy": {
+      "type": "scotland-images-grid",
+      "blocks": {
+        "image_block_TL3Pcy": {
+          "type": "image_block",
+          "settings": {
+            "title": "",
+            "url": ""
+          }
+        },
+        "image_block_TQtAkh": {
+          "type": "image_block",
+          "settings": {
+            "title": "",
+            "url": ""
+          }
+        },
+        "image_block_63Vcwc": {
+          "type": "image_block",
+          "settings": {
+            "title": "",
+            "url": ""
+          }
+        },
+        "image_block_dYdrWp": {
+          "type": "image_block",
+          "settings": {
+            "title": "",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_block_TL3Pcy",
+        "image_block_TQtAkh",
+        "image_block_63Vcwc",
+        "image_block_dYdrWp"
+      ],
+      "name": "Scotland images grid",
+      "settings": {
+        "full_width": false,
+        "section_padding_vertical": 40,
+        "section_padding_horizontal": 16,
+        "gap": 16,
+        "image_border_radius": 8,
+        "image_aspect_ratio": "1 / 1",
+        "background_color": "#ffffff",
+        "title_font_size": 14,
+        "title_font_weight": "600",
+        "title_color": "#1a1a1a",
+        "title_alignment": "center",
+        "title_text_transform": "uppercase",
+        "title_letter_spacing": 5,
+        "title_margin_top": 10
+      }
+    },
+    "scotland_category_buttons_rYd6VM": {
+      "type": "scotland-category-buttons",
+      "blocks": {
+        "category_button_MgXmcL": {
+          "type": "category_button",
+          "settings": {
+            "label": "E Liquids",
+            "link": ""
+          }
+        },
+        "category_button_pLTwXQ": {
+          "type": "category_button",
+          "settings": {
+            "label": "Vape Kits",
+            "link": ""
+          }
+        },
+        "category_button_GbakBt": {
+          "type": "category_button",
+          "settings": {
+            "label": "Nic Salts",
+            "link": ""
+          }
+        },
+        "category_button_C8NC9g": {
+          "type": "category_button",
+          "settings": {
+            "label": "Nic Pouch",
+            "link": ""
+          }
+        },
+        "category_button_7HVRyN": {
+          "type": "category_button",
+          "settings": {
+            "label": "Prefilled Pods",
+            "link": ""
+          }
+        },
+        "category_button_FYD3CT": {
+          "type": "category_button",
+          "settings": {
+            "label": "Pod Kits",
+            "link": ""
+          }
+        },
+        "category_button_hV6LJW": {
+          "type": "category_button",
+          "settings": {
+            "label": "Coils",
+            "link": ""
+          }
+        },
+        "category_button_ijDVTa": {
+          "type": "category_button",
+          "settings": {
+            "label": "Pods",
+            "link": ""
+          }
+        },
+        "category_button_XHx7JB": {
+          "type": "category_button",
+          "settings": {
+            "label": "Accessories",
+            "link": ""
+          }
+        },
+        "category_button_WDhe4r": {
+          "type": "category_button",
+          "settings": {
+            "label": "Coming Soon",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_button_MgXmcL",
+        "category_button_pLTwXQ",
+        "category_button_GbakBt",
+        "category_button_C8NC9g",
+        "category_button_7HVRyN",
+        "category_button_FYD3CT",
+        "category_button_hV6LJW",
+        "category_button_ijDVTa",
+        "category_button_XHx7JB",
+        "category_button_WDhe4r"
+      ],
+      "name": "Scotland category buttons",
+      "settings": {
+        "full_width": false,
+        "content_padding_horizontal": 24,
+        "section_background_color": "#f7f7f7",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "heading": "Shop by Category",
+        "heading_tag": "h2",
+        "heading_alignment": "left",
+        "heading_color": "#111111",
+        "heading_font_size": 28,
+        "heading_font_weight": "700",
+        "heading_bottom_spacing": 24,
+        "button_background_type": "gradient",
+        "button_background_color": "#14b8a6",
+        "button_gradient_start": "#2dd4bf",
+        "button_gradient_end": "#047857",
+        "button_gradient_angle": 90,
+        "button_text_color": "#ffffff",
+        "button_font_size": 15,
+        "button_font_weight": "700",
+        "button_border_radius": 10,
+        "button_min_height": 52,
+        "button_gap": 16,
+        "mobile_columns": "2"
+      }
+    },
+    "scotland_logo_marquee_rVtnrc": {
+      "type": "scotland-logo-marquee",
+      "blocks": {
+        "logo_XY8nxp": {
+          "type": "logo",
+          "settings": {
+            "title": "FISCO",
+            "link": ""
+          }
+        },
+        "logo_nKpT7m": {
+          "type": "logo",
+          "settings": {
+            "title": "Frukt Cyder",
+            "link": ""
+          }
+        },
+        "logo_VMVFVC": {
+          "type": "logo",
+          "settings": {
+            "title": "Geekvape",
+            "link": ""
+          }
+        },
+        "logo_PyWdVe": {
+          "type": "logo",
+          "settings": {
+            "title": "Glas",
+            "link": ""
+          }
+        },
+        "logo_6iCiWP": {
+          "type": "logo",
+          "settings": {
+            "title": "Gold Bar",
+            "link": ""
+          }
+        },
+        "logo_KBdFjR": {
+          "type": "logo",
+          "settings": {
+            "title": "Gold Leaf",
+            "link": ""
+          }
+        },
+        "logo_zpxBci": {
+          "type": "logo",
+          "settings": {
+            "title": "Hayati",
+            "link": ""
+          }
+        },
+        "logo_BRY4Df": {
+          "type": "logo",
+          "settings": {
+            "title": "Horny Flava",
+            "link": ""
+          }
+        },
+        "logo_nwandP": {
+          "type": "logo",
+          "settings": {
+            "title": "Insta Flow",
+            "link": ""
+          }
+        },
+        "logo_Adzr4b": {
+          "type": "logo",
+          "settings": {
+            "title": "IVG",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_XY8nxp",
+        "logo_nKpT7m",
+        "logo_VMVFVC",
+        "logo_PyWdVe",
+        "logo_6iCiWP",
+        "logo_KBdFjR",
+        "logo_zpxBci",
+        "logo_BRY4Df",
+        "logo_nwandP",
+        "logo_Adzr4b"
+      ],
+      "name": "Scotland logo marquee",
+      "settings": {
+        "full_width": false,
+        "content_padding_horizontal": 24,
+        "section_background_color": "#f7f7f7",
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "heading": "Top Brands",
+        "heading_tag": "h2",
+        "heading_alignment": "left",
+        "heading_color": "#111111",
+        "heading_font_size": 28,
+        "heading_font_weight": "700",
+        "heading_bottom_spacing": 24,
+        "show_view_all": true,
+        "view_all_label": "View All >",
+        "view_all_link": "",
+        "view_all_color": "#14b8a6",
+        "view_all_font_size": 14,
+        "scroll_speed": 40,
+        "logos_visible_desktop": 8,
+        "logos_visible_mobile": 3,
+        "logo_gap": 16,
+        "logo_card_background": "#ffffff",
+        "logo_card_radius": 8,
+        "logo_card_padding": 12,
+        "logo_title_color": "#666666",
+        "logo_title_font_size": 11,
+        "logo_title_font_weight": "600"
+      }
+    }
+  },
+  "order": [
+    "scotland_icon_bar_NXtfiM",
+    "hero_slideshow_yRF9CP",
+    "scotland_images_grid_hAzxAy",
+    "scotland_category_buttons_rYd6VM",
+    "scotland_logo_marquee_rVtnrc"
+  ]
+}
