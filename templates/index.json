@@ -51,9 +51,9 @@
         "items_per_row": 3,
         "background_type": "gradient",
         "background_color": "#14b8a6",
-        "gradient_color_start": "#01277E",
-        "gradient_color_middle": "#336DD1",
-        "gradient_color_end": "#00319B",
+        "gradient_color_start": "#01277e",
+        "gradient_color_middle": "#336dd1",
+        "gradient_color_end": "#14B8A6",
         "gradient_angle": 90,
         "text_color": "#ffffff",
         "text_font_size": 13,
@@ -97,7 +97,7 @@
         "auto_rotate": true,
         "change_slides_speed": 5,
         "show_arrows": true,
-        "active_indicator_color": "#01277E",
+        "active_indicator_color": "#01277e",
         "inactive_dot_color": "#cccccc",
         "full_width": true,
         "container_padding": 24,
@@ -258,7 +258,7 @@
       "settings": {
         "full_width": false,
         "content_padding_horizontal": 24,
-        "section_background_color": "#FFFFFF",
+        "section_background_color": "#ffffff",
         "padding_top": 40,
         "padding_bottom": 40,
         "heading": "Shop by Category",
@@ -270,8 +270,8 @@
         "heading_bottom_spacing": 24,
         "button_background_type": "gradient",
         "button_background_color": "#14b8a6",
-        "button_gradient_start": "#01277E",
-        "button_gradient_end": "#336DD1",
+        "button_gradient_start": "#01277e",
+        "button_gradient_end": "#14B8A6",
         "button_gradient_angle": 90,
         "button_text_color": "#ffffff",
         "button_font_size": 15,
@@ -382,7 +382,7 @@
       "settings": {
         "full_width": false,
         "content_padding_horizontal": 24,
-        "section_background_color": "#FFFFFF",
+        "section_background_color": "#ffffff",
         "padding_top": 40,
         "padding_bottom": 40,
         "heading": "Top Brands",
@@ -396,6 +396,7 @@
         "view_all_label": "View All >",
         "view_all_link": "",
         "view_all_color": "#14b8a6",
+        "view_all_hover_color": "#0d9488",
         "view_all_font_size": 14,
         "scroll_speed": 40,
         "logos_visible_desktop": 8,
@@ -408,6 +409,145 @@
         "logo_title_font_size": 11,
         "logo_title_font_weight": "600"
       }
+    },
+    "scotland_collection_row_UxjdnQ": {
+      "type": "scotland-collection-row",
+      "name": "Scotland collection row",
+      "settings": {
+        "collection": "prefilleds",
+        "title": "",
+        "heading_tag": "h2",
+        "title_color": "#111111",
+        "title_font_size": 24,
+        "header_spacing": 20,
+        "show_view_all": true,
+        "view_all_label": "View all",
+        "view_all_color": "#14b8a6",
+        "view_all_hover_color": "#0d9488",
+        "view_all_font_size": 14,
+        "show_feature_image": true,
+        "overlay_color": "#336DD1",
+        "overlay_opacity": 75,
+        "feature_radius": 10,
+        "feature_title_font_size": 28,
+        "feature_column_width": 75,
+        "card_gap": 12,
+        "columns_desktop": "5",
+        "columns_mobile": "2",
+        "full_width": false,
+        "content_padding_horizontal": 24,
+        "color_scheme": "",
+        "product_title_font_size": 14,
+        "image_ratio": "square",
+        "image_fit": "cover",
+        "image_padding": 0,
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "mobile_autoplay": true,
+        "mobile_autoplay_speed": 5,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "scotland_trade_cta_km68a6": {
+      "type": "scotland-trade-cta",
+      "blocks": {
+        "stat_fJjfAJ": {
+          "type": "stat",
+          "settings": {
+            "stat_heading": "500+",
+            "stat_text": "Products"
+          }
+        },
+        "stat_YiUEJd": {
+          "type": "stat",
+          "settings": {
+            "stat_heading": "50+",
+            "stat_text": "Brands"
+          }
+        },
+        "stat_PTQgpG": {
+          "type": "stat",
+          "settings": {
+            "stat_heading": "Next Day",
+            "stat_text": "Delivery"
+          }
+        },
+        "stat_aBMLA7": {
+          "type": "stat",
+          "settings": {
+            "stat_heading": "6 Days",
+            "stat_text": "A Week"
+          }
+        }
+      },
+      "block_order": [
+        "stat_fJjfAJ",
+        "stat_YiUEJd",
+        "stat_PTQgpG",
+        "stat_aBMLA7"
+      ],
+      "name": "Scotland trade CTA",
+      "settings": {
+        "heading": "Exclusive Trade Pricing",
+        "heading_tag": "h2",
+        "text": "<p>Register for a trade account to access wholesale prices, bulk discounts, and exclusive offers. Join hundreds of UK retailers who trust OV Distribution.</p>",
+        "heading_color": "#ffffff",
+        "heading_font_size": 36,
+        "heading_font_size_mobile": 28,
+        "heading_font_weight": "700",
+        "text_color": "#ffffff",
+        "text_font_size": 16,
+        "text_font_size_mobile": 15,
+        "text_font_weight": "400",
+        "show_primary_button": true,
+        "primary_button_label": "Register Trade Account",
+        "primary_button_link": "",
+        "show_primary_button_arrow": true,
+        "primary_button_bg": "#ffffff",
+        "primary_button_text_color": "#0f766e",
+        "show_secondary_button": true,
+        "secondary_button_label": "Sign In",
+        "secondary_button_link": "",
+        "secondary_button_bg": "rgba(0,0,0,0)",
+        "secondary_button_text_color": "#ffffff",
+        "secondary_button_border_color": "#ffffff",
+        "button_font_size": 15,
+        "button_font_weight": "600",
+        "button_min_height": 48,
+        "button_border_radius": 40,
+        "button_gap": 12,
+        "buttons_top_spacing": 4,
+        "stat_background_color": "#ffffff1f",
+        "stat_heading_color": "#ffffff",
+        "stat_text_color": "#ffffff",
+        "stat_heading_font_size": 28,
+        "stat_heading_font_size_mobile": 24,
+        "stat_heading_font_weight": "700",
+        "stat_text_font_size": 14,
+        "stat_text_font_weight": "400",
+        "stat_border_radius": 12,
+        "stat_min_height": 112,
+        "stat_gap": 16,
+        "background_type": "gradient",
+        "background_color": "#01277E",
+        "gradient_color_start": "#01277E",
+        "gradient_color_end": "#14b8a6",
+        "gradient_angle": 135,
+        "panel_border_radius": 16,
+        "panel_padding_vertical": 48,
+        "panel_padding_horizontal": 48,
+        "layout_gap": 40,
+        "content_gap": 20,
+        "section_background_color": "#ffffff",
+        "full_width": false,
+        "content_padding_horizontal": 24,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
@@ -415,6 +555,8 @@
     "hero_slideshow_yRF9CP",
     "scotland_images_grid_hAzxAy",
     "scotland_category_buttons_rYd6VM",
-    "scotland_logo_marquee_rVtnrc"
+    "scotland_logo_marquee_rVtnrc",
+    "scotland_collection_row_UxjdnQ",
+    "scotland_trade_cta_km68a6"
   ]
 }
