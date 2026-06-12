@@ -51,9 +51,9 @@
         "items_per_row": 3,
         "background_type": "gradient",
         "background_color": "#14b8a6",
-        "gradient_color_start": "#0f766e",
-        "gradient_color_middle": "#2dd4bf",
-        "gradient_color_end": "#0f766e",
+        "gradient_color_start": "#01277E",
+        "gradient_color_middle": "#336DD1",
+        "gradient_color_end": "#00319B",
         "gradient_angle": 90,
         "text_color": "#ffffff",
         "text_font_size": 13,
@@ -69,12 +69,14 @@
         "slide_eeqWLy": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/image.avif",
             "url": ""
           }
         },
         "slide_hV6Hx8": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/image_1.avif",
             "url": ""
           }
         },
@@ -95,13 +97,13 @@
         "auto_rotate": true,
         "change_slides_speed": 5,
         "show_arrows": true,
-        "active_indicator_color": "#27e0cc",
+        "active_indicator_color": "#01277E",
         "inactive_dot_color": "#cccccc",
         "full_width": true,
         "container_padding": 24,
         "border_radius": 24,
         "padding_top": 36,
-        "padding_bottom": 36,
+        "padding_bottom": 16,
         "overlay_color": "#000000",
         "overlay_opacity": 0
       }
@@ -112,6 +114,7 @@
         "image_block_TL3Pcy": {
           "type": "image_block",
           "settings": {
+            "image": "shopify://shop_images/image_2.avif",
             "title": "",
             "url": ""
           }
@@ -119,6 +122,7 @@
         "image_block_TQtAkh": {
           "type": "image_block",
           "settings": {
+            "image": "shopify://shop_images/image_3.avif",
             "title": "",
             "url": ""
           }
@@ -126,6 +130,7 @@
         "image_block_63Vcwc": {
           "type": "image_block",
           "settings": {
+            "image": "shopify://shop_images/image_4.avif",
             "title": "",
             "url": ""
           }
@@ -133,6 +138,7 @@
         "image_block_dYdrWp": {
           "type": "image_block",
           "settings": {
+            "image": "shopify://shop_images/image_3.avif",
             "title": "",
             "url": ""
           }
@@ -147,7 +153,7 @@
       "name": "Scotland images grid",
       "settings": {
         "full_width": false,
-        "section_padding_vertical": 40,
+        "section_padding_vertical": 32,
         "section_padding_horizontal": 16,
         "gap": 16,
         "image_border_radius": 8,
@@ -252,7 +258,7 @@
       "settings": {
         "full_width": false,
         "content_padding_horizontal": 24,
-        "section_background_color": "#f7f7f7",
+        "section_background_color": "#FFFFFF",
         "padding_top": 40,
         "padding_bottom": 40,
         "heading": "Shop by Category",
@@ -264,8 +270,8 @@
         "heading_bottom_spacing": 24,
         "button_background_type": "gradient",
         "button_background_color": "#14b8a6",
-        "button_gradient_start": "#2dd4bf",
-        "button_gradient_end": "#047857",
+        "button_gradient_start": "#01277E",
+        "button_gradient_end": "#336DD1",
         "button_gradient_angle": 90,
         "button_text_color": "#ffffff",
         "button_font_size": 15,
@@ -282,6 +288,7 @@
         "logo_XY8nxp": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_9.avif",
             "title": "FISCO",
             "link": ""
           }
@@ -289,6 +296,7 @@
         "logo_nKpT7m": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_15.avif",
             "title": "Frukt Cyder",
             "link": ""
           }
@@ -296,6 +304,7 @@
         "logo_VMVFVC": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_11.avif",
             "title": "Geekvape",
             "link": ""
           }
@@ -303,6 +312,7 @@
         "logo_PyWdVe": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_10.avif",
             "title": "Glas",
             "link": ""
           }
@@ -310,6 +320,7 @@
         "logo_6iCiWP": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_12.avif",
             "title": "Gold Bar",
             "link": ""
           }
@@ -317,6 +328,7 @@
         "logo_KBdFjR": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_13.avif",
             "title": "Gold Leaf",
             "link": ""
           }
@@ -324,6 +336,7 @@
         "logo_zpxBci": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_7.avif",
             "title": "Hayati",
             "link": ""
           }
@@ -331,6 +344,7 @@
         "logo_BRY4Df": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_14.avif",
             "title": "Horny Flava",
             "link": ""
           }
@@ -338,6 +352,7 @@
         "logo_nwandP": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_8.avif",
             "title": "Insta Flow",
             "link": ""
           }
@@ -345,6 +360,7 @@
         "logo_Adzr4b": {
           "type": "logo",
           "settings": {
+            "logo": "shopify://shop_images/image_6.avif",
             "title": "IVG",
             "link": ""
           }
@@ -366,7 +382,7 @@
       "settings": {
         "full_width": false,
         "content_padding_horizontal": 24,
-        "section_background_color": "#f7f7f7",
+        "section_background_color": "#FFFFFF",
         "padding_top": 40,
         "padding_bottom": 40,
         "heading": "Top Brands",
