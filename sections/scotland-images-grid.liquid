@@ -1,0 +1,306 @@
+{{ 'section-scotland-images-grid.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #ScotlandImagesGrid-{{ section.id }} {
+    padding-top: {{ section.settings.section_padding_vertical }}px;
+    padding-bottom: {{ section.settings.section_padding_vertical }}px;
+    background-color: {{ section.settings.background_color }};
+    --scotland-grid-gap: {{ section.settings.gap }}px;
+    --scotland-grid-gap-mobile: {{ section.settings.gap | divided_by: 2 | at_least: 8 }}px;
+    --scotland-grid-radius: {{ section.settings.image_border_radius }}px;
+    --scotland-grid-aspect-ratio: {{ section.settings.image_aspect_ratio }};
+    --scotland-grid-title-margin-top: {{ section.settings.title_margin_top }}px;
+    --scotland-grid-title-align: {{ section.settings.title_alignment }};
+    --scotland-grid-title-size: {{ section.settings.title_font_size }}px;
+    --scotland-grid-title-weight: {{ section.settings.title_font_weight }};
+    --scotland-grid-title-color: {{ section.settings.title_color }};
+    --scotland-grid-title-transform: {{ section.settings.title_text_transform }};
+    --scotland-grid-title-spacing: {{ section.settings.title_letter_spacing | divided_by: 100.0 }}em;
+  }
+
+  {%- if section.settings.full_width -%}
+    #ScotlandImagesGrid-{{ section.id }} .scotland-images-grid__container {
+      max-width: 100%;
+      padding-left: {{ section.settings.section_padding_horizontal }}px;
+      padding-right: {{ section.settings.section_padding_horizontal }}px;
+    }
+  {%- endif -%}
+
+  @media screen and (max-width: 749px) {
+    #ScotlandImagesGrid-{{ section.id }} {
+      padding-top: {{ section.settings.section_padding_vertical | divided_by: 2 }}px;
+      padding-bottom: {{ section.settings.section_padding_vertical | divided_by: 2 }}px;
+    }
+
+    {%- if section.settings.full_width -%}
+      #ScotlandImagesGrid-{{ section.id }} .scotland-images-grid__container {
+        padding-left: {{ section.settings.section_padding_horizontal | divided_by: 2 | at_least: 8 }}px;
+        padding-right: {{ section.settings.section_padding_horizontal | divided_by: 2 | at_least: 8 }}px;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<section
+  class="scotland-images-grid{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  id="ScotlandImagesGrid-{{ section.id }}"
+>
+  <div class="scotland-images-grid__container{% unless section.settings.full_width %} page-width{% endunless %}">
+  {%- if section.blocks.size > 0 -%}
+    <div class="scotland-images-grid__grid">
+      {%- for block in section.blocks -%}
+        <div class="scotland-images-grid__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.url != blank -%}
+            <a href="{{ block.settings.url }}" class="scotland-images-grid__link">
+          {%- else -%}
+            <div class="scotland-images-grid__link scotland-images-grid__link--no-url">
+          {%- endif -%}
+
+            <div class="scotland-images-grid__image-wrap">
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 800
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '300, 400, 600, 800',
+                    sizes: '(max-width: 749px) 50vw, 25vw',
+                    class: 'scotland-images-grid__img',
+                    alt: block.settings.image.alt | escape
+                }}
+              {%- else -%}
+                <div class="scotland-images-grid__placeholder">
+                  {{ 'collection-1' | placeholder_svg_tag: 'scotland-images-grid__placeholder-svg' }}
+                </div>
+              {%- endif -%}
+            </div>
+
+            {%- if block.settings.title != blank -%}
+              <p class="scotland-images-grid__title">{{ block.settings.title | escape }}</p>
+            {%- endif -%}
+
+          {%- if block.settings.url != blank -%}
+            </a>
+          {%- else -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- else -%}
+    <div class="scotland-images-grid__grid">
+      {%- for i in (1..4) -%}
+        <div class="scotland-images-grid__item">
+          <div class="scotland-images-grid__link scotland-images-grid__link--no-url">
+            <div class="scotland-images-grid__image-wrap">
+              <div class="scotland-images-grid__placeholder">
+                {{ 'collection-1' | placeholder_svg_tag: 'scotland-images-grid__placeholder-svg' }}
+              </div>
+            </div>
+            <p class="scotland-images-grid__title">Grid image {{ i }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scotland images grid",
+  "tag": "section",
+  "class": "section section-scotland-images-grid",
+  "max_blocks": 4,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false,
+      "info": "When unchecked, content uses the theme page width from Theme settings > Layout."
+    },
+    {
+      "type": "header",
+      "content": "Spacing and styling"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_vertical",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section vertical padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Section horizontal padding",
+      "default": 16,
+      "info": "Side padding when full width is enabled. When full width is off, the theme page width gutters apply."
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between images",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Image border radius",
+      "default": 8
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "1 / 1", "label": "Square (1:1)" },
+        { "value": "4 / 3", "label": "Landscape (4:3)" },
+        { "value": "3 / 4", "label": "Portrait (3:4)" },
+        { "value": "16 / 9", "label": "Widescreen (16:9)" },
+        { "value": "auto", "label": "Natural (auto)" }
+      ],
+      "default": "1 / 1"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Block titles"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 10,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Title font size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "Title font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "Title alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "title_text_transform",
+      "label": "Title case",
+      "options": [
+        { "value": "none", "label": "As typed" },
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Title Case" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "em",
+      "label": "Title letter spacing (×0.01em)",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "title_margin_top",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Space above title",
+      "default": 10
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_block",
+      "name": "Grid image",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "placeholder": "e.g. SKE Bar 15K"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland images grid",
+      "blocks": [
+        { "type": "image_block" },
+        { "type": "image_block" },
+        { "type": "image_block" },
+        { "type": "image_block" }
+      ]
+    }
+  ]
+}
+{% endschema %}

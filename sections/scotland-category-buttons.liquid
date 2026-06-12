@@ -1,0 +1,374 @@
+{{ 'section-scotland-category-buttons.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  if section.settings.button_background_type == 'gradient'
+    assign button_background = 'linear-gradient(' | append: section.settings.button_gradient_angle | append: 'deg, ' | append: section.settings.button_gradient_start | append: ' 0%, ' | append: section.settings.button_gradient_end | append: ' 100%)'
+  else
+    assign button_background = section.settings.button_background_color
+  endif
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+-%}
+
+{%- style -%}
+  #ScotlandCategoryButtons-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.section_background_color }};
+    --scotland-cat-buttons-heading-color: {{ section.settings.heading_color }};
+    --scotland-cat-buttons-heading-size: {{ section.settings.heading_font_size }}px;
+    --scotland-cat-buttons-heading-weight: {{ section.settings.heading_font_weight }};
+    --scotland-cat-buttons-heading-align: {{ section.settings.heading_alignment }};
+    --scotland-cat-buttons-heading-gap: {{ section.settings.heading_bottom_spacing }}px;
+    --scotland-cat-buttons-bg: {{ button_background }};
+    --scotland-cat-buttons-text-color: {{ section.settings.button_text_color }};
+    --scotland-cat-buttons-font-size: {{ section.settings.button_font_size }}px;
+    --scotland-cat-buttons-font-weight: {{ section.settings.button_font_weight }};
+    --scotland-cat-buttons-radius: {{ section.settings.button_border_radius }}px;
+    --scotland-cat-buttons-min-height: {{ section.settings.button_min_height }}px;
+    --scotland-cat-buttons-gap: {{ section.settings.button_gap }}px;
+    --scotland-cat-buttons-mobile-cols: {{ section.settings.mobile_columns }};
+  }
+
+  {%- if section.settings.full_width -%}
+    #ScotlandCategoryButtons-{{ section.id }} .scotland-category-buttons__container {
+      max-width: 100%;
+      padding-left: {{ section.settings.content_padding_horizontal }}px;
+      padding-right: {{ section.settings.content_padding_horizontal }}px;
+    }
+  {%- endif -%}
+
+  @media screen and (max-width: 749px) {
+    #ScotlandCategoryButtons-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+    }
+
+    {%- if section.settings.full_width -%}
+      #ScotlandCategoryButtons-{{ section.id }} .scotland-category-buttons__container {
+        padding-left: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+        padding-right: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<section
+  class="scotland-category-buttons"
+  id="ScotlandCategoryButtons-{{ section.id }}"
+>
+  <div class="scotland-category-buttons__container{% unless section.settings.full_width %} page-width{% endunless %}">
+    {%- if section.settings.heading != blank -%}
+      <{{ heading_tag }} class="scotland-category-buttons__heading">{{ section.settings.heading | escape }}</{{ heading_tag }}>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="scotland-category-buttons__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.label != blank -%}
+            {%- if block.settings.link != blank -%}
+              <a
+                href="{{ block.settings.link }}"
+                class="scotland-category-buttons__button"
+                {{ block.shopify_attributes }}
+              >
+                {{ block.settings.label | escape }}
+              </a>
+            {%- else -%}
+              <span class="scotland-category-buttons__button" {{ block.shopify_attributes }}>
+                {{ block.settings.label | escape }}
+              </span>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="scotland-category-buttons__grid">
+        {%- assign placeholder_labels = 'E Liquids,Vape Kits,Nic Salts,Nic Pouch,Prefilled Pods' | split: ',' -%}
+        {%- for label in placeholder_labels -%}
+          <span class="scotland-category-buttons__button">{{ label }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scotland category buttons",
+  "tag": "section",
+  "class": "section section-scotland-category-buttons",
+  "max_blocks": 15,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width content",
+      "default": false,
+      "info": "When unchecked, content uses the theme page width."
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Content side padding (full width)",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "section_background_color",
+      "label": "Section background color",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading HTML tag",
+      "default": "h2",
+      "info": "Choose h2, h3, or h4 for SEO.",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 18,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "default": "700",
+      "options": [
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "heading_bottom_spacing",
+      "min": 12,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Space below heading",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "select",
+      "id": "button_background_type",
+      "label": "Button background type",
+      "default": "gradient",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "button_background_color",
+      "label": "Button background color",
+      "default": "#14b8a6",
+      "info": "Used when button background type is solid."
+    },
+    {
+      "type": "color",
+      "id": "button_gradient_start",
+      "label": "Button gradient start",
+      "default": "#2dd4bf"
+    },
+    {
+      "type": "color",
+      "id": "button_gradient_end",
+      "label": "Button gradient end",
+      "default": "#047857"
+    },
+    {
+      "type": "range",
+      "id": "button_gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "deg",
+      "label": "Button gradient angle",
+      "default": 90
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button font weight",
+      "default": "700",
+      "options": [
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Button border radius",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "button_min_height",
+      "min": 40,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Button minimum height",
+      "default": 52
+    },
+    {
+      "type": "range",
+      "id": "button_gap",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between buttons",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Buttons per row on mobile",
+      "default": "2",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category_button",
+      "name": "Category button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button label",
+          "default": "Category"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland category buttons",
+      "blocks": [
+        { "type": "category_button", "settings": { "label": "E Liquids" } },
+        { "type": "category_button", "settings": { "label": "Vape Kits" } },
+        { "type": "category_button", "settings": { "label": "Nic Salts" } },
+        { "type": "category_button", "settings": { "label": "Nic Pouch" } },
+        { "type": "category_button", "settings": { "label": "Prefilled Pods" } },
+        { "type": "category_button", "settings": { "label": "Pod Kits" } },
+        { "type": "category_button", "settings": { "label": "Coils" } },
+        { "type": "category_button", "settings": { "label": "Pods" } },
+        { "type": "category_button", "settings": { "label": "Accessories" } },
+        { "type": "category_button", "settings": { "label": "Coming Soon" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

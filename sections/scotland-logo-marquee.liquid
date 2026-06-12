@@ -1,0 +1,421 @@
+{{ 'section-scotland-logo-marquee.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'scotland-logo-marquee.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign logo_blocks = section.blocks | where: 'type', 'logo'
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+  assign enable_marquee = false
+  if logo_blocks.size >= 2
+    assign enable_marquee = true
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.section_background_color }};
+  }
+
+  #ScotlandLogoMarquee-{{ section.id }} {
+    --scotland-logo-marquee-duration: {{ section.settings.scroll_speed }}s;
+    --scotland-logo-marquee-gap: {{ section.settings.logo_gap }}px;
+    --scotland-logo-marquee-heading-color: {{ section.settings.heading_color }};
+    --scotland-logo-marquee-heading-size: {{ section.settings.heading_font_size }}px;
+    --scotland-logo-marquee-heading-weight: {{ section.settings.heading_font_weight }};
+    --scotland-logo-marquee-heading-align: {{ section.settings.heading_alignment }};
+    --scotland-logo-marquee-header-gap: {{ section.settings.heading_bottom_spacing }}px;
+    --scotland-logo-marquee-view-all-color: {{ section.settings.view_all_color }};
+    --scotland-logo-marquee-view-all-size: {{ section.settings.view_all_font_size }}px;
+    --scotland-logo-marquee-card-bg: {{ section.settings.logo_card_background }};
+    --scotland-logo-marquee-card-radius: {{ section.settings.logo_card_radius }}px;
+    --scotland-logo-marquee-card-padding: {{ section.settings.logo_card_padding }}px;
+    --scotland-logo-marquee-title-color: {{ section.settings.logo_title_color }};
+    --scotland-logo-marquee-title-size: {{ section.settings.logo_title_font_size }}px;
+    --scotland-logo-marquee-title-weight: {{ section.settings.logo_title_font_weight }};
+  }
+
+  {%- if section.settings.full_width -%}
+    #ScotlandLogoMarquee-{{ section.id }} .scotland-logo-marquee__container {
+      max-width: 100%;
+      padding-left: {{ section.settings.content_padding_horizontal }}px;
+      padding-right: {{ section.settings.content_padding_horizontal }}px;
+    }
+  {%- endif -%}
+
+  @media screen and (max-width: 749px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+    }
+
+    {%- if section.settings.full_width -%}
+      #ScotlandLogoMarquee-{{ section.id }} .scotland-logo-marquee__container {
+        padding-left: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+        padding-right: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<scotland-logo-marquee
+  id="ScotlandLogoMarquee-{{ section.id }}"
+  class="scotland-logo-marquee"
+  data-visible-desktop="{{ section.settings.logos_visible_desktop }}"
+  data-visible-mobile="{{ section.settings.logos_visible_mobile }}"
+>
+  <div class="scotland-logo-marquee__container{% unless section.settings.full_width %} page-width{% endunless %}">
+    {%- if section.settings.heading != blank or section.settings.show_view_all and section.settings.view_all_link != blank -%}
+      <div class="scotland-logo-marquee__header{% if section.settings.heading_alignment == 'center' %} scotland-logo-marquee__header--center{% endif %}">
+        {%- if section.settings.heading != blank -%}
+          <{{ heading_tag }} class="scotland-logo-marquee__heading">
+            {{ section.settings.heading | escape }}
+          </{{ heading_tag }}>
+        {%- endif -%}
+
+        {%- if section.settings.show_view_all and section.settings.view_all_link != blank -%}
+          <a href="{{ section.settings.view_all_link }}" class="scotland-logo-marquee__view-all">
+            {{ section.settings.view_all_label | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if logo_blocks.size > 0 -%}
+      <div class="scotland-logo-marquee__viewport" data-marquee-viewport>
+        <div
+          class="scotland-logo-marquee__track{% unless enable_marquee %} scotland-logo-marquee__track--static{% endunless %}"
+          data-marquee-track
+        >
+          <div class="scotland-logo-marquee__group">
+            {%- render 'scotland-logo-marquee-items', blocks: logo_blocks, section_id: section.id -%}
+          </div>
+          {%- if enable_marquee -%}
+            <div class="scotland-logo-marquee__group scotland-logo-marquee__group--clone" aria-hidden="true">
+              {%- render 'scotland-logo-marquee-items', blocks: logo_blocks, section_id: section.id, is_clone: true -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- else -%}
+      <div class="scotland-logo-marquee__viewport" data-marquee-viewport>
+        <div class="scotland-logo-marquee__track scotland-logo-marquee__track--static" data-marquee-track>
+          <div class="scotland-logo-marquee__group">
+            {%- for i in (1..6) -%}
+              <div class="scotland-logo-marquee__item">
+                <div class="scotland-logo-marquee__link scotland-logo-marquee__link--no-url">
+                  <div class="scotland-logo-marquee__card">
+                    <div class="scotland-logo-marquee__placeholder" aria-hidden="true"></div>
+                  </div>
+                  <p class="scotland-logo-marquee__title">Brand {{ i }}</p>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</scotland-logo-marquee>
+
+{% schema %}
+{
+  "name": "Scotland logo marquee",
+  "tag": "section",
+  "class": "section section-scotland-logo-marquee",
+  "max_blocks": 30,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width content",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Content side padding (full width)",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "section_background_color",
+      "label": "Section background color",
+      "default": "#f7f7f7"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Top Brands"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading HTML tag",
+      "default": "h2",
+      "info": "Choose h2, h3, or h4 for SEO.",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 18,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "default": "700",
+      "options": [
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "heading_bottom_spacing",
+      "min": 12,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Space below heading",
+      "default": 24
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view all link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label",
+      "default": "View All >"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link"
+    },
+    {
+      "type": "color",
+      "id": "view_all_color",
+      "label": "View all color",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "range",
+      "id": "view_all_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "View all font size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Marquee"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "min": 15,
+      "max": 90,
+      "step": 5,
+      "unit": "s",
+      "label": "Scroll duration",
+      "default": 40,
+      "info": "Lower is faster. Marquee runs when you have more logos than visible slots."
+    },
+    {
+      "type": "range",
+      "id": "logos_visible_desktop",
+      "min": 6,
+      "max": 14,
+      "step": 1,
+      "label": "Logos visible on desktop",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "logos_visible_mobile",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Logos visible on mobile",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "logo_gap",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between logos",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Logo cards"
+    },
+    {
+      "type": "color",
+      "id": "logo_card_background",
+      "label": "Logo card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "logo_card_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Logo card border radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "logo_card_padding",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Logo card padding",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "logo_title_color",
+      "label": "Logo title color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "logo_title_font_size",
+      "min": 9,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "label": "Logo title font size",
+      "default": 11
+    },
+    {
+      "type": "select",
+      "id": "logo_title_font_weight",
+      "label": "Logo title font weight",
+      "default": "600",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title below logo"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland logo marquee",
+      "blocks": [
+        { "type": "logo", "settings": { "title": "FISCO" } },
+        { "type": "logo", "settings": { "title": "Frukt Cyder" } },
+        { "type": "logo", "settings": { "title": "Geekvape" } },
+        { "type": "logo", "settings": { "title": "Glas" } },
+        { "type": "logo", "settings": { "title": "Gold Bar" } },
+        { "type": "logo", "settings": { "title": "Gold Leaf" } },
+        { "type": "logo", "settings": { "title": "Hayati" } },
+        { "type": "logo", "settings": { "title": "Horny Flava" } },
+        { "type": "logo", "settings": { "title": "Insta Flow" } },
+        { "type": "logo", "settings": { "title": "IVG" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

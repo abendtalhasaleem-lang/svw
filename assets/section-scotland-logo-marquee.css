@@ -1,0 +1,187 @@
+.scotland-logo-marquee {
+  display: block;
+  width: 100%;
+}
+
+.scotland-logo-marquee__container {
+  width: 100%;
+}
+
+.scotland-logo-marquee__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: var(--scotland-logo-marquee-header-gap, 24px);
+}
+
+.scotland-logo-marquee__header--center {
+  justify-content: center;
+  position: relative;
+}
+
+.scotland-logo-marquee__header--center .scotland-logo-marquee__view-all {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.scotland-logo-marquee__heading {
+  margin: 0;
+  font-size: var(--scotland-logo-marquee-heading-size, 28px);
+  font-weight: var(--scotland-logo-marquee-heading-weight, 700);
+  line-height: 1.2;
+  color: var(--scotland-logo-marquee-heading-color, #111111);
+  text-align: var(--scotland-logo-marquee-heading-align, left);
+}
+
+.scotland-logo-marquee__header--center .scotland-logo-marquee__heading {
+  width: 100%;
+  text-align: center;
+}
+
+.scotland-logo-marquee__view-all {
+  flex-shrink: 0;
+  font-size: var(--scotland-logo-marquee-view-all-size, 14px);
+  font-weight: 600;
+  color: var(--scotland-logo-marquee-view-all-color, #14b8a6);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.scotland-logo-marquee__view-all:hover {
+  opacity: 0.75;
+}
+
+.scotland-logo-marquee__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.scotland-logo-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: scotland-logo-marquee-scroll var(--scotland-logo-marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+.scotland-logo-marquee__track--paused,
+.scotland-logo-marquee__viewport:hover .scotland-logo-marquee__track {
+  animation-play-state: paused;
+}
+
+.scotland-logo-marquee__track--static {
+  animation: none;
+  width: 100%;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+.scotland-logo-marquee__group {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--scotland-logo-marquee-gap, 16px);
+  padding-right: var(--scotland-logo-marquee-gap, 16px);
+}
+
+.scotland-logo-marquee__track--static .scotland-logo-marquee__group--clone {
+  display: none;
+}
+
+.scotland-logo-marquee__item {
+  flex: 0 0 var(--scotland-logo-marquee-item-width, 120px);
+  width: var(--scotland-logo-marquee-item-width, 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scotland-logo-marquee__card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  padding: var(--scotland-logo-marquee-card-padding, 12px);
+  background: var(--scotland-logo-marquee-card-bg, #ffffff);
+  border-radius: var(--scotland-logo-marquee-card-radius, 8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.scotland-logo-marquee__link:hover .scotland-logo-marquee__card {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.scotland-logo-marquee__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.scotland-logo-marquee__image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.scotland-logo-marquee__placeholder {
+  width: 70%;
+  height: 70%;
+  background: #ececec;
+  border-radius: 4px;
+}
+
+.scotland-logo-marquee__title {
+  margin: 0;
+  width: 100%;
+  font-size: var(--scotland-logo-marquee-title-size, 11px);
+  font-weight: var(--scotland-logo-marquee-title-weight, 600);
+  line-height: 1.3;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--scotland-logo-marquee-title-color, #666666);
+}
+
+@keyframes scotland-logo-marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .scotland-logo-marquee__header--center .scotland-logo-marquee__view-all {
+    position: static;
+    transform: none;
+  }
+
+  .scotland-logo-marquee__header {
+    flex-wrap: wrap;
+  }
+
+  .scotland-logo-marquee__heading {
+    font-size: calc(var(--scotland-logo-marquee-heading-size, 28px) * 0.85);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scotland-logo-marquee__track {
+    animation: none;
+  }
+}

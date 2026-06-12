@@ -1,0 +1,44 @@
+{%- comment -%}
+  Renders one set of logo marquee items.
+  Accepts: blocks, section_id, is_clone (optional)
+{%- endcomment -%}
+
+{%- for block in blocks -%}
+  <div
+    class="scotland-logo-marquee__item"
+    {% unless is_clone %}{{ block.shopify_attributes }}{% endunless %}
+  >
+    {%- if block.settings.link != blank -%}
+      <a href="{{ block.settings.link }}" class="scotland-logo-marquee__link">
+    {%- else -%}
+      <div class="scotland-logo-marquee__link scotland-logo-marquee__link--no-url">
+    {%- endif -%}
+
+      <div class="scotland-logo-marquee__card">
+        {%- if block.settings.logo != blank -%}
+          {{
+            block.settings.logo
+            | image_url: width: 400
+            | image_tag:
+              loading: 'lazy',
+              widths: '120, 180, 240, 320, 400',
+              sizes: '120px',
+              class: 'scotland-logo-marquee__image',
+              alt: block.settings.logo.alt | default: block.settings.title | escape
+          }}
+        {%- else -%}
+          <div class="scotland-logo-marquee__placeholder" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+
+      {%- if block.settings.title != blank -%}
+        <p class="scotland-logo-marquee__title">{{ block.settings.title | escape }}</p>
+      {%- endif -%}
+
+    {%- if block.settings.link != blank -%}
+      </a>
+    {%- else -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endfor -%}

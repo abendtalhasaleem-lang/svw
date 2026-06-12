@@ -1,0 +1,79 @@
+.scotland-category-buttons {
+  width: 100%;
+}
+
+.scotland-category-buttons__container {
+  width: 100%;
+}
+
+.scotland-category-buttons__heading {
+  margin: 0 0 var(--scotland-cat-buttons-heading-gap, 24px);
+  font-size: var(--scotland-cat-buttons-heading-size, 28px);
+  font-weight: var(--scotland-cat-buttons-heading-weight, 700);
+  line-height: 1.2;
+  color: var(--scotland-cat-buttons-heading-color, #111111);
+  text-align: var(--scotland-cat-buttons-heading-align, left);
+}
+
+.scotland-category-buttons__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--scotland-cat-buttons-gap, 16px);
+}
+
+.scotland-category-buttons__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--scotland-cat-buttons-min-height, 52px);
+  padding: 0.875rem 1rem;
+  border: none;
+  border-radius: var(--scotland-cat-buttons-radius, 10px);
+  background: var(--scotland-cat-buttons-bg, #14b8a6);
+  color: var(--scotland-cat-buttons-text-color, #ffffff);
+  font-size: var(--scotland-cat-buttons-font-size, 15px);
+  font-weight: var(--scotland-cat-buttons-font-weight, 700);
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scotland-category-buttons__button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+.scotland-category-buttons__button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 749px) {
+  .scotland-category-buttons__grid {
+    grid-template-columns: repeat(var(--scotland-cat-buttons-mobile-cols, 2), minmax(0, 1fr));
+  }
+
+  .scotland-category-buttons__heading {
+    font-size: calc(var(--scotland-cat-buttons-heading-size, 28px) * 0.85);
+    margin-bottom: calc(var(--scotland-cat-buttons-heading-gap, 24px) * 0.85);
+  }
+
+  .scotland-category-buttons__button {
+    min-height: calc(var(--scotland-cat-buttons-min-height, 52px) * 0.92);
+    font-size: calc(var(--scotland-cat-buttons-font-size, 15px) * 0.93);
+    padding: 0.75rem 0.625rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scotland-category-buttons__button {
+    transition: none;
+  }
+
+  .scotland-category-buttons__button:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,386 @@
+{{ 'section-scotland-icon-bar.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  if section.settings.background_type == 'gradient'
+    assign bar_background = 'linear-gradient(' | append: section.settings.gradient_angle | append: 'deg, ' | append: section.settings.gradient_color_start | append: ' 0%, ' | append: section.settings.gradient_color_middle | append: ' 50%, ' | append: section.settings.gradient_color_end | append: ' 100%)'
+  else
+    assign bar_background = section.settings.background_color
+  endif
+-%}
+
+{%- style -%}
+  #ScotlandIconBar-{{ section.id }} {
+    background: {{ bar_background }};
+    --scotland-icon-bar-text-color: {{ section.settings.text_color }};
+    --scotland-icon-bar-font-size: {{ section.settings.text_font_size }}px;
+    --scotland-icon-bar-font-weight: {{ section.settings.text_font_weight }};
+    --scotland-icon-bar-letter-spacing: {{ section.settings.text_letter_spacing | divided_by: 100.0 }}em;
+    --scotland-icon-bar-text-transform: {{ section.settings.text_transform }};
+    --scotland-icon-bar-icon-size: {{ section.settings.icon_size }}px;
+    --scotland-icon-bar-padding-y: {{ section.settings.bar_padding_vertical }}px;
+    --scotland-icon-bar-gap: {{ section.settings.item_gap }}px;
+    --scotland-icon-bar-columns: {{ section.settings.items_per_row }};
+    --scotland-icon-bar-block-count: {{ section.blocks.size | at_least: 1 }};
+  }
+
+  {%- if section.settings.full_width -%}
+    #ScotlandIconBar-{{ section.id }} .scotland-icon-bar__container {
+      max-width: 100%;
+      padding-left: {{ section.settings.content_padding_horizontal }}px;
+      padding-right: {{ section.settings.content_padding_horizontal }}px;
+    }
+  {%- endif -%}
+
+  @media screen and (max-width: 749px) {
+    {%- if section.settings.full_width -%}
+      #ScotlandIconBar-{{ section.id }} .scotland-icon-bar__container {
+        padding-left: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+        padding-right: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<section
+  class="scotland-icon-bar"
+  id="ScotlandIconBar-{{ section.id }}"
+>
+  <div class="scotland-icon-bar__container{% unless section.settings.full_width %} page-width{% endunless %}">
+    {%- if section.blocks.size > 0 -%}
+      <div class="scotland-icon-bar__grid">
+        {%- for block in section.blocks -%}
+          <div class="scotland-icon-bar__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="scotland-icon-bar__link">
+            {%- endif -%}
+
+            <span class="scotland-icon-bar__icon" aria-hidden="true">
+              {%- if block.settings.custom_icon != blank -%}
+                {{
+                  block.settings.custom_icon
+                  | image_url: width: 80
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '22, 44, 80',
+                    sizes: '22px',
+                    class: 'scotland-icon-bar__icon-img',
+                    alt: ''
+                }}
+              {%- else -%}
+                {%- case block.settings.icon -%}
+                  {%- when 'truck' -%}
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3 7H15V17H3V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M15 10H18L21 13V17H15V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                      <circle cx="7" cy="17" r="1.5" fill="currentColor"/>
+                      <circle cx="18" cy="17" r="1.5" fill="currentColor"/>
+                    </svg>
+                  {%- when 'clock' -%}
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  {%- when 'calendar' -%}
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="4" y="6" width="16" height="14" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M8 4V7M16 4V7M4 10H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  {%- when 'box' -%}
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 8L12 4L20 8V16L12 20L4 16V8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M12 12L20 8M12 12V20M12 12L4 8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    </svg>
+                  {%- when 'phone' -%}
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 5H6.5C5.12 5 4 6.12 4 7.5C4 15.84 8.16 20 16.5 20C17.88 20 19 18.88 19 17.5V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      <path d="M12 4H16C17.1 4 18 4.9 18 6V10M18 10L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  {%- when 'shield' -%}
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 3L20 7V12C20 16.5 16.5 19.5 12 21C7.5 19.5 4 16.5 4 12V7L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  {%- when 'star' -%}
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 3L14.6 9.2L21 9.8L16.2 14.2L17.8 20.5L12 17.2L6.2 20.5L7.8 14.2L3 9.8L9.4 9.2L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    </svg>
+                  {%- else -%}
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/>
+                      <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                {%- endcase -%}
+              {%- endif -%}
+            </span>
+
+            {%- if block.settings.heading != blank -%}
+              <p class="scotland-icon-bar__text">{{ block.settings.heading | escape }}</p>
+            {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="scotland-icon-bar__grid">
+        <div class="scotland-icon-bar__item">
+          <span class="scotland-icon-bar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 7H15V17H3V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M15 10H18L21 13V17H15V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <p class="scotland-icon-bar__text">Add icon blocks in the theme editor</p>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scotland icon bar",
+  "tag": "section",
+  "class": "section section-scotland-icon-bar",
+  "max_blocks": 4,
+  "disabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width content",
+      "default": false,
+      "info": "Background always spans full width. When unchecked, icons and text use the theme page width."
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Content side padding (full width)",
+      "default": 24,
+      "info": "Only applies when full width content is enabled."
+    },
+    {
+      "type": "range",
+      "id": "bar_padding_vertical",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Bar vertical padding",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "item_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between items",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "items_per_row",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Maximum items per row (desktop)",
+      "default": 3,
+      "info": "On mobile, all items always stay on one row."
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "Background type",
+      "default": "gradient",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#14b8a6",
+      "info": "Used when background type is solid."
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_start",
+      "label": "Gradient start",
+      "default": "#0f766e"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_middle",
+      "label": "Gradient middle",
+      "default": "#2dd4bf"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_end",
+      "label": "Gradient end",
+      "default": "#0f766e"
+    },
+    {
+      "type": "range",
+      "id": "gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "deg",
+      "label": "Gradient angle",
+      "default": 90
+    },
+    {
+      "type": "header",
+      "content": "Text and icons"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text and icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Text font size",
+      "default": 13
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "Text font weight",
+      "default": "700",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_transform",
+      "label": "Text case",
+      "default": "uppercase",
+      "options": [
+        { "value": "none", "label": "As typed" },
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Title Case" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "text_letter_spacing",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "em",
+      "label": "Letter spacing (×0.01em)",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 22
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon_text",
+      "name": "Icon with text",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "truck",
+          "options": [
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "box", "label": "Box" },
+            { "value": "phone", "label": "Phone" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "star", "label": "Star" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon image",
+          "info": "Optional. Replaces the selected icon above."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Next day delivery"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland icon bar",
+      "blocks": [
+        {
+          "type": "icon_text",
+          "settings": {
+            "icon": "truck",
+            "heading": "Next day delivery"
+          }
+        },
+        {
+          "type": "icon_text",
+          "settings": {
+            "icon": "clock",
+            "heading": "Same day dispatch before 4pm"
+          }
+        },
+        {
+          "type": "icon_text",
+          "settings": {
+            "icon": "calendar",
+            "heading": "Delivery 6 days a week"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

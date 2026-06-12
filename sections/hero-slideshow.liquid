@@ -1,0 +1,355 @@
+{{ 'section-hero-slideshow.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'hero-slideshow.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign slide_blocks = section.blocks | where: 'type', 'slide'
+  assign first_slide_image = nil
+
+  for block in slide_blocks
+    if block.settings.image != blank
+      assign first_slide_image = block.settings.image
+      break
+    endif
+  endfor
+
+  assign overlay_alpha = section.settings.overlay_opacity | times: 1.0 | divided_by: 100
+  if section.settings.overlay_opacity > 0
+    assign overlay_background = section.settings.overlay_color | color_modify: 'alpha', overlay_alpha
+  else
+    assign overlay_background = 'transparent'
+  endif
+-%}
+
+{%- style -%}
+  #HeroSlideshow-{{ section.id }} {
+    --hero-slideshow-radius: {{ section.settings.border_radius }}px;
+    --hero-slideshow-active-line: {{ section.settings.active_indicator_color }};
+    --hero-slideshow-inactive-dot: {{ section.settings.inactive_dot_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #HeroSlideshow-{{ section.id }} .hero-slideshow__media::after {
+    background-color: {{ overlay_background }};
+  }
+
+  #HeroSlideshow-{{ section.id }} .hero-slideshow__outer {
+    {%- if section.settings.full_width -%}
+      max-width: 100%;
+      padding-left: {{ section.settings.container_padding }}px;
+      padding-right: {{ section.settings.container_padding }}px;
+    {%- endif -%}
+  }
+  @media screen and (max-width: 749px) {
+    {%- if section.settings.full_width -%}
+      #HeroSlideshow-{{ section.id }} .hero-slideshow__outer {
+        padding-left: {{ section.settings.container_padding | times: 0.5 | round }}px;
+        padding-right: {{ section.settings.container_padding | times: 0.5 | round }}px;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<hero-slideshow
+  id="HeroSlideshow-{{ section.id }}"
+  class="hero-slideshow"
+  data-autoplay="{{ section.settings.auto_rotate }}"
+  data-speed="{{ section.settings.change_slides_speed }}"
+  role="region"
+  aria-roledescription="carousel"
+  aria-label="Promotional slideshow"
+>
+  <div class="hero-slideshow__outer{% unless section.settings.full_width %} page-width{% endunless %}">
+    <div class="hero-slideshow__viewport{% if section.settings.show_arrows %} hero-slideshow__viewport--show-arrows{% endif %}">
+      {%- if section.settings.show_arrows and slide_blocks.size > 1 -%}
+        <button
+          type="button"
+          class="hero-slideshow__arrow hero-slideshow__arrow--prev"
+          data-hero-slideshow-prev
+          aria-label="Previous slide"
+        >
+          <svg viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8.5 1L1.5 8L8.5 15" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="hero-slideshow__arrow hero-slideshow__arrow--next"
+          data-hero-slideshow-next
+          aria-label="Next slide"
+        >
+          <svg viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M1.5 1L8.5 8L1.5 15" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      {%- endif -%}
+
+      <div
+        class="hero-slideshow__track"
+        data-hero-slideshow-track
+        aria-live="polite"
+      >
+        {%- if first_slide_image != blank -%}
+          <div class="hero-slideshow__sizer" aria-hidden="true">
+            {{
+              first_slide_image
+              | image_url: width: 2000
+              | image_tag:
+                loading: 'eager',
+                widths: '375, 550, 750, 1100, 1500, 2000',
+                sizes: '100vw',
+                class: 'hero-slideshow__sizer-img',
+                alt: ''
+            }}
+          </div>
+        {%- endif -%}
+
+        {%- if slide_blocks.size > 0 -%}
+          {%- assign active_assigned = false -%}
+          {%- for block in slide_blocks -%}
+            {%- if block.settings.image != blank -%}
+              {%- liquid
+                unless active_assigned
+                  assign is_first_visible = true
+                  assign active_assigned = true
+                else
+                  assign is_first_visible = false
+                endunless
+
+                if is_first_visible
+                  assign slide_loading = nil
+                  assign slide_fetchpriority = 'high'
+                else
+                  assign slide_loading = 'lazy'
+                  assign slide_fetchpriority = 'auto'
+                endif
+              -%}
+
+              <div
+                id="HeroSlide-{{ section.id }}-{{ forloop.index }}"
+                class="hero-slideshow__slide{% if is_first_visible %} is-active{% endif %}"
+                data-hero-slideshow-slide
+                role="group"
+                aria-roledescription="slide"
+                aria-label="{{ forloop.index }} of {{ slide_blocks.size }}"
+                aria-hidden="{% if is_first_visible %}false{% else %}true{% endif %}"
+                tabindex="{% if is_first_visible %}0{% else %}-1{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                <div class="hero-slideshow__media">
+                  {{
+                    block.settings.image
+                    | image_url: width: 2000
+                    | image_tag:
+                      loading: slide_loading,
+                      fetchpriority: slide_fetchpriority,
+                      widths: '375, 550, 750, 1100, 1500, 2000',
+                      sizes: '100vw',
+                      class: 'hero-slideshow__img',
+                      alt: block.settings.image.alt | escape
+                  }}
+                </div>
+
+                {%- if block.settings.url != blank -%}
+                  <a
+                    href="{{ block.settings.url }}"
+                    class="hero-slideshow__slide-link"
+                    aria-label="{{ block.settings.image.alt | default: 'Slide link' | escape }}"
+                  ></a>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- else -%}
+          <div class="hero-slideshow__slide is-active" data-hero-slideshow-slide aria-hidden="false">
+            <div class="hero-slideshow__media">
+              <div class="hero-slideshow__placeholder">
+                {{ 'hero-apparel-1' | placeholder_svg_tag: 'hero-slideshow__placeholder-svg' }}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- assign visible_slides = 0 -%}
+    {%- for block in slide_blocks -%}
+      {%- if block.settings.image != blank -%}
+        {%- assign visible_slides = visible_slides | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if visible_slides > 1 -%}
+      <div class="hero-slideshow__pagination" role="tablist" aria-label="Slide pagination">
+        {%- assign dot_index = 0 -%}
+        {%- for block in slide_blocks -%}
+          {%- if block.settings.image != blank -%}
+            <button
+              type="button"
+              class="hero-slideshow__dot{% if dot_index == 0 %} is-active{% endif %}"
+              data-hero-slideshow-dot
+              aria-label="Go to slide {{ dot_index | plus: 1 }}"
+              aria-current="{% if dot_index == 0 %}true{% else %}false{% endif %}"
+            ></button>
+            {%- assign dot_index = dot_index | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</hero-slideshow>
+
+{% schema %}
+{
+  "name": "Scotland hero slideshow",
+  "tag": "section",
+  "class": "section section-hero-slideshow",
+  "max_blocks": 7,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Slider behavior"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Auto-rotate slides",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "change_slides_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Change slides every",
+      "default": 5
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show previous and next arrows on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Pagination"
+    },
+    {
+      "type": "color",
+      "id": "active_indicator_color",
+      "label": "Active slide line color",
+      "default": "#27e0cc"
+    },
+    {
+      "type": "color",
+      "id": "inactive_dot_color",
+      "label": "Inactive dot color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "container_padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Side padding (full width)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Slide border radius",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Image overlay"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 0,
+      "info": "Applies to all slides."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland hero slideshow",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}
