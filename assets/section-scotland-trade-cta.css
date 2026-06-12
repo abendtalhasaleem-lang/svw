@@ -1,0 +1,178 @@
+.scotland-trade-cta {
+  display: block;
+  width: 100%;
+}
+
+.scotland-trade-cta__container {
+  width: 100%;
+}
+
+.scotland-trade-cta__panel {
+  border-radius: var(--scotland-trade-cta-radius, 16px);
+  padding: var(--scotland-trade-cta-panel-padding-y, 48px) var(--scotland-trade-cta-panel-padding-x, 48px);
+  overflow: hidden;
+}
+
+.scotland-trade-cta__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--scotland-trade-cta-layout-gap, 40px);
+  align-items: center;
+}
+
+.scotland-trade-cta__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scotland-trade-cta-content-gap, 20px);
+  min-width: 0;
+}
+
+.scotland-trade-cta__heading {
+  margin: 0;
+  font-size: var(--scotland-trade-cta-heading-size, 36px);
+  font-weight: var(--scotland-trade-cta-heading-weight, 700);
+  line-height: 1.15;
+  color: var(--scotland-trade-cta-heading-color, #ffffff);
+}
+
+.scotland-trade-cta__text {
+  margin: 0;
+  font-size: var(--scotland-trade-cta-text-size, 16px);
+  font-weight: var(--scotland-trade-cta-text-weight, 400);
+  line-height: 1.6;
+  color: var(--scotland-trade-cta-text-color, #ffffff);
+  max-width: 38rem;
+}
+
+.scotland-trade-cta__text p {
+  margin: 0;
+}
+
+.scotland-trade-cta__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--scotland-trade-cta-button-gap, 12px);
+  margin-top: var(--scotland-trade-cta-buttons-top-spacing, 4px);
+}
+
+.scotland-trade-cta__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: var(--scotland-trade-cta-button-min-height, 48px);
+  padding: 0.75rem 1.35rem;
+  border-radius: var(--scotland-trade-cta-button-radius, 999px);
+  font-size: var(--scotland-trade-cta-button-font-size, 15px);
+  font-weight: var(--scotland-trade-cta-button-font-weight, 600);
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.scotland-trade-cta__button:hover,
+.scotland-trade-cta__button:focus-visible {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.scotland-trade-cta__button--primary {
+  background: var(--scotland-trade-cta-primary-bg, #ffffff);
+  color: var(--scotland-trade-cta-primary-text, #0f766e);
+  border: 1px solid transparent;
+}
+
+.scotland-trade-cta__button--secondary {
+  background: var(--scotland-trade-cta-secondary-bg, transparent);
+  color: var(--scotland-trade-cta-secondary-text, #ffffff);
+  border: 1px solid var(--scotland-trade-cta-secondary-border, #ffffff);
+}
+
+.scotland-trade-cta__button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.9rem;
+  height: 0.9rem;
+  flex-shrink: 0;
+}
+
+.scotland-trade-cta__button-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.scotland-trade-cta__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--scotland-trade-cta-stat-gap, 16px);
+  min-width: 0;
+}
+
+.scotland-trade-cta__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: var(--scotland-trade-cta-stat-min-height, 110px);
+  padding: 1.25rem 1rem;
+  border-radius: var(--scotland-trade-cta-stat-radius, 12px);
+  background: var(--scotland-trade-cta-stat-bg, rgba(255, 255, 255, 0.12));
+  text-align: center;
+}
+
+.scotland-trade-cta__stat-heading {
+  margin: 0;
+  font-size: var(--scotland-trade-cta-stat-heading-size, 28px);
+  font-weight: var(--scotland-trade-cta-stat-heading-weight, 700);
+  line-height: 1.1;
+  color: var(--scotland-trade-cta-stat-heading-color, #ffffff);
+}
+
+.scotland-trade-cta__stat-text {
+  margin: 0;
+  font-size: var(--scotland-trade-cta-stat-text-size, 14px);
+  font-weight: var(--scotland-trade-cta-stat-text-weight, 400);
+  line-height: 1.3;
+  color: var(--scotland-trade-cta-stat-text-color, #ffffff);
+}
+
+@media screen and (max-width: 989px) {
+  .scotland-trade-cta__layout {
+    grid-template-columns: 1fr;
+    gap: var(--scotland-trade-cta-layout-gap-mobile, 28px);
+  }
+
+  .scotland-trade-cta__panel {
+    padding: var(--scotland-trade-cta-panel-padding-y-mobile, 32px) var(--scotland-trade-cta-panel-padding-x-mobile, 24px);
+  }
+
+  .scotland-trade-cta__heading {
+    font-size: var(--scotland-trade-cta-heading-size-mobile, 28px);
+  }
+
+  .scotland-trade-cta__text {
+    font-size: var(--scotland-trade-cta-text-size-mobile, 15px);
+    max-width: none;
+  }
+
+  .scotland-trade-cta__buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .scotland-trade-cta__button {
+    width: 100%;
+  }
+
+  .scotland-trade-cta__stat {
+    min-height: var(--scotland-trade-cta-stat-min-height-mobile, 96px);
+    padding: 1rem 0.75rem;
+  }
+
+  .scotland-trade-cta__stat-heading {
+    font-size: var(--scotland-trade-cta-stat-heading-size-mobile, 24px);
+  }
+}

@@ -26,6 +26,7 @@
     --scotland-logo-marquee-heading-align: {{ section.settings.heading_alignment }};
     --scotland-logo-marquee-header-gap: {{ section.settings.heading_bottom_spacing }}px;
     --scotland-logo-marquee-view-all-color: {{ section.settings.view_all_color }};
+    --scotland-logo-marquee-view-all-hover-color: {{ section.settings.view_all_hover_color }};
     --scotland-logo-marquee-view-all-size: {{ section.settings.view_all_font_size }}px;
     --scotland-logo-marquee-card-bg: {{ section.settings.logo_card_background }};
     --scotland-logo-marquee-card-radius: {{ section.settings.logo_card_radius }}px;
@@ -65,18 +66,26 @@
   data-visible-mobile="{{ section.settings.logos_visible_mobile }}"
 >
   <div class="scotland-logo-marquee__container{% unless section.settings.full_width %} page-width{% endunless %}">
-    {%- if section.settings.heading != blank or section.settings.show_view_all and section.settings.view_all_link != blank -%}
+    {%- if section.settings.heading != blank or section.settings.show_view_all -%}
       <div class="scotland-logo-marquee__header{% if section.settings.heading_alignment == 'center' %} scotland-logo-marquee__header--center{% endif %}">
         {%- if section.settings.heading != blank -%}
           <{{ heading_tag }} class="scotland-logo-marquee__heading">
             {{ section.settings.heading | escape }}
           </{{ heading_tag }}>
+        {%- else -%}
+          <span class="scotland-logo-marquee__heading scotland-logo-marquee__heading--empty" aria-hidden="true"></span>
         {%- endif -%}
 
-        {%- if section.settings.show_view_all and section.settings.view_all_link != blank -%}
-          <a href="{{ section.settings.view_all_link }}" class="scotland-logo-marquee__view-all">
-            {{ section.settings.view_all_label | escape }}
-          </a>
+        {%- if section.settings.show_view_all and section.settings.view_all_label != blank -%}
+          {%- if section.settings.view_all_link != blank -%}
+            <a href="{{ section.settings.view_all_link }}" class="scotland-logo-marquee__view-all">
+              {%- render 'scotland-logo-marquee-view-all-label', label: section.settings.view_all_label -%}
+            </a>
+          {%- else -%}
+            <span class="scotland-logo-marquee__view-all scotland-logo-marquee__view-all--static">
+              {%- render 'scotland-logo-marquee-view-all-label', label: section.settings.view_all_label -%}
+            </span>
+          {%- endif -%}
         {%- endif -%}
       </div>
     {%- endif -%}
@@ -244,27 +253,37 @@
       "default": 24
     },
     {
+      "type": "header",
+      "content": "View all button"
+    },
+    {
       "type": "checkbox",
       "id": "show_view_all",
-      "label": "Show view all link",
+      "label": "Show View All button",
       "default": true
     },
     {
       "type": "text",
       "id": "view_all_label",
-      "label": "View all label",
-      "default": "View All >"
+      "label": "Button label",
+      "default": "View All"
     },
     {
       "type": "url",
       "id": "view_all_link",
-      "label": "View all link"
+      "label": "Button link"
     },
     {
       "type": "color",
       "id": "view_all_color",
-      "label": "View all color",
+      "label": "Button color",
       "default": "#14b8a6"
+    },
+    {
+      "type": "color",
+      "id": "view_all_hover_color",
+      "label": "Button hover color",
+      "default": "#0d9488"
     },
     {
       "type": "range",
@@ -273,7 +292,7 @@
       "max": 18,
       "step": 1,
       "unit": "px",
-      "label": "View all font size",
+      "label": "Button font size",
       "default": 14
     },
     {

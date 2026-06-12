@@ -1253,6 +1253,16 @@
         "default": 40
       },
       {
+        "type": "range",
+        "id": "sale_badge_font_size",
+        "min": 10,
+        "max": 22,
+        "step": 1,
+        "unit": "px",
+        "label": "Sale badge font size",
+        "default": 14
+      },
+      {
         "type": "color_scheme",
         "id": "sale_badge_color_scheme",
         "label": "t:settings_schema.badges.settings.sale_badge_color_scheme.label",
@@ -1263,6 +1273,43 @@
         "id": "sold_out_badge_color_scheme",
         "label": "t:settings_schema.badges.settings.sold_out_badge_color_scheme.label",
         "default": "scheme-3"
+      }
+    ]
+  },
+  {
+    "name": "Product label",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Show a custom label on the top-right of product images when the right_product_label metafield is set. Setup: Shopify admin → Settings → Custom data → Products (or Collections) → Add definition. Name: Right product label. Namespace and key: custom.right_product_label. Type: Single line text. Add label text on each product or collection. Product metafield takes priority over collection metafield."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_right_product_label",
+        "label": "Enable product label",
+        "default": true
+      },
+      {
+        "type": "color",
+        "id": "right_product_label_text_color",
+        "label": "Label text color",
+        "default": "#14b8a6"
+      },
+      {
+        "type": "color",
+        "id": "right_product_label_bg_color",
+        "label": "Label background color",
+        "default": "#e6faf5"
+      },
+      {
+        "type": "range",
+        "id": "right_product_label_font_size",
+        "min": 10,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "Label font size",
+        "default": 13
       }
     ]
   },

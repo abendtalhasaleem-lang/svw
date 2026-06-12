@@ -1,0 +1,34 @@
+{% comment %}
+  Renders the right product label badge when enabled in theme settings.
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - collection_for_label: {Object} Collection for fallback label (optional)
+  - pdp: {Boolean} Product detail page context (optional)
+
+  Usage:
+  {% render 'product-right-label', product: card_product, collection_for_label: section.settings.collection %}
+{% endcomment %}
+
+{%- if settings.enable_right_product_label and product != blank -%}
+  {%- liquid
+    assign label_text = product.metafields.custom.right_product_label.value
+
+    if label_text == blank and collection_for_label != blank
+      assign label_text = collection_for_label.metafields.custom.right_product_label.value
+    endif
+
+    if label_text == blank and pdp
+      for coll in product.collections
+        if coll.metafields.custom.right_product_label.value != blank
+          assign label_text = coll.metafields.custom.right_product_label.value
+          break
+        endif
+      endfor
+    endif
+  -%}
+
+  {%- if label_text != blank -%}
+    <span class="product-right-label">{{ label_text | escape }}</span>
+  {%- endif -%}
+{%- endif -%}

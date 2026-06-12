@@ -1,0 +1,634 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'section-scotland-collection-row.css' | asset_url | stylesheet_tag }}
+{{ 'component-scotland-product-card.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'scotland-collection-row.js' | asset_url }}" defer="defer"></script>
+
+{% if section.settings.image_shape == 'blob' %}
+  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- unless section.settings.quick_add == 'none' -%}
+  {{ 'quick-add.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+
+{%- if section.settings.quick_add == 'standard' -%}
+  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- if section.settings.quick_add == 'bulk' -%}
+  <script src="{{ 'quick-add-bulk.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
+  <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- liquid
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+  assign columns_desktop = section.settings.columns_desktop | plus: 0
+  assign products_to_show = columns_desktop
+  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
+  assign show_mobile_slider = true
+
+  if section.settings.title != blank
+    assign display_title = section.settings.title
+  elsif section.settings.collection != blank
+    assign display_title = section.settings.collection.title
+  else
+    assign display_title = 'Collection'
+  endif
+
+  assign feature_image = section.settings.feature_image
+  if feature_image == blank and section.settings.collection != blank
+    if section.settings.collection.image != blank
+      assign feature_image = section.settings.collection.image
+    else
+      assign feature_image = section.settings.collection.featured_image
+    endif
+  endif
+
+  assign collection_url = section.settings.collection.url | default: '#'
+  assign products_to_display = 0
+  if section.settings.collection != blank
+    assign products_to_display = section.settings.collection.all_products_count
+    if products_to_display > products_to_show
+      assign products_to_display = products_to_show
+    endif
+  else
+    assign products_to_display = products_to_show
+  endif
+
+  assign overlay_alpha = section.settings.overlay_opacity | times: 1.0 | divided_by: 100
+  if section.settings.overlay_opacity > 0
+    assign overlay_bg = section.settings.overlay_color | color_modify: 'alpha', overlay_alpha
+  else
+    assign overlay_bg = 'transparent'
+  endif
+  assign feature_col = section.settings.feature_column_width | times: 1.0 | divided_by: 100
+
+  case section.settings.image_ratio
+    when 'portrait'
+      assign scr_ratio_percent = '125%'
+    when 'square'
+      assign scr_ratio_percent = '100%'
+    else
+      assign scr_ratio_percent = '100%'
+  endcase
+
+  assign card_image_ratio = section.settings.image_ratio
+  if card_image_ratio == 'adapt'
+    assign card_image_ratio = 'square'
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  #ScotlandCollectionRow-{{ section.id }} {
+    --scr-product-cols: {{ columns_desktop }};
+    --scr-mobile-cols: {{ section.settings.columns_mobile }};
+    --scr-feature-col: {{ feature_col }}fr;
+    --scr-title-color: {{ section.settings.title_color }};
+    --scr-title-size: {{ section.settings.title_font_size }}px;
+    --scr-header-gap: {{ section.settings.header_spacing }}px;
+    --scr-view-all-color: {{ section.settings.view_all_color }};
+    --scr-view-all-hover-color: {{ section.settings.view_all_hover_color }};
+    --scr-view-all-size: {{ section.settings.view_all_font_size }}px;
+    --scr-feature-radius: {{ section.settings.feature_radius }}px;
+    --scr-feature-title-size: {{ section.settings.feature_title_font_size }}px;
+    --scr-card-gap: {{ section.settings.card_gap }}px;
+    --scr-card-title-size: {{ section.settings.product_title_font_size }}px;
+    --scr-card-title-line-height: 1.35;
+    --scr-ratio-percent: {{ scr_ratio_percent }};
+    --scp-ratio-percent: {{ scr_ratio_percent }};
+    --scp-image-fit: {{ section.settings.image_fit }};
+    --scp-image-padding: {{ section.settings.image_padding }}px;
+    --scp-card-title-size: {{ section.settings.product_title_font_size }}px;
+    --scp-card-title-line-height: 1.35;
+  }
+
+  #ScotlandCollectionRow-{{ section.id }} .scotland-collection-row__feature-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-color: {{ overlay_bg }};
+    pointer-events: none;
+  }
+
+  {%- if section.settings.full_width -%}
+    #ScotlandCollectionRow-{{ section.id }} .scotland-collection-row__container {
+      max-width: 100%;
+      padding-left: {{ section.settings.content_padding_horizontal }}px;
+      padding-right: {{ section.settings.content_padding_horizontal }}px;
+    }
+  {%- endif -%}
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    {%- if section.settings.full_width -%}
+      #ScotlandCollectionRow-{{ section.id }} .scotland-collection-row__container {
+        padding-left: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+        padding-right: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<scotland-collection-row
+  id="ScotlandCollectionRow-{{ section.id }}"
+  class="scotland-collection-row color-{{ section.settings.color_scheme }} gradient scotland-product-card{% if section.settings.image_fit == 'contain' %} scotland-product-card--fit-contain{% endif %}{% unless section.settings.show_feature_image %} scotland-collection-row--no-feature{% endunless %}"
+  data-mobile-autoplay="{{ section.settings.mobile_autoplay }}"
+  data-autoplay-speed="{{ section.settings.mobile_autoplay_speed }}"
+>
+  <div class="scotland-collection-row__container{% unless section.settings.full_width %} page-width{% endunless %}">
+    <div class="scotland-collection-row__header">
+      <{{ heading_tag }} class="scotland-collection-row__heading">
+        {{ display_title | escape }}
+      </{{ heading_tag }}>
+
+      {%- if section.settings.show_view_all and section.settings.view_all_label != blank -%}
+        <a href="{{ collection_url }}" class="scotland-collection-row__view-all">
+          <span class="scotland-collection-row__view-all-text">{{ section.settings.view_all_label | escape }}</span>
+          <span class="scotland-collection-row__view-all-icon" aria-hidden="true">
+            {{- 'icon-arrow.svg' | inline_asset_content -}}
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="scotland-collection-row__row">
+      {%- if section.settings.show_feature_image -%}
+      <div class="scotland-collection-row__feature">
+        {%- if collection_url != '#' -%}
+          <a href="{{ collection_url }}" class="scotland-collection-row__feature-link" aria-label="{{ display_title | escape }}"></a>
+        {%- endif -%}
+
+        <div class="scotland-collection-row__feature-media">
+          {%- if feature_image != blank -%}
+            {{
+              feature_image
+              | image_url: width: 900
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(min-width: 750px) 20vw, 0px',
+                widths: '375, 550, 750, 900',
+                alt: display_title
+            }}
+          {%- else -%}
+            {{ 'collection-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+
+        <div class="scotland-collection-row__feature-content">
+          <p class="scotland-collection-row__feature-title">{{ display_title | escape }}</p>
+
+          {%- if section.settings.show_view_all and section.settings.view_all_label != blank -%}
+            <a href="{{ collection_url }}" class="scotland-collection-row__feature-view-all">
+              <span>{{ section.settings.view_all_label | escape }}</span>
+              <span class="scotland-collection-row__view-all-icon" aria-hidden="true">
+                {{- 'icon-arrow.svg' | inline_asset_content -}}
+              </span>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- endif -%}
+
+      <div class="scotland-collection-row__products">
+        <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}">
+          <ul
+            id="Slider-{{ section.id }}"
+            data-scr-slider
+            class="scotland-collection-row__grid product-grid contains-card contains-card--product{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} slider slider--tablet grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+            role="list"
+            aria-label="{{ 'general.slider.name' | t }}"
+          >
+            {% assign skip_card_product_styles = false %}
+
+            {%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
+              {%- for product in section.settings.collection.products limit: products_to_show -%}{% comment %}EasylockdownFilterBegin{% endcomment %}{% capture easylockdownFilter %}{% render 'easylockdown_filter_collection' with product, easylockdownRender: true, easylockdownItemSelectorOff: easylockdownItemSelectorOff %}{% endcapture %}{% assign easylockdownFilter = easylockdownFilter | strip %}{% if easylockdownFilter == 'continue' %}{% continue %}{% else %}{{ easylockdownFilter }}{% endif %}{% comment %}EasylockdownFilterEnd{% endcomment %}
+                <li
+                  id="Slide-{{ section.id }}-{{ forloop.index }}"
+                  class="grid__item slider__slide"
+                >
+                  {% render 'card-product',
+                    card_product: product,
+                    media_aspect_ratio: card_image_ratio,
+                    image_shape: section.settings.image_shape,
+                    show_secondary_image: section.settings.show_secondary_image,
+                    show_vendor: section.settings.show_vendor,
+                    show_rating: section.settings.show_rating,
+                    skip_styles: skip_card_product_styles,
+                    section_id: section.id,
+                    quick_add: section.settings.quick_add,
+                    collection_for_label: section.settings.collection,
+                    extend_height: true
+                  %}
+                </li>
+                {%- assign skip_card_product_styles = true -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- for i in (1..products_to_show) -%}
+                <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="grid__item slider__slide">
+                  {% liquid
+                    assign ridx = forloop.rindex
+                    case ridx
+                      when 5
+                        assign ridx = 1
+                      when 6
+                        assign ridx = 2
+                    endcase
+                  %}
+                  {%- assign placeholder_image = 'product-apparel-' | append: ridx -%}
+                  {% render 'card-product',
+                    show_vendor: section.settings.show_vendor,
+                    media_aspect_ratio: card_image_ratio,
+                    image_shape: section.settings.image_shape,
+                    placeholder_image: placeholder_image
+                  %}
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
+          </ul>
+        </slider-component>
+      </div>
+    </div>
+  </div>
+
+  {% if section.settings.image_shape == 'arch' %}
+    {{ 'mask-arch.svg' | inline_asset_content }}
+  {%- endif -%}
+</scotland-collection-row>
+
+{% schema %}
+{
+  "name": "Scotland collection row",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "info": "Leave blank to use the collection name."
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "header_spacing",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Heading bottom spacing",
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show View all button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label",
+      "default": "View all"
+    },
+    {
+      "type": "color",
+      "id": "view_all_color",
+      "label": "View all color",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "color",
+      "id": "view_all_hover_color",
+      "label": "View all hover color",
+      "default": "#0d9488"
+    },
+    {
+      "type": "range",
+      "id": "view_all_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "View all font size",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Feature image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_feature_image",
+      "label": "Show feature image",
+      "default": true,
+      "info": "When off, product cards use the full row width on desktop."
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_image",
+      "label": "Image",
+      "info": "Uses the collection image when blank."
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 75
+    },
+    {
+      "type": "range",
+      "id": "feature_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Feature card corner radius",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "feature_title_font_size",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Feature card title size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "feature_column_width",
+      "min": 60,
+      "max": 120,
+      "step": 5,
+      "unit": "%",
+      "label": "Feature column width",
+      "info": "Lower values give product cards more space.",
+      "default": 75
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between cards",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Product columns on desktop",
+      "options": [
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" }
+      ],
+      "default": "5"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Product columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width background",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding when full width",
+      "default": 24
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Product card"
+    },
+    {
+      "type": "range",
+      "id": "product_title_font_size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Product title font size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        { "value": "adapt", "label": "Square (consistent)" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Square" }
+      ],
+      "default": "square",
+      "label": "Image ratio",
+      "info": "All cards use the same image box size for a uniform row."
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        { "value": "contain", "label": "Contain (show full product)" },
+        { "value": "cover", "label": "Cover (fill and crop)" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "image_padding",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Image area padding",
+      "default": 0,
+      "info": "Only applies when Image fit is set to Contain."
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "arch", "label": "Arch" },
+        { "value": "blob", "label": "Blob" },
+        { "value": "chevronleft", "label": "Chevron left" },
+        { "value": "chevronright", "label": "Chevron right" },
+        { "value": "diamond", "label": "Diamond" },
+        { "value": "parallelogram", "label": "Parallelogram" },
+        { "value": "round", "label": "Round" }
+      ],
+      "default": "default",
+      "label": "Image shape"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": false,
+      "label": "Show second image on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "Show vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": false,
+      "label": "Show product rating"
+    },
+    {
+      "type": "select",
+      "id": "quick_add",
+      "default": "none",
+      "label": "Quick add",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "standard", "label": "Standard" },
+        { "value": "bulk", "label": "Bulk" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Mobile slider"
+    },
+    {
+      "type": "checkbox",
+      "id": "mobile_autoplay",
+      "label": "Auto-slide on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "mobile_autoplay_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Auto-slide speed",
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland collection row"
+    }
+  ]
+}
+{% endschema %}

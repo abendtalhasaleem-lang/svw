@@ -1,0 +1,721 @@
+{{ 'section-scotland-trade-cta.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+
+  if section.settings.background_type == 'gradient'
+    assign panel_background = 'linear-gradient(' | append: section.settings.gradient_angle | append: 'deg, ' | append: section.settings.gradient_color_start | append: ' 0%, ' | append: section.settings.gradient_color_end | append: ' 100%)'
+  else
+    assign panel_background = section.settings.background_color
+  endif
+
+  assign stat_blocks = section.blocks | where: 'type', 'stat'
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ section.settings.section_background_color }};
+  }
+
+  #ScotlandTradeCta-{{ section.id }} {
+    --scotland-trade-cta-radius: {{ section.settings.panel_border_radius }}px;
+    --scotland-trade-cta-panel-padding-y: {{ section.settings.panel_padding_vertical }}px;
+    --scotland-trade-cta-panel-padding-x: {{ section.settings.panel_padding_horizontal }}px;
+    --scotland-trade-cta-panel-padding-y-mobile: {{ section.settings.panel_padding_vertical | times: 0.7 | round: 0 }}px;
+    --scotland-trade-cta-panel-padding-x-mobile: {{ section.settings.panel_padding_horizontal | times: 0.55 | round: 0 }}px;
+    --scotland-trade-cta-layout-gap: {{ section.settings.layout_gap }}px;
+    --scotland-trade-cta-layout-gap-mobile: {{ section.settings.layout_gap | times: 0.7 | round: 0 }}px;
+    --scotland-trade-cta-content-gap: {{ section.settings.content_gap }}px;
+    --scotland-trade-cta-heading-color: {{ section.settings.heading_color }};
+    --scotland-trade-cta-heading-size: {{ section.settings.heading_font_size }}px;
+    --scotland-trade-cta-heading-size-mobile: {{ section.settings.heading_font_size_mobile }}px;
+    --scotland-trade-cta-heading-weight: {{ section.settings.heading_font_weight }};
+    --scotland-trade-cta-text-color: {{ section.settings.text_color }};
+    --scotland-trade-cta-text-size: {{ section.settings.text_font_size }}px;
+    --scotland-trade-cta-text-size-mobile: {{ section.settings.text_font_size_mobile }}px;
+    --scotland-trade-cta-text-weight: {{ section.settings.text_font_weight }};
+    --scotland-trade-cta-buttons-top-spacing: {{ section.settings.buttons_top_spacing }}px;
+    --scotland-trade-cta-button-gap: {{ section.settings.button_gap }}px;
+    --scotland-trade-cta-button-min-height: {{ section.settings.button_min_height }}px;
+    --scotland-trade-cta-button-radius: {{ section.settings.button_border_radius }}px;
+    --scotland-trade-cta-button-font-size: {{ section.settings.button_font_size }}px;
+    --scotland-trade-cta-button-font-weight: {{ section.settings.button_font_weight }};
+    --scotland-trade-cta-primary-bg: {{ section.settings.primary_button_bg }};
+    --scotland-trade-cta-primary-text: {{ section.settings.primary_button_text_color }};
+    --scotland-trade-cta-secondary-bg: {{ section.settings.secondary_button_bg }};
+    --scotland-trade-cta-secondary-text: {{ section.settings.secondary_button_text_color }};
+    --scotland-trade-cta-secondary-border: {{ section.settings.secondary_button_border_color }};
+    --scotland-trade-cta-stat-gap: {{ section.settings.stat_gap }}px;
+    --scotland-trade-cta-stat-radius: {{ section.settings.stat_border_radius }}px;
+    --scotland-trade-cta-stat-min-height: {{ section.settings.stat_min_height }}px;
+    --scotland-trade-cta-stat-min-height-mobile: {{ section.settings.stat_min_height | times: 0.85 | round: 0 }}px;
+    --scotland-trade-cta-stat-heading-color: {{ section.settings.stat_heading_color }};
+    --scotland-trade-cta-stat-heading-size: {{ section.settings.stat_heading_font_size }}px;
+    --scotland-trade-cta-stat-heading-size-mobile: {{ section.settings.stat_heading_font_size_mobile }}px;
+    --scotland-trade-cta-stat-heading-weight: {{ section.settings.stat_heading_font_weight }};
+    --scotland-trade-cta-stat-text-color: {{ section.settings.stat_text_color }};
+    --scotland-trade-cta-stat-text-size: {{ section.settings.stat_text_font_size }}px;
+    --scotland-trade-cta-stat-text-weight: {{ section.settings.stat_text_font_weight }};
+    --scotland-trade-cta-stat-bg: {{ section.settings.stat_background_color }};
+  }
+
+  #ScotlandTradeCta-{{ section.id }} .scotland-trade-cta__panel {
+    background: {{ panel_background }};
+  }
+
+  {%- if section.settings.full_width -%}
+    #ScotlandTradeCta-{{ section.id }} .scotland-trade-cta__container {
+      max-width: 100%;
+      padding-left: {{ section.settings.content_padding_horizontal }}px;
+      padding-right: {{ section.settings.content_padding_horizontal }}px;
+    }
+  {%- endif -%}
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    {%- if section.settings.full_width -%}
+      #ScotlandTradeCta-{{ section.id }} .scotland-trade-cta__container {
+        padding-left: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+        padding-right: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<section class="scotland-trade-cta" id="ScotlandTradeCta-{{ section.id }}">
+  <div class="scotland-trade-cta__container{% unless section.settings.full_width %} page-width{% endunless %}">
+    <div class="scotland-trade-cta__panel">
+      <div class="scotland-trade-cta__layout">
+        <div class="scotland-trade-cta__content">
+          {%- if section.settings.heading != blank -%}
+            <{{ heading_tag }} class="scotland-trade-cta__heading">
+              {{ section.settings.heading | escape }}
+            </{{ heading_tag }}>
+          {%- endif -%}
+
+          {%- if section.settings.text != blank -%}
+            <div class="scotland-trade-cta__text rte">
+              {{ section.settings.text }}
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.show_primary_button or section.settings.show_secondary_button -%}
+            <div class="scotland-trade-cta__buttons">
+              {%- if section.settings.show_primary_button and section.settings.primary_button_label != blank -%}
+                {%- if section.settings.primary_button_link != blank -%}
+                  <a href="{{ section.settings.primary_button_link }}" class="scotland-trade-cta__button scotland-trade-cta__button--primary">
+                    <span>{{ section.settings.primary_button_label | escape }}</span>
+                    {%- if section.settings.show_primary_button_arrow -%}
+                      <span class="scotland-trade-cta__button-icon" aria-hidden="true">
+                        {{- 'icon-arrow.svg' | inline_asset_content -}}
+                      </span>
+                    {%- endif -%}
+                  </a>
+                {%- else -%}
+                  <span class="scotland-trade-cta__button scotland-trade-cta__button--primary">
+                    <span>{{ section.settings.primary_button_label | escape }}</span>
+                    {%- if section.settings.show_primary_button_arrow -%}
+                      <span class="scotland-trade-cta__button-icon" aria-hidden="true">
+                        {{- 'icon-arrow.svg' | inline_asset_content -}}
+                      </span>
+                    {%- endif -%}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- if section.settings.show_secondary_button and section.settings.secondary_button_label != blank -%}
+                {%- if section.settings.secondary_button_link != blank -%}
+                  <a href="{{ section.settings.secondary_button_link }}" class="scotland-trade-cta__button scotland-trade-cta__button--secondary">
+                    {{ section.settings.secondary_button_label | escape }}
+                  </a>
+                {%- else -%}
+                  <span class="scotland-trade-cta__button scotland-trade-cta__button--secondary">
+                    {{ section.settings.secondary_button_label | escape }}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if stat_blocks.size > 0 -%}
+          <div class="scotland-trade-cta__stats">
+            {%- for block in stat_blocks -%}
+              <div class="scotland-trade-cta__stat" {{ block.shopify_attributes }}>
+                {%- if block.settings.stat_heading != blank -%}
+                  <p class="scotland-trade-cta__stat-heading">{{ block.settings.stat_heading | escape }}</p>
+                {%- endif -%}
+                {%- if block.settings.stat_text != blank -%}
+                  <p class="scotland-trade-cta__stat-text">{{ block.settings.stat_text | escape }}</p>
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scotland trade CTA",
+  "tag": "section",
+  "class": "section section-scotland-trade-cta",
+  "max_blocks": 4,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Exclusive Trade Pricing"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading tag",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Register for a trade account to access wholesale prices, bulk discounts, and exclusive offers. Join hundreds of UK retailers who trust OV Distribution.</p>"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 20,
+      "max": 56,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size (desktop)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "min": 18,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size (mobile)",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "options": [
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Text font size (desktop)",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_font_size_mobile",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Text font size (mobile)",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "text_font_weight",
+      "label": "Text font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Primary button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_primary_button",
+      "label": "Show primary button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Primary button label",
+      "default": "Register Trade Account"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_primary_button_arrow",
+      "label": "Show arrow on primary button",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "primary_button_bg",
+      "label": "Primary button background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_text_color",
+      "label": "Primary button text color",
+      "default": "#0f766e"
+    },
+    {
+      "type": "header",
+      "content": "Secondary button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_button",
+      "label": "Show secondary button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Sign In"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_bg",
+      "label": "Secondary button background",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_text_color",
+      "label": "Secondary button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "secondary_button_border_color",
+      "label": "Secondary button border color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Button font size",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Button font weight",
+      "options": [
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "button_min_height",
+      "min": 40,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Button minimum height",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Button corner radius",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "button_gap",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between buttons",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "buttons_top_spacing",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Space above buttons",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Stat blocks"
+    },
+    {
+      "type": "color",
+      "id": "stat_background_color",
+      "label": "Stat block background",
+      "default": "#ffffff1f"
+    },
+    {
+      "type": "color",
+      "id": "stat_heading_color",
+      "label": "Stat heading color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "stat_text_color",
+      "label": "Stat text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "stat_heading_font_size",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Stat heading size (desktop)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "stat_heading_font_size_mobile",
+      "min": 16,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Stat heading size (mobile)",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "stat_heading_font_weight",
+      "label": "Stat heading font weight",
+      "options": [
+        { "value": "600", "label": "Semi-bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "stat_text_font_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Stat text size",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "stat_text_font_weight",
+      "label": "Stat text font weight",
+      "options": [
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi-bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "stat_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Stat block corner radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "stat_min_height",
+      "min": 80,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Stat block minimum height",
+      "default": 112
+    },
+    {
+      "type": "range",
+      "id": "stat_gap",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between stat blocks",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Panel background"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "Background type",
+      "options": [
+        { "value": "gradient", "label": "Gradient" },
+        { "value": "solid", "label": "Solid color" }
+      ],
+      "default": "gradient"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Solid background color",
+      "default": "#0f766e"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_start",
+      "label": "Gradient start color",
+      "default": "#0b3d3a"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_end",
+      "label": "Gradient end color",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "range",
+      "id": "gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 5,
+      "unit": "deg",
+      "label": "Gradient angle",
+      "default": 135
+    },
+    {
+      "type": "range",
+      "id": "panel_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Panel corner radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "panel_padding_vertical",
+      "min": 24,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Panel vertical padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "panel_padding_horizontal",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Panel horizontal padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "layout_gap",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Gap between content and stats",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between heading and text",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color",
+      "id": "section_background_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width background",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding when full width",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "stat_heading",
+          "label": "Heading",
+          "default": "500+"
+        },
+        {
+          "type": "text",
+          "id": "stat_text",
+          "label": "Text",
+          "default": "Products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland trade CTA",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "stat_heading": "500+",
+            "stat_text": "Products"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "stat_heading": "50+",
+            "stat_text": "Brands"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "stat_heading": "Next Day",
+            "stat_text": "Delivery"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "stat_heading": "6 Days",
+            "stat_text": "A Week"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

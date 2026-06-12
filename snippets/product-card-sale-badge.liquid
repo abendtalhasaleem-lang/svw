@@ -1,0 +1,21 @@
+{% comment %}
+  Renders a sale percentage badge for product cards.
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+
+  Usage:
+  {% render 'product-card-sale-badge', product: card_product %}
+{% endcomment %}
+
+{%- if product != blank and product.available and product.compare_at_price > product.price -%}
+  {%- liquid
+    assign sale_compare_at = product.compare_at_price
+    assign sale_price = product.price
+    assign sale_difference = sale_compare_at | minus: sale_price
+    assign sale_percent = sale_difference | times: 100.0 | divided_by: sale_compare_at | round
+  -%}
+  <span class="product-card-sale-badge badge {{ settings.badge_position }} color-{{ settings.sale_badge_color_scheme }}">
+    {{- sale_percent }}% off
+  </span>
+{%- endif -%}

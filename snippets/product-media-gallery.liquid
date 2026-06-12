@@ -42,15 +42,22 @@
   endif
 -%}
 
+{%- if settings.enable_right_product_label -%}
+  {{ 'component-product-right-label.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
 <media-gallery
   id="MediaGallery-{{ section.id }}"
   role="region"
   {% if section.settings.enable_sticky_info %}
-    class="product__column-sticky"
+    class="product__column-sticky product-media-gallery__label-wrap"
+  {% else %}
+    class="product-media-gallery__label-wrap"
   {% endif %}
   aria-label="{{ 'products.product.media.gallery_viewer' | t }}"
   data-desktop-layout="{{ section.settings.gallery_layout }}"
 >
+  {%- render 'product-right-label', product: product, pdp: true -%}
   <div id="GalleryStatus-{{ section.id }}" class="visually-hidden" role="status"></div>
   <slider-component id="GalleryViewer-{{ section.id }}" class="slider-mobile-gutter">
     <a class="skip-to-content-link button visually-hidden quick-add-hidden" href="#ProductInfo-{{ section.id }}">

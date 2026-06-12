@@ -1,0 +1,71 @@
+.card__inner .card__media {
+  position: relative;
+}
+
+.product-card-sale-badge {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  padding: 0.4rem 0.75rem;
+  font-size: var(--sale-badge-font-size, 14px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.product-card-sale-badge.bottom.left {
+  bottom: 0.75rem;
+  left: 0.75rem;
+  right: auto;
+  top: auto;
+}
+
+.product-card-sale-badge.bottom.right {
+  bottom: 0.75rem;
+  right: 0.75rem;
+  left: auto;
+  top: auto;
+}
+
+.product-card-sale-badge.top.left {
+  top: 0.75rem;
+  left: 0.75rem;
+  right: auto;
+  bottom: auto;
+}
+
+.product-card-sale-badge.top.right {
+  top: 0.75rem;
+  right: 0.75rem;
+  left: auto;
+  bottom: auto;
+}
+
+@media screen and (max-width: 749px) {
+  .product-card-sale-badge {
+    font-size: calc(var(--sale-badge-font-size, 14px) * 0.92);
+    padding: 0.35rem 0.65rem;
+  }
+
+  .product-card-sale-badge.bottom.left,
+  .product-card-sale-badge.bottom.right {
+    bottom: 0.5rem;
+  }
+
+  .product-card-sale-badge.bottom.left,
+  .product-card-sale-badge.top.left {
+    left: 0.5rem;
+  }
+
+  .product-card-sale-badge.bottom.right,
+  .product-card-sale-badge.top.right {
+    right: 0.5rem;
+  }
+
+  .product-card-sale-badge.top.left,
+  .product-card-sale-badge.top.right {
+    top: 0.5rem;
+  }
+}

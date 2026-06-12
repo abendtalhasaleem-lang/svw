@@ -1,0 +1,145 @@
+/* Shared Scotland product card styling for collection row + collection page */
+
+.scotland-product-card .product-card-wrapper {
+  height: 100%;
+}
+
+.scotland-product-card .card {
+  height: 100%;
+}
+
+.scotland-product-card .card--standard.card--media,
+.scotland-product-card .card--card.card--media {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.scotland-product-card .card--standard.card--media .card__inner,
+.scotland-product-card .card--card.card--media .card__inner {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  background: #ffffff !important;
+  background-image: none !important;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.scotland-product-card .card--standard.card--media .card__inner > .card__content,
+.scotland-product-card .card--card.card--media .card__inner > .card__content {
+  display: none !important;
+}
+
+.scotland-product-card .card--standard.card--media .card__inner::after,
+.scotland-product-card .card--card.card--media::after,
+.scotland-product-card .card--card.card--media .card__inner::after {
+  display: none;
+}
+
+.scotland-product-card .card--standard.card--media > .card__content,
+.scotland-product-card .card--card.card--media > .card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.875rem 1rem 1rem;
+  background: #ffffff;
+}
+
+.scotland-product-card .card__inner.ratio {
+  --ratio-percent: var(--scp-ratio-percent, 100%) !important;
+  width: 100%;
+}
+
+.scotland-product-card .card__inner .card__media {
+  margin: 0;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #ffffff;
+}
+
+.scotland-product-card .card__media .media {
+  width: 100%;
+  height: 100%;
+}
+
+.scotland-product-card .card__media .media > img {
+  object-fit: var(--scp-image-fit, cover);
+  object-position: center center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.scotland-product-card.scotland-product-card--fit-contain .card__media .media > img {
+  object-fit: contain;
+  top: var(--scp-image-padding, 0px);
+  left: var(--scp-image-padding, 0px);
+  width: calc(100% - var(--scp-image-padding, 0px) * 2);
+  height: calc(100% - var(--scp-image-padding, 0px) * 2);
+}
+
+.scotland-product-card .grid__item .product-card-wrapper,
+.scotland-product-card .grid__item .card-wrapper {
+  width: 100%;
+}
+
+@media screen and (min-width: 990px) {
+  .scotland-product-card .card .media.media--hover-effect > img:only-child,
+  .scotland-product-card .card-wrapper .media.media--hover-effect > img:only-child {
+    transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .scotland-product-card .card:hover .media.media--hover-effect > img:first-child:only-child,
+  .scotland-product-card .card-wrapper:hover .media.media--hover-effect > img:first-child:only-child,
+  .scotland-product-card .card-wrapper:hover .media.media--hover-effect > img + img {
+    transform: none;
+  }
+}
+
+.scotland-product-card .card__information {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
+
+.scotland-product-card .card__heading {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: var(--scp-card-title-size, 14px);
+  line-height: var(--scp-card-title-line-height, 1.35);
+  min-height: calc(var(--scp-card-title-size, 14px) * var(--scp-card-title-line-height, 1.35) * 3);
+  margin: 0 0 0.5rem;
+  word-break: break-word;
+}
+
+.scotland-product-card .card__heading a {
+  color: inherit;
+}
+
+.scotland-product-card .card-information {
+  margin-top: auto;
+}
+
+.scotland-product-card .card--standard.card--media > .card__content > .card__badge {
+  display: none !important;
+}
+
+@media screen and (max-width: 749px) {
+  .scotland-product-card .card--standard.card--media > .card__content,
+  .scotland-product-card .card--card.card--media > .card__content {
+    padding: 0.75rem 0.875rem 0.875rem;
+  }
+}

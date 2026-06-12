@@ -1,0 +1,300 @@
+.scotland-collection-row {
+  display: block;
+  width: 100%;
+}
+
+.scotland-collection-row__container {
+  width: 100%;
+}
+
+.scotland-collection-row__header {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: var(--scr-header-gap, 20px);
+}
+
+.scotland-collection-row__heading {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--scr-title-size, 24px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--scr-title-color, #111111);
+}
+
+.scotland-collection-row__view-all {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  margin-left: auto;
+  font-size: var(--scr-view-all-size, 14px);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--scr-view-all-color, #14b8a6);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.28s ease;
+}
+
+.scotland-collection-row__view-all-text {
+  position: relative;
+  display: inline-block;
+}
+
+.scotland-collection-row__view-all-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+  transition: transform 0.28s ease;
+}
+
+.scotland-collection-row__view-all-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.scotland-collection-row__view-all::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -0.15rem;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s ease;
+}
+
+.scotland-collection-row__view-all:hover,
+.scotland-collection-row__view-all:focus-visible {
+  color: var(--scr-view-all-hover-color, #0d9488);
+}
+
+.scotland-collection-row__view-all:hover::after,
+.scotland-collection-row__view-all:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.scotland-collection-row__view-all:hover .scotland-collection-row__view-all-icon,
+.scotland-collection-row__view-all:focus-visible .scotland-collection-row__view-all-icon {
+  transform: translateX(0.2rem);
+}
+
+.scotland-collection-row__row {
+  align-items: stretch;
+}
+
+.scotland-collection-row__feature {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--scr-feature-radius, 10px);
+  min-height: 100%;
+  isolation: isolate;
+}
+
+.scotland-collection-row__feature-link {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  text-decoration: none;
+}
+
+.scotland-collection-row__feature-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.scotland-collection-row__feature-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.scotland-collection-row__feature-media img,
+.scotland-collection-row__feature-media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.scotland-collection-row__feature-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  pointer-events: none;
+  width: 100%;
+}
+
+.scotland-collection-row__feature-title {
+  margin: 0;
+  font-size: var(--scr-feature-title-size, 28px);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.scotland-collection-row__feature-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--scr-view-all-size, 14px);
+  font-weight: 600;
+  line-height: 1.3;
+  color: #ffffff;
+  text-decoration: none;
+  pointer-events: auto;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.28s ease, transform 0.28s ease;
+}
+
+.scotland-collection-row__feature-view-all:hover,
+.scotland-collection-row__feature-view-all:focus-visible {
+  opacity: 0.85;
+  transform: translateX(0.15rem);
+}
+
+.scotland-collection-row__products {
+  min-width: 0;
+}
+
+.scotland-collection-row__products .slider-mobile-gutter {
+  margin: 0;
+}
+
+.scotland-collection-row__products .slider-counter {
+  display: none;
+}
+
+.scotland-collection-row__grid {
+  list-style: none;
+  padding-left: 0;
+}
+
+.scotland-collection-row__grid > .grid__item {
+  list-style: none;
+}
+
+.scotland-collection-row__grid > .grid__item::marker {
+  content: none;
+}
+
+/* Mobile slider */
+@media screen and (max-width: 749px) {
+  .scotland-collection-row__header {
+    display: flex;
+  }
+
+  .scotland-collection-row__feature {
+    display: none;
+  }
+
+  .scotland-collection-row__row {
+    display: block;
+  }
+
+  .scotland-collection-row__grid {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    margin: 0;
+    padding: 0;
+    column-gap: var(--scr-card-gap, 12px);
+    row-gap: 0;
+  }
+
+  .scotland-collection-row__grid::after {
+    display: none;
+  }
+
+  .scotland-collection-row__grid > .grid__item {
+    scroll-snap-align: start;
+    padding-bottom: 0;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .scotland-collection-row__grid.grid--2-col-tablet-down > .grid__item {
+    flex: 0 0 calc(50% - var(--scr-card-gap, 12px) / 2);
+    width: calc(50% - var(--scr-card-gap, 12px) / 2);
+    max-width: calc(50% - var(--scr-card-gap, 12px) / 2);
+  }
+
+  .scotland-collection-row__grid.grid--1-col-tablet-down > .grid__item {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .scotland-collection-row__products .slider--tablet .slider__slide {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+/* Desktop: one row — feature + all products side by side */
+@media screen and (min-width: 750px) {
+  .scotland-collection-row__row {
+    display: grid;
+    grid-template-columns: minmax(20rem, var(--scr-feature-col, 0.75fr)) repeat(var(--scr-product-cols, 5), minmax(0, 1fr));
+    gap: var(--scr-card-gap, 7px);
+  }
+
+  .scotland-collection-row--no-feature .scotland-collection-row__row {
+    grid-template-columns: repeat(var(--scr-product-cols, 5), minmax(0, 1fr));
+  }
+
+  .scotland-collection-row--no-feature .scotland-collection-row__header {
+    display: flex;
+  }
+
+  .scotland-collection-row__feature {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 100%;
+  }
+
+  .scotland-collection-row__products,
+  .scotland-collection-row__products slider-component {
+    display: contents;
+  }
+
+  .scotland-collection-row__grid {
+    display: contents;
+    margin: 0;
+  }
+
+  .scotland-collection-row__grid > .grid__item {
+    grid-row: 1;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0;
+    padding-bottom: 0 !important;
+    margin: 0 !important;
+    flex: none !important;
+  }
+}
