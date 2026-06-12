@@ -1,0 +1,433 @@
+
+<style>
+  .bg-section {
+    padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px;
+    background-color: {{ section.settings.section_bg_color }};
+  }
+
+  .bg-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 {{ section.settings.container_side_padding }}px;
+  max-width: {% if section.settings.full_width %}100%{% else %}1500px{% endif %};
+}
+
+  /* ── Title + Divider ── */
+  .bg-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: {{ section.settings.header_bottom_spacing }}px;
+  }
+
+  .bg-header__line {
+  flex: 1;
+  height: {{ section.settings.divider_thickness }}px;
+  background-color: {{ section.settings.divider_color }};
+  max-width: 500px; /* add this */
+    display: block;
+  }
+
+  .bg-header__title {
+    font-size: {{ section.settings.title_font_size }}px;
+    font-weight: 700;
+    letter-spacing: {{ section.settings.title_letter_spacing }}em;
+    color: {{ section.settings.title_color }};
+    white-space: nowrap;
+    margin: 0;
+    flex-shrink: 0;
+    text-transform: {{ section.settings.title_transform }};
+    line-height: 1.2;
+  }
+
+  /* ── Grid ── */
+  .bg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: {{ section.settings.grid_gap }}px;
+  }
+
+  /* ── Card ── */
+  .bg-card {
+    position: relative;
+    border-radius: {{ section.settings.card_radius }}px;
+    overflow: hidden;
+    display: block;
+    background: #e0e0e0;
+  }
+
+  .bg-card__media {
+    position: relative;
+    width: 100%;
+    padding-top: {{ section.settings.media_aspect_ratio }}%;
+    overflow: hidden;
+  }
+
+  .bg-card__media img,
+  .bg-card__media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.45s cubic-bezier(.25,.46,.45,.94);
+  }
+
+  .bg-card:hover .bg-card__media img,
+  .bg-card:hover .bg-card__media video {
+    transform: scale(1.03);
+  }
+
+  /* Placeholder */
+  .bg-card__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ddd 0%, #c4c4c4 100%);
+  }
+
+  .bg-card__placeholder svg {
+    width: 52px;
+    height: 52px;
+    fill: #aaa;
+  }
+
+  /* Video badge */
+  .bg-card__video-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    background: rgba(255,255,255,0.82);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .bg-card__video-badge svg {
+    width: 14px;
+    height: 14px;
+    fill: #333;
+  }
+
+  /* Full-card link overlay */
+  .bg-card__overlay-link {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 767px) {
+    .bg-grid {
+      grid-template-columns: 1fr;
+      gap: {{ section.settings.grid_gap | divided_by: 1.5 | round }}px;
+    }
+
+    .bg-header__title {
+      font-size: {{ section.settings.title_font_size | times: 0.8 | round }}px;
+    }
+
+    .bg-header__line {
+      max-width: 60px;
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    .bg-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .bg-header__line:empty {
+  display: block !important;
+}
+</style>
+
+<section class="bg-section" id="section-{{ section.id }}">
+  <div class="bg-container">
+
+    {% comment %} ── Title + Divider ── {% endcomment %}
+    {% if section.settings.section_title != blank %}
+      <div class="bg-header">
+        <div class="bg-header__line"></div>
+        <h2 class="bg-header__title">{{ section.settings.section_title }}</h2>
+        <div class="bg-header__line"></div>
+      </div>
+    {% endif %}
+
+    {% comment %} ── Grid ── {% endcomment %}
+    <div class="bg-grid">
+      {% for block in section.blocks %}
+        {% assign has_video = false %}
+        {% if block.settings.video_url != blank or block.settings.video_file != blank %}
+          {% assign has_video = true %}
+        {% endif %}
+
+        <div class="bg-card" {{ block.shopify_attributes }}>
+
+          {% if block.settings.block_link != blank %}
+            <a href="{{ block.settings.block_link }}"
+               class="bg-card__overlay-link"
+               aria-label="{{ block.settings.aria_label | default: block.settings.block_link }}"
+            ></a>
+          {% endif %}
+
+          <div class="bg-card__media">
+
+            {% if has_video %}
+              {% if block.settings.video_file != blank %}
+                <video autoplay muted loop playsinline preload="metadata">
+                  <source src="{{ block.settings.video_file }}" type="video/mp4">
+                </video>
+              {% elsif block.settings.video_url != blank %}
+                <video autoplay muted loop playsinline preload="metadata">
+                  <source src="{{ block.settings.video_url }}" type="video/mp4">
+                </video>
+              {% endif %}
+
+              <div class="bg-card__video-badge" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+
+            {% elsif block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1000
+                | image_tag:
+                  loading: 'lazy',
+                  alt: block.settings.aria_label,
+                  widths: '480, 700, 900, 1000',
+                  sizes: '(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 33vw'
+              }}
+
+            {% else %}
+              <div class="bg-card__placeholder" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+              </div>
+            {% endif %}
+
+          </div>
+        </div>
+
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Banner Grid",
+  "tag": "section",
+  "class": "banner-grid-section",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section"
+    },{
+  "type": "checkbox",
+  "id": "full_width",
+  "label": "Enable Full Width",
+  "default": true
+},
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding Top (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding Bottom (px)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "container_side_padding",
+      "label": "Container Side Padding (px)",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Title"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Title",
+      "default": "SHOP BY PRODUCT"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title Font Size (px)",
+      "min": 14,
+      "max": 48,
+      "step": 1,
+      "default": 22
+    },
+    {
+      "type": "select",
+      "id": "title_transform",
+      "label": "Title Case",
+      "options": [
+        { "value": "uppercase", "label": "UPPERCASE" },
+        { "value": "capitalize", "label": "Capitalize" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "range",
+      "id": "header_bottom_spacing",
+      "label": "Space Below Header (px)",
+      "min": 8,
+      "max": 60,
+      "step": 4,
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Divider Lines"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider Color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "range",
+      "id": "divider_thickness",
+      "label": "Divider Thickness (px)",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Grid"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Gap Between Banners (px)",
+      "min": 4,
+      "max": 48,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Banner Border Radius (px)",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "media_aspect_ratio",
+      "label": "Banner Aspect Ratio (%)",
+      "info": "100 = 1:1, 56 = 16:9, 40 = ~5:2 wide banner",
+      "min": 30,
+      "max": 120,
+      "step": 5,
+      "default": 45
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner Block",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Banner Image",
+          "info": "Used when no video is set. Recommended: 1000×450px or wider."
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL (MP4)",
+          "info": "Direct .mp4 link. Overrides image if set."
+        },
+        {
+          "type": "text",
+          "id": "video_file",
+          "label": "Video File (Shopify Files URL)",
+          "info": "Paste the CDN URL from Shopify Files. Takes priority over Video URL."
+        },
+        {
+          "type": "header",
+          "content": "Link & Accessibility"
+        },
+        {
+          "type": "url",
+          "id": "block_link",
+          "label": "Banner Link",
+          "info": "Makes the entire banner clickable."
+        },
+        {
+          "type": "text",
+          "id": "aria_label",
+          "label": "Accessibility Label",
+          "info": "Screen reader description for this banner.",
+          "default": "View products"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner Grid",
+      "blocks": [
+        { "type": "banner" },
+        { "type": "banner" },
+        { "type": "banner" },
+        { "type": "banner" },
+        { "type": "banner" },
+        { "type": "banner" }
+      ]
+    }
+  ]
+}
+{% endschema %}

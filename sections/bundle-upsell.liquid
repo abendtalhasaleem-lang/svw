@@ -1,0 +1,1332 @@
+{% comment %}<style>
+  .bundle-wrapper {
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    margin: 3rem auto;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    max-width: 1200px;
+    border: 1px solid #f0f0f0;
+  }
+
+  .bundle-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  
+  .bundle-header h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #111;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .bundle-header h2:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+  }
+
+  .bundle-price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2a2a2a;
+    margin: 1.5rem 0;
+    text-align: center;
+  }
+
+  .bundle-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+  }
+
+  .bundle-item:last-child {
+    border-bottom: none;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .bundle-product-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    height: 180px;
+  }
+
+  .bundle-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .bundle-product-image:hover img {
+    transform: scale(1.05);
+  }
+
+  .bundle-product-content {
+    padding: 0.5rem 0;
+  }
+
+  .bundle-product-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: #222;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+  }
+
+  .bundle-product-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2a2a2a;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    background: #f8f8f8;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+  }
+
+  .variant-selection-counter {
+    margin: 1.2rem 0;
+    font-size: 1.1rem;
+    color: #666;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .variant-selection-counter .selected-count {
+    font-weight: 700;
+    color: #000;
+    font-size: 1.3rem;
+  }
+
+  .variant-selection-counter .max-count {
+    font-weight: 600;
+  }
+
+  .variant-option {
+    margin-top: 1.8rem;
+  }
+
+  .variant-option label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+  }
+
+  .color-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 0.5rem;
+  }
+
+  .swatch {
+    position: relative;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+  }
+
+  .swatch input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .swatch-color {
+    width: 42px;
+    height: 42px;
+    display: inline-block;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .swatch-color:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  .swatch:hover .swatch-color {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+
+  .swatch input[type="checkbox"]:checked + .swatch-color {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 2px white, 0 0 0 4px #000;
+    border-color: #fff;
+  }
+
+  .swatch input[type="checkbox"]:checked + .swatch-color:after {
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .size-selection-table {
+    margin-top: 1.5rem;
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+
+  .size-selection-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .size-selection-table th {
+    font-weight: 600;
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #eee;
+  }
+
+  .size-selection-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f5f5f5;
+    vertical-align: middle;
+  }
+
+  .size-selection-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .size-selection-table tr:hover {
+    background-color: #fafafa;
+  }
+
+  .selected-variant-row {
+    transition: all 0.3s ease;
+  }
+
+  .swatch-color-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .quantity-selector button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ddd;
+    background: #f5f5f5;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    color: #555;
+  }
+
+  .quantity-selector button:hover {
+    background: #e0e0e0;
+    border-color: #ccc;
+    color: #000;
+  }
+
+  .quantity-selector button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .quantity-input {
+    width: 60px;
+    height: 36px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .remove-variant {
+    background: none;
+    border: none;
+    color: #ff5555;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .remove-variant:hover {
+    background: rgba(255,0,0,0.1);
+    color: #ff0000;
+    transform: scale(1.1);
+  }
+
+  .bundle-submit {
+    margin-top: 3rem;
+    text-align: center;
+  }
+
+  .button-bundle {
+    padding: 18px 32px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: auto;
+    min-width: 300px;
+    background: linear-gradient(90deg, #000000, #333333);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .button-bundle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    opacity: 0.95;
+  }
+
+  .button-bundle:active {
+    transform: translateY(0);
+  }
+
+  .button-bundle:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    background: #ccc;
+  }
+
+  .max-limit-reached {
+    color: #ff4444;
+    font-size: 0.95rem;
+    margin-top: 0.8rem;
+    display: none;
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 992px) {
+    .bundle-wrapper {
+      padding: 2.5rem 1.5rem;
+    }
+    
+    .bundle-item {
+      grid-template-columns: 150px 1fr;
+      gap: 1.8rem;
+    }
+    
+    .bundle-product-image {
+      height: 150px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .bundle-wrapper {
+      padding: 2rem 1.2rem;
+      margin-top: 1.5rem;
+    }
+    
+    .bundle-header h2 {
+      font-size: 1.8rem;
+    }
+    
+    .bundle-item {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .bundle-product-image {
+      max-width: 220px;
+      margin: 0 auto;
+      height: 220px;
+    }
+    
+    .bundle-product-title {
+      font-size: 1.3rem;
+      text-align: center;
+    }
+    
+    .bundle-product-price {
+      margin: 0 auto 1.5rem;
+      display: block;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+    
+    .variant-selection-counter {
+      justify-content: center;
+    }
+    
+    .button-bundle {
+      width: 100%;
+      min-width: auto;
+      padding: 16px 24px;
+      font-size: 1.2rem;
+    }
+    
+    .size-selection-table th, 
+    .size-selection-table td {
+      padding: 12px 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .bundle-wrapper {
+      padding: 1.8rem 1rem;
+      border-radius: 16px;
+    }
+    
+    .swatch-color {
+      width: 38px;
+      height: 38px;
+    }
+    
+    .quantity-selector button {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .quantity-input {
+      width: 50px;
+      height: 32px;
+    }
+    
+    .bundle-product-title {
+      font-size: 1.2rem;
+    }
+    
+    .variant-option label {
+      font-size: 1.1rem;
+    }
+    
+    .size-selection-table {
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<div class="bundle-wrapper">
+  <div class="bundle-header">
+    <h2>Complete the Bundle</h2>
+    <div class="bundle-price">{{ product.price | money }}</div>
+  </div>
+  
+  <form id="bundle-form">
+    {% for i in (1..5) %}
+      {% assign setting_key = "bundle_product_" | append: i %}
+      {% assign heading_key = "heading_" | append: i %}
+      {% assign max_key = "max_variants_" | append: i %}
+      
+      {% assign product_setting = section.settings[setting_key] %}
+      {% if product_setting != blank %}
+        {% assign bundle_product = all_products[product_setting] %}
+        {% if bundle_product %}
+          <div class="bundle-item" data-product-id="{{ bundle_product.id }}" data-product-index="{{ i }}" data-max-variants="{{ section.settings[max_key] }}">
+            <div class="bundle-product-image">
+              <img src="{{ bundle_product.featured_image | image_url: width: 300 }}" alt="{{ bundle_product.title }}" loading="lazy" />
+            </div>
+            <div class="bundle-product-content">
+              <h3>{{ section.settings[heading_key] | default: bundle_product.title }}</h3>
+              
+              <div class="variant-selection-counter">
+                <span class="selected-count">0</span>/<span class="max-count">{{ section.settings[max_key] }}</span> selected
+              </div>
+              
+              {% if bundle_product.has_only_default_variant == false %}
+                {% for option in bundle_product.options_with_values %}
+                  <div class="variant-option">
+                    <label>{{ option.name }}</label>
+                    
+                    {% if option.name == 'Color' %}
+                      <div class="color-swatches" data-option-position="{{ forloop.index0 }}">
+                        {% for value in option.values %}
+                          <label class="swatch" title="{{ value }}">
+                            <input type="checkbox" 
+                                   name="option_{{ i }}_{{ option.name | handleize }}" 
+                                   value="{{ value }}" 
+                                   data-option="{{ option.position }}"
+                                   data-product-index="{{ i }}"
+                                   {% if section.settings[max_key] == 0 %}disabled{% endif %}>
+                            <span class="swatch-color" style="background-color: {{ value | downcase | replace: ' ', '' }}"></span>
+                          </label>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                      <div class="size-selection-wrapper" data-product-index="{{ i }}">
+                        <div class="size-selection-table">
+                          <table>
+                            <thead>
+                              <tr>
+                                <th>Color</th>
+                                <th>Size</th>
+                                <th>Quantity</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody class="selected-variants-container">
+                              <!-- Selected variants will be added here dynamically -->
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              {% else %}
+                <input type="hidden" name="option_{{ i }}_default" value="Default Title" data-option="1" data-product-index="{{ i }}">
+                <div class="quantity-selector" data-product-index="{{ i }}" data-option-position="1">
+                  <button type="button" class="quantity-minus">-</button>
+                  <input type="number" value="0" min="0" max="10" class="quantity-input">
+                  <button type="button" class="quantity-plus">+</button>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    <div class="bundle-submit">
+      <button type="submit" class="button-bundle">
+        Add Bundle to Cart - {{ product.price | money }}
+      </button>
+    </div>
+  </form>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const bundleProducts = {};
+  
+  // Use the current product as the parent product
+  const parentProduct = {
+    id: {{ product.id | json }},
+    title: {{ product.title | json }},
+    variants: [
+      {% for variant in product.variants %}
+        {
+          id: {{ variant.id | json }},
+          title: {{ variant.title | json }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  };
+
+  // Count how many bundle products are active
+  let activeBundleProductsCount = 0;
+  
+  // Initialize products
+  document.querySelectorAll('.bundle-item').forEach(item => {
+    const productId = item.dataset.productId;
+    const productIndex = item.dataset.productIndex;
+    const maxVariants = parseInt(item.dataset.maxVariants) || 1;
+
+    if (productId && productIndex) {
+      activeBundleProductsCount++;
+      
+      bundleProducts[productIndex] = {
+        id: productId,
+        selectedVariants: [],
+        maxVariants: maxVariants,
+        totalQuantity: 0,
+        options: [],
+        hasOnlyColorOption: false,
+        hasVariants: false,
+        hasSizeOption: false
+      };
+
+      // Store product options structure
+      const optionElements = item.querySelectorAll('[data-option]');
+      optionElements.forEach(el => {
+        const optionPos = parseInt(el.dataset.option);
+        if (!bundleProducts[productIndex].options.includes(optionPos)) {
+          bundleProducts[productIndex].options.push(optionPos);
+        }
+      });
+
+      // Check product variant structure
+      const productData = window.allProducts.find(p => p.id == productId);
+      if (productData) {
+        // Check if product has variants (not just default)
+        bundleProducts[productIndex].hasVariants = productData.variants.length > 1 || 
+          (productData.variants[0].option1 && productData.variants[0].option1 !== 'Default Title');
+        
+        // Check if product has only color option (no size)
+        const hasOnlyOneOption = productData.variants[0].option1 && !productData.variants[0].option2;
+        bundleProducts[productIndex].hasOnlyColorOption = hasOnlyOneOption;
+        
+        // Check if product has size option
+        bundleProducts[productIndex].hasSizeOption = !!productData.variants[0].option2;
+      }
+
+      updateSelectionCounter(productIndex);
+    }
+  });
+
+  // Track color checkbox changes
+  document.querySelectorAll('.color-swatches input[type="checkbox"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const productIndex = this.dataset.productIndex;
+      const colorValue = this.value;
+      const isChecked = this.checked;
+      const product = bundleProducts[productIndex];
+      
+      if (!product) return;
+      
+      // Check if we're at the maximum color limit
+      if (isChecked) {
+        // Count how many colors are currently selected
+        const selectedColors = new Set();
+        product.selectedVariants.forEach(variant => {
+          if (variant.color) selectedColors.add(variant.color);
+        });
+        
+        // If adding this color would exceed the max variants, prevent it
+        if (selectedColors.size >= product.maxVariants && !selectedColors.has(colorValue)) {
+          this.checked = false;
+          alert(`You can only select up to ${product.maxVariants} colors for this product.`);
+          return;
+        }
+        
+        // Check if product has size option
+        if (product.hasSizeOption) {
+          showSizeSelection(productIndex, colorValue);
+        } else {
+          // Product doesn't have size option, select it directly
+          selectColorOnlyProduct(productIndex, colorValue);
+        }
+      } else {
+        removeColorVariants(productIndex, colorValue);
+      }
+      
+      updateSelectionCounter(productIndex);
+    });
+  });
+
+  function selectColorOnlyProduct(productIndex, colorValue) {
+    const product = bundleProducts[productIndex];
+    
+    // Get the variant for this color-only product
+    const productData = window.allProducts.find(p => p.id == product.id);
+    if (!productData) {
+      console.error('Product data not found for ID:', product.id);
+      return;
+    }
+    
+    const variantKey = `${colorValue}`;
+    
+    // Check if this variant already exists
+    const existingVariant = product.selectedVariants.find(v => v.key === variantKey);
+    
+    // Don't create duplicate if it already exists
+    if (existingVariant) return;
+    
+    // Find the variant ID for this color
+    const variant = productData.variants.find(v => v.option1 === colorValue);
+    if (!variant) {
+      console.error('Variant not found for color:', colorValue);
+      return;
+    }
+    
+    // Add to selected variants with quantity 1
+    product.selectedVariants.push({
+      key: variantKey,
+      color: colorValue,
+      size: 'One Size',
+      quantity: 1,
+      variantId: variant.id
+    });
+    
+    product.totalQuantity += 1;
+    
+    // Update the UI to show selection
+    updateColorSelectionUI(productIndex, colorValue, true);
+    updateSelectionCounter(productIndex);
+  }
+
+  function updateColorSelectionUI(productIndex, colorValue, isSelected) {
+    // Update the visual appearance of the color swatch
+    const swatch = document.querySelector(`.color-swatches input[value="${colorValue}"][data-product-index="${productIndex}"]`);
+    if (swatch) {
+      swatch.checked = isSelected;
+      
+      // Add or remove visual indicator
+      const swatchColor = swatch.nextElementSibling;
+      if (swatchColor) {
+        if (isSelected) {
+          swatchColor.style.boxShadow = '0 0 0 2px white, 0 0 0 4px #000';
+          swatchColor.style.borderColor = '#fff';
+          swatchColor.style.transform = 'scale(1.1)';
+        } else {
+          swatchColor.style.boxShadow = '0 3px 6px rgba(0,0,0,0.1)';
+          swatchColor.style.borderColor = 'transparent';
+          swatchColor.style.transform = 'scale(1)';
+        }
+      }
+    }
+  }
+
+  function showSizeSelection(productIndex, colorValue) {
+    const product = bundleProducts[productIndex];
+    const sizeWrapper = document.querySelector(`.size-selection-wrapper[data-product-index="${productIndex}"]`);
+    
+    if (!sizeWrapper) {
+      console.error('Size selection wrapper not found for product:', productIndex);
+      return;
+    }
+    
+    const variantsContainer = sizeWrapper.querySelector('.selected-variants-container');
+    
+    // Get all available sizes for this product and color
+    const productData = window.allProducts.find(p => p.id == product.id);
+    if (!productData) {
+      console.error('Product data not found for ID:', product.id);
+      return;
+    }
+    
+    const sizes = [...new Set(productData.variants
+      .filter(v => v.option1 === colorValue)
+      .map(v => v.option2))];
+    
+    // Create rows for each size of this color
+    sizes.forEach(size => {
+      const variantKey = `${colorValue}_${size}`;
+      
+      // Check if this variant already exists
+      const existingVariant = product.selectedVariants.find(v => v.key === variantKey);
+      
+      // Don't create duplicate if it already exists
+      if (existingVariant) return;
+      
+      const row = document.createElement('tr');
+      row.className = 'selected-variant-row';
+      row.dataset.variantKey = variantKey;
+      row.dataset.productIndex = productIndex;
+      row.innerHTML = `
+        <td>
+          <span class="swatch-color-preview" style="background-color: ${colorValue.toLowerCase().replace(' ', '')}"></span>
+          ${colorValue}
+        </td>
+        <td>${size}</td>
+        <td>
+          <div class="quantity-selector" data-size="${size}" data-color="${colorValue}" data-product-index="${productIndex}">
+            <button type="button" class="quantity-minus">-</button>
+            <input type="number" value="0" min="0" max="10" class="quantity-input">
+            <button type="button" class="quantity-plus">+</button>
+          </div>
+        </td>
+        <td>
+          <button type="button" class="remove-variant">×</button>
+        </td>
+      `;
+      
+      variantsContainer.appendChild(row);
+      
+      // Initialize quantity controls
+      const input = row.querySelector('.quantity-input');
+      input.addEventListener('change', function() {
+        updateVariantQuantity(productIndex, variantKey, parseInt(this.value));
+      });
+      
+      row.querySelector('.quantity-plus').addEventListener('click', function() {
+        const input = this.parentElement.querySelector('.quantity-input');
+        const newValue = parseInt(input.value) + 1;
+        
+        // Check if we're exceeding max variants
+        const product = bundleProducts[productIndex];
+        
+        if (product.totalQuantity + 1 > product.maxVariants) {
+          alert(`You can only select up to ${product.maxVariants} total items for this product.`);
+          return;
+        }
+        
+        input.value = newValue;
+        updateVariantQuantity(productIndex, variantKey, newValue);
+      });
+      
+      row.querySelector('.quantity-minus').addEventListener('click', function() {
+        const input = this.parentElement.querySelector('.quantity-input');
+        const newValue = Math.max(0, parseInt(input.value) - 1);
+        input.value = newValue;
+        updateVariantQuantity(productIndex, variantKey, newValue);
+      });
+      
+      row.querySelector('.remove-variant').addEventListener('click', function() {
+        removeVariant(productIndex, variantKey);
+      });
+      
+      // Add to selected variants with quantity 0 initially
+      product.selectedVariants.push({
+        key: variantKey,
+        color: colorValue,
+        size: size,
+        quantity: 0,
+        variantId: null
+      });
+      
+      findVariantId(productIndex, variantKey);
+      updateSelectionCounter(productIndex);
+    });
+  }
+
+  function updateVariantQuantity(productIndex, variantKey, quantity) {
+    const product = bundleProducts[productIndex];
+    const variant = product.selectedVariants.find(v => v.key === variantKey);
+    
+    if (variant) {
+      // Calculate the difference to update total quantity
+      const oldQuantity = variant.quantity || 0;
+      const quantityDifference = quantity - oldQuantity;
+      
+      // Check if we're exceeding max variants
+      if (product.totalQuantity + quantityDifference > product.maxVariants) {
+        alert(`You can only select up to ${product.maxVariants} total items for this product.`);
+        // Reset to old quantity
+        const input = document.querySelector(`tr[data-variant-key="${variantKey}"] .quantity-input`);
+        if (input) input.value = oldQuantity;
+        return;
+      }
+      
+      variant.quantity = quantity;
+      product.totalQuantity += quantityDifference;
+      
+      // Remove variant if quantity is 0
+      if (quantity === 0) {
+        removeVariant(productIndex, variantKey);
+      } else {
+        updateSelectionCounter(productIndex);
+      }
+    }
+  }
+
+  function removeVariant(productIndex, variantKey) {
+    const product = bundleProducts[productIndex];
+    const variant = product.selectedVariants.find(v => v.key === variantKey);
+    if (!variant) return;
+
+    // Update total quantity
+    product.totalQuantity -= variant.quantity || 0;
+
+    // Remove from UI if it's a size-based variant
+    if (variantKey.includes('_')) {
+      const row = document.querySelector(`tr[data-variant-key="${variantKey}"]`);
+      if (row) row.remove();
+    } else {
+      // For color-only products, update the UI
+      updateColorSelectionUI(productIndex, variantKey, false);
+    }
+
+    const index = product.selectedVariants.findIndex(v => v.key === variantKey);
+    if (index >= 0) product.selectedVariants.splice(index, 1);
+
+    const color = variantKey.includes('_') ? variantKey.split('_')[0] : variantKey;
+    const hasOtherVariants = product.selectedVariants.some(v => v.color === color);
+    if (!hasOtherVariants) {
+      const checkbox = document.querySelector(`.color-swatches input[value="${color}"][data-product-index="${productIndex}"]`);
+      if (checkbox) checkbox.checked = false;
+    }
+
+    updateSelectionCounter(productIndex);
+  }
+
+  function removeColorVariants(productIndex, colorValue) {
+    const product = bundleProducts[productIndex];
+    
+    // Remove all variants of this color and update total quantity
+    const variantsToRemove = product.selectedVariants.filter(v => v.color === colorValue);
+    variantsToRemove.forEach(variant => {
+      product.totalQuantity -= variant.quantity || 0;
+    });
+    
+    // Remove size-based variants from UI
+    document.querySelectorAll(`.selected-variant-row[data-product-index="${productIndex}"]`).forEach(row => {
+      const rowVariantKey = row.dataset.variantKey;
+      if (rowVariantKey.startsWith(colorValue + '_')) {
+        row.remove();
+      }
+    });
+    
+    // Update UI for color-only products
+    if (!product.hasSizeOption) {
+      updateColorSelectionUI(productIndex, colorValue, false);
+    }
+    
+    product.selectedVariants = product.selectedVariants.filter(v => v.color !== colorValue);
+    updateSelectionCounter(productIndex);
+  }
+
+  function findVariantId(productIndex, variantKey) {
+    const product = bundleProducts[productIndex];
+    if (!product || !window.allProducts) return;
+
+    const productData = window.allProducts.find(p => p.id == product.id);
+    if (!productData) {
+      console.error('Product data not found for ID:', product.id);
+      return;
+    }
+
+    const variant = product.selectedVariants.find(v => v.key === variantKey);
+    if (!variant) return;
+
+    let matchedVariant;
+    
+    if (product.hasOnlyColorOption) {
+      // For products with only color option
+      matchedVariant = productData.variants.find(v => {
+        return v.option1 === variant.color;
+      });
+    } else {
+      // For products with both color and size options
+      matchedVariant = productData.variants.find(v => {
+        return v.option1 === variant.color && v.option2 === variant.size;
+      });
+    }
+
+    if (matchedVariant) {
+      variant.variantId = matchedVariant.id;
+      console.log('Found variant ID:', variant.variantId, 'for product:', productIndex, 'key:', variantKey);
+    } else {
+      console.warn('No matching variant found for:', variant);
+      const index = product.selectedVariants.findIndex(v => v.key === variantKey);
+      if (index >= 0) {
+        product.selectedVariants.splice(index, 1);
+      }
+    }
+  }
+
+  function updateSelectionCounter(productIndex) {
+    const product = bundleProducts[productIndex];
+    if (!product) return;
+
+    const counterElement = document.querySelector(`.bundle-item[data-product-index="${productIndex}"] .selected-count`);
+    if (counterElement) counterElement.textContent = product.totalQuantity;
+
+    // Count how many unique colors are selected
+    const selectedColors = new Set();
+    product.selectedVariants.forEach(variant => {
+      if (variant.color && variant.quantity > 0) selectedColors.add(variant.color);
+    });
+    
+    // Enable/disable color checkboxes based on color count
+    const colorCheckboxes = document.querySelectorAll(`.bundle-item[data-product-index="${productIndex}"] .color-swatches input[type="checkbox"]`);
+    colorCheckboxes.forEach(checkbox => {
+      if (!checkbox.checked) {
+        checkbox.disabled = selectedColors.size >= product.maxVariants;
+      }
+    });
+
+    // Enable/disable quantity plus buttons based on total quantity
+    const plusButtons = document.querySelectorAll(`.bundle-item[data-product-index="${productIndex}"] .quantity-plus`);
+    plusButtons.forEach(btn => {
+      btn.disabled = product.totalQuantity >= product.maxVariants;
+    });
+  }
+
+// Submit form
+  document.getElementById('bundle-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    let bundleDetails = [];
+    let hasSelectedItems = false;
+    let validationErrors = [];
+
+    // Validate that each product has reached its maximum variants
+    Object.entries(bundleProducts).forEach(([productIndex, product]) => {
+      // Check if this product has any variants selected
+      const hasVariants = product.selectedVariants.some(variant => variant.quantity > 0);
+      
+      // If product is in the bundle, it must have exactly the max variants selected
+      if (product.totalQuantity !== product.maxVariants) {
+        validationErrors.push(`Please select exactly ${product.maxVariants} items for ${getProductTitle(productIndex)}.`);
+      }
+      
+      // Collect all selected variants for cart
+      product.selectedVariants.forEach(variant => {
+        if (variant.quantity > 0 && variant.variantId) {
+          hasSelectedItems = true;
+          
+          // Get the product title for this variant
+          const productData = window.allProducts.find(p => p.id == product.id);
+          const productTitle = productData ? productData.title : `Product ${productIndex}`;
+          
+          // Add detailed information for each selected variant
+          bundleDetails.push({
+            productIndex: productIndex,
+            productTitle: productTitle,
+            color: variant.color || 'Default',
+            size: variant.size || 'One Size',
+            quantity: variant.quantity,
+            variantId: variant.variantId
+          });
+        }
+      });
+    });
+
+    // Check if all active bundle products are configured
+    const configuredProductsCount = Object.values(bundleProducts).filter(
+      product => product.totalQuantity === product.maxVariants
+    ).length;
+    
+    if (configuredProductsCount !== activeBundleProductsCount) {
+      validationErrors.push(`Please configure all ${activeBundleProductsCount} products in the bundle before adding to cart.`);
+    }
+
+    if (!hasSelectedItems) {
+      alert('Please select at least one variant to add to bundle.');
+      return;
+    }
+
+    if (validationErrors.length > 0) {
+      alert(validationErrors.join('\n'));
+      return;
+    }
+
+    try {
+      // Create cart properties with detailed bundle information
+      const properties = {
+        '_bundle': 'true',
+        '_bundle_parent_id': parentProduct.id,
+        '_bundle_parent_title': parentProduct.title
+      };
+      
+      // Add each selected variant as a separate property with human-readable format
+      bundleDetails.forEach((item, index) => {
+        properties[`Item ${parseInt(index) + 1}`] = `${item.productTitle} - ${item.color}, ${item.size} (Qty: ${item.quantity})`;
+        properties[`_bundle_item_${index}_product`] = item.productTitle;
+        properties[`_bundle_item_${index}_color`] = item.color;
+        properties[`_bundle_item_${index}_size`] = item.size;
+        properties[`_bundle_item_${index}_quantity`] = item.quantity;
+        properties[`_bundle_item_${index}_variant_id`] = item.variantId;
+      });
+
+      console.log('Adding to cart with properties:', properties);
+
+      // Add ONLY parent product, with bundle details in properties
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: [{
+            id: parentProduct.variants[0].id,
+            quantity: 1,
+            properties: properties
+          }]
+        })
+      });
+
+      const result = await response.json();
+      console.log('Cart add response:', result);
+
+      if (!response.ok) throw new Error('Failed to add bundle: ' + (result.message || 'Unknown error'));
+
+      window.location.href = '/cart';
+
+    } catch (error) {
+      console.error('Error adding bundle:', error);
+      alert('There was an error adding your bundle to the cart: ' + error.message);
+    }
+  });
+
+  // Helper function to get product title
+  function getProductTitle(productIndex) {
+    const product = bundleProducts[productIndex];
+    if (!product) return `Product ${productIndex}`;
+    
+    const productData = window.allProducts.find(p => p.id == product.id);
+    return productData ? productData.title : `Product ${productIndex}`;
+  }
+
+  // Initialize quantity selectors for default variants
+  document.querySelectorAll('.bundle-item').forEach(item => {
+    const productIndex = item.dataset.productIndex;
+    const product = bundleProducts[productIndex];
+    
+    if (!product) return;
+    
+    if (item.querySelector('input[name^="option_' + productIndex + '_default"]')) {
+      const selector = item.querySelector('.quantity-selector');
+      if (selector) {
+        const input = selector.querySelector('.quantity-input');
+        const minusBtn = selector.querySelector('.quantity-minus');
+        const plusBtn = selector.querySelector('.quantity-plus');
+        
+        // Set initial value to 0
+        input.value = 0;
+        
+        // Set up event listeners for default variant
+        minusBtn.addEventListener('click', function() {
+          const newValue = Math.max(0, parseInt(input.value) - 1);
+          input.value = newValue;
+          updateDefaultVariantQuantity(productIndex, newValue);
+        });
+        
+        plusBtn.addEventListener('click', function() {
+          if (product.totalQuantity >= product.maxVariants) {
+            alert(`You can only select up to ${product.maxVariants} items for this product.`);
+            return;
+          }
+          
+          const newValue = parseInt(input.value) + 1;
+          input.value = newValue;
+          updateDefaultVariantQuantity(productIndex, newValue);
+        });
+        
+        input.addEventListener('change', function() {
+          updateDefaultVariantQuantity(productIndex, parseInt(this.value));
+        });
+        
+        product.selectedVariants.push({
+          key: 'default_1',
+          variantId: product.id,
+          quantity: 0
+        });
+        updateSelectionCounter(productIndex);
+      }
+    }
+  });
+  
+  function updateDefaultVariantQuantity(productIndex, quantity) {
+    const product = bundleProducts[productIndex];
+    if (product && product.selectedVariants.length > 0) {
+      // Calculate the difference to update total quantity
+      const quantityDifference = quantity - product.selectedVariants[0].quantity;
+      
+      // Check if we're exceeding max variants
+      if (product.totalQuantity + quantityDifference > product.maxVariants) {
+        alert(`You can only select up to ${product.maxVariants} items for this product.`);
+        return;
+      }
+      
+      product.selectedVariants[0].quantity = quantity;
+      product.totalQuantity += quantityDifference;
+      updateSelectionCounter(productIndex);
+    }
+  }
+});
+
+// Inject product data
+window.allProducts = [
+  {% for i in (1..5) %}
+    {% assign setting_key = "bundle_product_" | append: i %}
+    {% assign product_handle = section.settings[setting_key] %}
+    {% if product_handle != blank %}
+      {% assign bundle_product = all_products[product_handle] %}
+      {% if bundle_product %}
+        {
+          id: {{ bundle_product.id | json }},
+          title: {{ bundle_product.title | json }},
+          variants: [
+            {% for variant in bundle_product.variants %}
+              {
+                id: {{ variant.id | json }},
+                title: {{ variant.title | json }},
+                option1: {{ variant.option1 | json }},
+                option2: {{ variant.option2 | json }},
+                option3: {{ variant.option3 | json }}
+              }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ]
+        }{% unless forloop.last %},{% endunless %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+];
+</script>
+
+{% schema %}
+{
+  "name": "Bundle Upsell",
+  "tag": "section",
+  "class": "bundle-upsell",
+  "settings": [
+    {
+      "type": "product",
+      "id": "parent_product",
+      "label": "Parent Bundle Product",
+      "info": "This is the main product that will appear in the cart with the bundle price"
+    },
+    { 
+      "type": "product", 
+      "id": "bundle_product_1", 
+      "label": "Bundle Product 1" 
+    },
+    { 
+      "type": "text", 
+      "id": "heading_1", 
+      "label": "Heading for Product 1", 
+      "default": "Customize your T-Shirt" 
+    },
+    { 
+      "type": "number", 
+      "id": "max_variants_1", 
+      "label": "Max variants for Product 1", 
+      "default": 3 
+    },
+    { 
+      "type": "product", 
+      "id": "bundle_product_2", 
+      "label": "Bundle Product 2" 
+    },
+    { 
+      "type": "text", 
+      "id": "heading_2", 
+      "label": "Heading for Product 2", 
+      "default": "Pick your Hoodie" 
+    },
+    { 
+      "type": "number", 
+      "id": "max_variants_2", 
+      "label": "Max variants for Product 2", 
+      "default": 2 
+    },
+    { 
+      "type": "product", 
+      "id": "bundle_product_3", 
+      "label": "Bundle Product 3" 
+    },
+    { 
+      "type": "text", 
+      "id": "heading_3", 
+      "label": "Heading for Product 3", 
+      "default": "Add a Cap" 
+    },
+    { 
+      "type": "number", 
+      "id": "max_variants_3", 
+      "label": "Max variants for Product 3", 
+      "default": 1 
+    },
+    { 
+      "type": "product", 
+      "id": "bundle_product_4", 
+      "label": "Bundle Product 4" 
+    },
+    { 
+      "type": "text", 
+      "id": "heading_4", 
+      "label": "Heading for Product 4", 
+      "default": "Customize your Bag" 
+    },
+    { 
+      "type": "number", 
+      "id": "max_variants_4", 
+      "label": "Max variants for Product 4", 
+      "default": 2 
+    },
+    { 
+      "type": "product", 
+      "id": "bundle_product_5", 
+      "label": "Bundle Product 5" 
+    },
+    { 
+      "type": "text", 
+      "id": "heading_5", 
+      "label": "Heading for Product 5", 
+      "default": "Choose your Socks" 
+    },
+    { 
+      "type": "number", 
+      "id": "max_variants_5", 
+      "label": "Max variants for Product 5", 
+      "default": 5 
+    },
+    { 
+      "type": "color", 
+      "id": "background_color", 
+      "label": "Background Color", 
+      "default": "#f9f9f9" 
+    },
+    { 
+      "type": "color", 
+      "id": "heading_color", 
+      "label": "Heading Color", 
+      "default": "#111111" 
+    },
+    { 
+      "type": "color", 
+      "id": "button_bg_color", 
+      "label": "Add to Cart Button Background", 
+      "default": "#000000" 
+    },
+    { 
+      "type": "color", 
+      "id": "button_text_color", 
+      "label": "Add to Cart Button Text", 
+      "default": "#ffffff" 
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle Upsell"
+    }
+  ]
+}
+{% endschema %}
+ 
+ {% endcomment %}

@@ -1,0 +1,102 @@
+<style>
+  .personalize-input-wrapper {
+    margin-bottom: 1.8rem;
+  }
+
+  .form__label.personalize {
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    font-size: 1.5rem; /* increased */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #1e3a8a; /* Bright indigo */
+    transition: color 0.25s ease;
+  }
+
+  .field.personalize {
+    margin-top: 0.4rem;
+    position: relative;
+  }
+
+  .personalize .field__input {
+    padding: 1.1rem 1rem;
+    border: 1px solid #e0e7ff; /* lighter but thicker */
+    width: 100%;
+    font-size: 1.8rem; /* bigger input text */
+    transition: all 0.25s ease;
+    background: #f9fafb;
+    color: #111827; /* deep gray text */
+  }
+
+  .personalize .field__input:focus {
+    outline: none;
+    border-color: #4f46e5; /* Bright indigo accent */
+    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.2);
+    background: #fff;
+  }
+
+  .personalize .field__input:hover {
+    border-color: #6366f1;
+  }
+
+  .char-counter {
+    margin-left: auto;
+    font-size: 0.9rem; /* slightly bigger */
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 14px;
+    background: #e0e7ff; /* Brighter indigo background */
+    color: #1e40af; /* Stronger indigo */
+    display: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .char-counter.active {
+    display: inline-block;
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  /* Label color shift on focus */
+  .personalize .field__input:focus ~ .form__label.personalize,
+  .personalize .field__input:not(:placeholder-shown) ~ .form__label.personalize {
+    color: #4f46e5; /* brighter indigo when active */
+  }
+</style>
+
+<div class="personalize-input-wrapper" id="personalize-input-{{ block.id }}">
+  <label class="form__label personalize" for="input-{{ block.id }}">
+    {{ block.settings.label_text }}
+    <span class="char-counter"></span>
+  </label>
+
+  <div class="field personalize">
+    <input
+      class="field__input"
+      form="{{ 'product-form-' | append: section.id }}"
+      type="text"
+      id="input-{{ block.id }}"
+      name="properties[{{ block.settings.label_text | handleize }}]"
+      maxlength="50"
+    >
+  </div>
+</div>
+
+<script>
+  (() => {
+    const wrapper = document.querySelector('#personalize-input-{{ block.id }}');
+    const input = wrapper.querySelector('input');
+    const counter = wrapper.querySelector('.char-counter');
+
+    input.addEventListener('input', (e) => {
+      const len = e.target.value.length;
+      if (len > 0) {
+        counter.textContent = `${len} / 50`;
+        counter.classList.add('active');
+      } else {
+        counter.classList.remove('active');
+      }
+    });
+  })();
+</script>

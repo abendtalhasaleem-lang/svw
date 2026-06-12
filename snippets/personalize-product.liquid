@@ -1,0 +1,891 @@
+{% assign dropdown_options = block.settings.dropdown_options | split: ',' %}
+
+<div class="personalize-product">
+  <!-- Personalize Button -->
+  <button type="button" id="openPersonalizePopup-{{ block.id }}" class="btn personalize-btn">
+    {{ block.settings.button_text }}
+  </button>
+  <!-- New Toggle Button -->
+  <button type="button" id="toggleColorBtn-{{ block.id }}" class="btn toggle-btn">
+    {{ block.settings.toggle_button_text }}
+  </button>
+
+  <!-- Popup Modal -->
+  <div id="personalizePopup-{{ block.id }}" class="personalize-popup">
+    <div class="popup-overlay" id="popupOverlay-{{ block.id }}"></div>
+    <div class="popup-container">
+      <div class="popup-content">
+        <button type="button" class="close-btn" id="closePersonalizePopup-{{ block.id }}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        
+        <div class="popup-header">
+          <h3>{{ block.settings.popup_title }}</h3>
+          <p class="popup-subtitle">{{ block.settings.popup_subtitle }}</p>
+        </div>
+        
+        <form id="personalizeForm-{{ block.id }}" class="personalize-form">
+
+          <!-- Dropdown -->
+          <div class="form-group">
+            <label class="form-label">{{ block.settings.dropdown_label }}</label>
+            <select name="personalize_option" id="personalizeOption-{{ block.id }}" class="form-select"></select>
+          </div>
+          
+          <!-- Conditional Input Fields for Option 1 -->
+          {% if block.settings.option1_product != blank and dropdown_options[0] != blank %}
+            {% assign option1_product = all_products[block.settings.option1_product] %}
+            {% if option1_product %}
+              <div id="option1-fields-{{ block.id }}" class="option-fields" style="display:none;">
+                {% if block.settings.option1_field1_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option1_field1_label }}</label>
+                    <input type="text" name="option1_field1" placeholder="{{ block.settings.option1_field1_placeholder }}" data-label="{{ block.settings.option1_field1_label }}" class="form-input" />
+                  </div>
+                {% endif %}
+
+                <!-- ✅ New Field (controlled by schema checkbox) -->
+                {% if block.settings.option1_field4_enable and block.settings.option1_field4_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option1_field4_label }}</label>
+                    <input type="text" name="option1_field4" placeholder="{{ block.settings.option1_field4_placeholder }}" data-label="{{ block.settings.option1_field4_label }}" class="form-input" />
+                  </div>
+                {% endif %}
+                
+                {% if block.settings.option1_field2_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option1_field2_label }}</label>
+                    {% assign option1_field2_options = block.settings.option1_field2_options | split: ',' %}
+                    <select name="option1_field2" data-label="{{ block.settings.option1_field2_label }}" class="form-select">
+                      {% for option in option1_field2_options %}
+                        <option value="{{ option | strip }}">{{ option | strip }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+                {% if block.settings.option1_field3_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option1_field3_label }}</label>
+                    {% assign option1_field3_options = block.settings.option1_field3_options | split: ',' %}
+                    <select name="option1_field3" data-label="{{ block.settings.option1_field3_label }}" class="form-select">
+                      {% for option in option1_field3_options %}
+                        <option value="{{ option | strip }}">{{ option | strip }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <!-- Conditional Input Fields for Option 2 -->
+          {% if block.settings.option2_product != blank and dropdown_options[1] != blank %}
+            {% assign option2_product = all_products[block.settings.option2_product] %}
+            {% if option2_product %}
+              <div id="option2-fields-{{ block.id }}" class="option-fields" style="display:none;">
+                {% if block.settings.option2_field1_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option2_field1_label }}</label>
+                    <input type="text" name="option2_field1" placeholder="{{ block.settings.option2_field1_placeholder }}" data-label="{{ block.settings.option2_field1_label }}" class="form-input" />
+                  </div>
+                {% endif %}
+                {% if block.settings.option2_field2_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option2_field2_label }}</label>
+                    <input type="text" name="option2_field2" placeholder="{{ block.settings.option2_field2_placeholder }}" data-label="{{ block.settings.option2_field2_label }}" class="form-input" />
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <!-- Conditional Input Fields for Option 3 -->
+          {% if block.settings.option3_product != blank and dropdown_options[2] != blank %}
+            {% assign option3_product = all_products[block.settings.option3_product] %}
+            {% if option3_product %}
+              <div id="option3-fields-{{ block.id }}" class="option-fields" style="display:none;">
+                {% if block.settings.option3_field1_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option3_field1_label }}</label>
+                    <input type="text" name="option3_field1" placeholder="{{ block.settings.option3_field1_placeholder }}" data-label="{{ block.settings.option3_field1_label }}" class="form-input" />
+                  </div>
+                {% endif %}
+                {% if block.settings.option3_field2_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option3_field2_label }}</label>
+                    {% assign option3_field2_options = block.settings.option3_field2_options | split: ',' %}
+                    <select name="option3_field2" data-label="{{ block.settings.option3_field2_label }}" class="form-select">
+                      {% for option in option3_field2_options %}
+                        <option value="{{ option | strip }}">{{ option | strip }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+                {% if block.settings.option3_field3_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option3_field3_label }}</label>
+                    {% assign option3_field3_options = block.settings.option3_field3_options | split: ',' %}
+                    <select name="option3_field3" data-label="{{ block.settings.option3_field3_label }}" class="form-select">
+                      {% for option in option3_field3_options %}
+                        <option value="{{ option | strip }}">{{ option | strip }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <!-- Conditional Input Fields for Option 4 -->
+          {% if block.settings.option4_product != blank and dropdown_options[3] != blank %}
+            {% assign option4_product = all_products[block.settings.option4_product] %}
+            {% if option4_product %}
+              <div id="option4-fields-{{ block.id }}" class="option-fields" style="display:none;">
+                {% if block.settings.option4_field1_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option4_field1_label }}</label>
+                    <input type="text" name="option4_field1" placeholder="{{ block.settings.option4_field1_placeholder }}" data-label="{{ block.settings.option4_field1_label }}" class="form-input" />
+                  </div>
+                {% endif %}
+                {% if block.settings.option4_field2_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option4_field2_label }}</label>
+                    {% assign option4_field2_options = block.settings.option4_field2_options | split: ',' %}
+                    <select name="option4_field2" data-label="{{ block.settings.option4_field2_label }}" class="form-select">
+                      {% for option in option4_field2_options %}
+                        <option value="{{ option | strip }}">{{ option | strip }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+                {% if block.settings.option4_field3_label != blank %}
+                  <div class="form-group">
+                    <label class="form-label">{{ block.settings.option4_field3_label }}</label>
+                    {% assign option4_field3_options = block.settings.option4_field3_options | split: ',' %}
+                    <select name="option4_field3" data-label="{{ block.settings.option4_field3_label }}" class="form-select">
+                      {% for option in option4_field3_options %}
+                        <option value="{{ option | strip }}">{{ option | strip }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <!-- Product Variant Selector -->
+          <div id="product-selector-{{ block.id }}" class="product-selector">
+            <div class="form-group">
+              <label class="form-label">{{ block.settings.product_label }}</label>
+              <select id="variant-select-{{ block.id }}" class="form-select"></select>
+            </div>
+          </div>
+
+          <!-- Selected Variants (below parent product & personalization fields) -->
+          <div class="form-group">
+            <label class="form-label">Selected Variants</label>
+            <div class="selected-variants" id="selectedVariants-{{ block.id }}"></div>
+          </div>
+
+          <!-- Add to Cart Button -->
+          <button type="submit" class="submit-btn">{{ block.settings.add_to_cart_text }}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const option1Fields = document.getElementById("option1-fields-{{ block.id }}");
+  if (!option1Fields) return;
+
+  // ======= MASTER LIST =======
+
+  // Fonts allowed (Google vs System)
+  const allowedFonts = {
+    // Google Fonts (will be loaded dynamically)
+    "Sacramento": { family: "Sacramento", google: true },
+    "Oswald Regular": { family: "Oswald", google: true },
+    "Dancing Script": { family: "Dancing Script", google: true },
+    "Aleo": { family: "Aleo", google: true },
+
+    // System fonts (already installed on devices)
+    "Arial": { family: "Arial, sans-serif", google: false },
+    "Arial Rounded": { family: "Arial Rounded MT Bold, Arial, sans-serif", google: false },
+    "Times Roman": { family: "'Times New Roman', serif", google: false },
+    "Calibri": { family: "Calibri, sans-serif", google: false },
+    "Comics": { family: "'Comic Sans MS', cursive, sans-serif", google: false },
+    "Bodoni": { family: "Bodoni, serif", google: false },
+
+    // Placeholder for fonts you listed but aren’t in Google/system
+    // 👉 These will only apply if you manually install or upload them
+    "Affectionately Yours": { family: "Affectionately Yours", google: false },
+    "Cheltenham Tall": { family: "Cheltenham Tall", google: false },
+    "Camaro": { family: "Camaro", google: false },
+    "Alfie Casual": { family: "Alfie Casual", google: false },
+    "Casual Serif": { family: "Casual Serif", google: false },
+    "Script3": { family: "Script3", google: false },
+    "COLLEGE": { family: "College", google: false },
+    "Block2": { family: "Block2", google: false },
+    "Serif1": { family: "Serif", google: false },
+    "Centurion": { family: "Centurion", google: false },
+    "Civic": { family: "Civic", google: false },
+    "Script6": { family: "Script6", google: false },
+    "Ballantines Script": { family: "Ballantines Script", google: false },
+    "City Medium": { family: "City Medium", google: false },
+    "Schoolbook": { family: "Schoolbook", google: false },
+    "Flares": { family: "Flares", google: false },
+    "Embassy BT": { family: "Embassy BT", google: false }
+  };
+
+  const allowedColors = {
+    "White": "#FFFFFF",
+    "Mallard Teal": "#085D63",
+    "Sky": "#67AEDD",
+    "Silver": "#C0C0C0",
+    "Sand": "#E6D0B4",
+    "Rose Gold": "#C48C74",
+    "Red": "#C8102E",
+    "Purple": "#4B0082",
+    "Purple Pansy": "#8B5FA5",
+    "Champagne": "#EFE1C6",
+    "Black": "#000000",
+    "Pink": "#FF69B4",
+    "Pale Blue": "#7EC8E3",
+    "Orange": "#FF6F1D",
+    "Olive Green": "#556B2F",
+    "Cream": "#FFFDD0",
+    "Nugget Gold": "#DAA520",
+    "Neon Yellow": "#FFFF33",
+    "Navy": "#000080",
+    "Mint": "#98FF98",
+    "Brown": "#8B4513",
+    "Baby Pink": "#F4C2C2",
+    "Maroon": "#800000",
+    "Magenta": "#FF00FF",
+    "Lilac": "#C8A2C8",
+    "Light Green": "#90EE90",
+    "Light Brown": "#C19A6B",
+    "Green": "#008000",
+    "Light Blue": "#ADD8E6",
+    "Grey": "#808080",
+    "Gold": "#FFD700",
+    "Bright Pink": "#FF007F",
+    "Autumn Orange": "#E25822",
+    "Forest Green": "#014421",
+    "Fluorescent Lime": "#39FF14",
+    "Flamingo Pink": "#FC8EAC",
+    "Dark Grey": "#333333",
+    "Dark Brown": "#4B3621",
+    "Dark Gold": "#B8860B",
+    "Dark Blue": "#00008B",
+    "Charcoal": "#36454F",
+    "Bottle Green": "#006A4E",
+    "Yellow": "#FFFF00"
+  };
+
+  // ======= PREVIEW TARGET =======
+  const previewEl = document.querySelector("#product-preview-text");
+
+  // ======= FONT DROPDOWN =======
+  const fontDropdown = option1Fields.querySelector('select[name="option1_field2"]');
+  if (fontDropdown) {
+    [...fontDropdown.options].forEach(opt => {
+      const fontName = opt.value.trim();
+      if (allowedFonts[fontName]) {
+        opt.style.fontFamily = allowedFonts[fontName].family;
+        if (allowedFonts[fontName].google) loadGoogleFont(allowedFonts[fontName].family);
+      } else {
+        opt.style.display = "none";
+      }
+    });
+
+    fontDropdown.addEventListener("change", function() {
+      const fontName = this.value.trim();
+      if (allowedFonts[fontName]) {
+        this.style.fontFamily = allowedFonts[fontName].family;
+        if (previewEl) previewEl.style.fontFamily = allowedFonts[fontName].family;
+        if (allowedFonts[fontName].google) loadGoogleFont(allowedFonts[fontName].family);
+      }
+    });
+  }
+
+  // ======= COLOR DROPDOWN =======
+  const colorDropdown = option1Fields.querySelector('select[name="option1_field3"]');
+  if (colorDropdown) {
+    [...colorDropdown.options].forEach(opt => {
+      const colorName = opt.value.trim();
+      if (allowedColors[colorName]) {
+        opt.style.backgroundColor = allowedColors[colorName];
+        opt.style.color = isLight(allowedColors[colorName]) ? "#000" : "#fff";
+      } else {
+        opt.style.display = "none";
+      }
+    });
+
+    colorDropdown.addEventListener("change", function() {
+      const colorName = this.value.trim();
+      if (allowedColors[colorName]) {
+        this.style.backgroundColor = allowedColors[colorName];
+        this.style.color = isLight(allowedColors[colorName]) ? "#000" : "#fff";
+        if (previewEl) previewEl.style.color = allowedColors[colorName];
+      }
+    });
+  }
+
+  // ======= FUNCTIONS =======
+  function loadGoogleFont(fontName) {
+    if (!fontName) return;
+    const formattedName = fontName.replace(/ /g, "+");
+    const existing = document.querySelector(`link[data-font="${formattedName}"]`);
+    if (existing) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = `https://fonts.googleapis.com/css2?family=${formattedName}:wght@400;700&display=swap`;
+    link.setAttribute("data-font", formattedName);
+    document.head.appendChild(link);
+  }
+
+  function isLight(color) {
+    const temp = document.createElement("div");
+    temp.style.color = color;
+    document.body.appendChild(temp);
+    const rgb = getComputedStyle(temp).color.match(/\d+/g).map(Number);
+    document.body.removeChild(temp);
+    const brightness = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
+    return brightness > 155;
+  }
+
+  // ======= INITIAL PREVIEW =======
+  if (previewEl) {
+    if (fontDropdown && allowedFonts[fontDropdown.value.trim()]) {
+      previewEl.style.fontFamily = allowedFonts[fontDropdown.value.trim()].family;
+      if (allowedFonts[fontDropdown.value.trim()].google) {
+        loadGoogleFont(allowedFonts[fontDropdown.value.trim()].family);
+      }
+    }
+    if (colorDropdown && allowedColors[colorDropdown.value.trim()]) {
+      previewEl.style.color = allowedColors[colorDropdown.value.trim()];
+    }
+  }
+});
+</script>
+
+
+<script>
+  
+document.addEventListener("DOMContentLoaded", function() {
+  const toggleBtn = document.getElementById("toggleColorBtn-{{ block.id }}");
+
+  if (toggleBtn) {
+    // Single click → change color
+    toggleBtn.addEventListener("click", function() {
+      this.classList.add("active-toggle");
+    });
+
+    // Double click → revert to original
+    toggleBtn.addEventListener("dblclick", function() {
+      this.classList.remove("active-toggle");
+    });
+  }
+  const openBtn = document.getElementById("openPersonalizePopup-{{ block.id }}");
+  const closeBtn = document.getElementById("closePersonalizePopup-{{ block.id }}");
+  const overlay = document.getElementById("popupOverlay-{{ block.id }}");
+  const popup = document.getElementById("personalizePopup-{{ block.id }}");
+  const form = document.getElementById("personalizeForm-{{ block.id }}");
+  const optionSelect = document.getElementById("personalizeOption-{{ block.id }}");
+  const variantSelect = document.getElementById("variant-select-{{ block.id }}");
+  const selectedVariantsContainer = document.getElementById("selectedVariants-{{ block.id }}");
+
+  let selectedVariants = [];
+  let currentOption = "";
+
+  // Dynamic mapping of available products
+  const optionsWithProducts = [];
+  {% if block.settings.option1_product != blank and dropdown_options[0] != blank %}
+    {% assign option1_product = all_products[block.settings.option1_product] %}
+    {% if option1_product %}
+      optionsWithProducts.push({
+        label: "{{ dropdown_options[0] | strip }}",
+        product: {{ option1_product | json }},
+        fieldsId: "option1-fields-{{ block.id }}"
+      });
+    {% endif %}
+  {% endif %}
+  {% if block.settings.option2_product != blank and dropdown_options[1] != blank %}
+    {% assign option2_product = all_products[block.settings.option2_product] %}
+    {% if option2_product %}
+      optionsWithProducts.push({
+        label: "{{ dropdown_options[1] | strip }}",
+        product: {{ option2_product | json }},
+        fieldsId: "option2-fields-{{ block.id }}"
+      });
+    {% endif %}
+  {% endif %}
+  {% if block.settings.option3_product != blank and dropdown_options[2] != blank %}
+    {% assign option3_product = all_products[block.settings.option3_product] %}
+    {% if option3_product %}
+      optionsWithProducts.push({
+        label: "{{ dropdown_options[2] | strip }}",
+        product: {{ option3_product | json }},
+        fieldsId: "option3-fields-{{ block.id }}"
+      });
+    {% endif %}
+  {% endif %}
+  {% if block.settings.option4_product != blank and dropdown_options[3] != blank %}
+    {% assign option4_product = all_products[block.settings.option4_product] %}
+    {% if option4_product %}
+      optionsWithProducts.push({
+        label: "{{ dropdown_options[3] | strip }}",
+        product: {{ option4_product | json }},
+        fieldsId: "option4-fields-{{ block.id }}"
+      });
+    {% endif %}
+  {% endif %}
+
+  if (openBtn && closeBtn && form && optionSelect) {
+    // Open/close popup
+    openBtn.addEventListener("click", () => {
+      popup.classList.add("active");
+      // document.body.style.overflow = 'hidden';  <-- remove this
+    });
+    function closePopup() {
+      popup.classList.remove("active");
+      // document.body.style.overflow = '';        <-- remove this too
+    }
+    closeBtn.addEventListener("click", closePopup);
+    overlay.addEventListener("click", closePopup);
+
+    // Populate dropdown dynamically
+    optionSelect.innerHTML = "";
+    optionsWithProducts.forEach(opt => {
+      const o = document.createElement("option");
+      o.value = opt.label;
+      o.textContent = opt.label;
+      optionSelect.appendChild(o);
+    });
+
+    // Update product variants
+    function updateProductVariants(selectedOption) {
+      const opt = optionsWithProducts.find(o => o.label === selectedOption);
+      const product = opt ? opt.product : null;
+      variantSelect.innerHTML = "";
+      selectedVariants = [];
+      selectedVariantsContainer.innerHTML = "";
+
+      if (product && product.variants && product.variants.length > 0) {
+        product.variants.forEach((variant, i) => {
+          const option = document.createElement("option");
+          option.value = variant.id;
+          option.textContent = `${variant.title} — $${(variant.price / 100).toFixed(2)}`;
+          option.setAttribute("data-image", variant.featured_image ? variant.featured_image.src : product.featured_image);
+          if (i === 0) option.selected = true;
+          variantSelect.appendChild(option);
+        });
+        // auto add first
+        const first = product.variants[0];
+        selectedVariants.push({
+          id: first.id,
+          title: `${first.title} — $${(first.price / 100).toFixed(2)}`,
+          image: first.featured_image ? first.featured_image.src : product.featured_image
+        });
+        renderSelectedVariants();
+      } else {
+        variantSelect.innerHTML = "<option value=''>No variants available</option>";
+      }
+    }
+
+    // Add variant
+    variantSelect.addEventListener("change", function() {
+      const selectedOption = variantSelect.options[variantSelect.selectedIndex];
+      if (!selectedOption || !selectedOption.value) return;
+      const variantId = selectedOption.value;
+      const variantTitle = selectedOption.textContent;
+      const imageSrc = selectedOption.getAttribute("data-image");
+      if (selectedVariants.find(v => v.id === variantId)) return;
+      selectedVariants.push({ id: variantId, title: variantTitle, image: imageSrc });
+      renderSelectedVariants();
+    });
+
+    // Render variants
+    function renderSelectedVariants() {
+      selectedVariantsContainer.innerHTML = "";
+      selectedVariants.forEach((variant, index) => {
+        const wrapper = document.createElement("div");
+        wrapper.classList.add("selected-variant");
+        const img = document.createElement("img");
+        img.src = variant.image;
+        img.alt = variant.title;
+        img.classList.add("variant-thumb");
+        const title = document.createElement("span");
+        title.textContent = variant.title;
+        const removeBtn = document.createElement("button");
+        removeBtn.innerHTML = "&times;";
+        removeBtn.classList.add("remove-variant");
+        removeBtn.addEventListener("click", () => {
+          selectedVariants.splice(index, 1);
+          renderSelectedVariants();
+        });
+        wrapper.appendChild(img);
+        wrapper.appendChild(title);
+        wrapper.appendChild(removeBtn);
+        selectedVariantsContainer.appendChild(wrapper);
+      });
+    }
+
+    // Toggle fields dynamically
+    function toggleFields(selectedOption) {
+      document.querySelectorAll(".option-fields").forEach(f => f.style.display = "none");
+      const opt = optionsWithProducts.find(o => o.label === selectedOption);
+      if (opt) {
+        const fieldsEl = document.getElementById(opt.fieldsId);
+        if (fieldsEl) fieldsEl.style.display = "block";
+        updateProductVariants(selectedOption);
+      }
+    }
+
+    optionSelect.addEventListener("change", function() {
+      currentOption = this.value;
+      toggleFields(this.value);
+    });
+
+    // Initialize
+    if (optionSelect.options.length > 0) {
+      currentOption = optionSelect.options[0].value;
+      toggleFields(currentOption);
+    }
+
+    // Submit handler
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      if (selectedVariants.length === 0) {
+        alert("⚠️ Please select at least one variant.");
+        return;
+      }
+
+      const formData = new FormData(form);
+      const selectedOption = formData.get("personalize_option");
+      const personalizationData = { "Selected Option": selectedOption };
+
+      // Collect only visible fields
+      const opt = optionsWithProducts.find(o => o.label === currentOption);
+      if (opt) {
+        const fieldsEl = document.getElementById(opt.fieldsId);
+        if (fieldsEl) {
+          const visibleFields = fieldsEl.querySelectorAll("input, select");
+          visibleFields.forEach(field => {
+            if (field.value && field.value.trim() !== "") {
+              const label = field.dataset.label || field.name;
+              personalizationData[label] = field.value;
+            }
+          });
+        }
+      }
+
+      const parentVariantId = document.querySelector('[name="id"]') ? document.querySelector('[name="id"]').value : {{ product.selected_or_first_available_variant.id }};
+// 1. Add selected variants info as properties to the parent product
+selectedVariants.forEach((v, i) => {
+  personalizationData[`Variant ${i + 1}`] = `${v.title}`;
+});
+
+// 2. Prepare parent item with personalization data
+const items = [
+  {
+    id: parentVariantId,
+    quantity: 1,
+    properties: personalizationData
+  }
+];
+
+// 3. Also add each selected variant as a separate line item
+selectedVariants.forEach(v => {
+  items.push({
+    id: v.id,
+    quantity: 1,
+    properties: { 
+      "Linked To": "{{ product.title }}", 
+      "Linked Option": selectedOption 
+    }
+  });
+});
+
+      fetch("/cart/add.js", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items })
+      })
+      .then(() => {
+        closePopup();
+        window.location.href = "/cart";
+      })
+      .catch(err => console.error("Cart add error:", err));
+    });
+  }
+});
+</script>
+
+
+
+<style>
+.toggle-btn {
+  background: linear-gradient(135deg, #DF467E, #c94c7c); /* Pink gradient */
+  color: #fff;
+  padding: 1.5rem 2.5rem;
+  border-radius: 9999px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(223,70,126,0.45); /* pink glow */
+  margin-right: 1rem;
+}
+
+.toggle-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(223,70,126,0.65); /* stronger pink glow */
+}
+
+.toggle-btn.active-toggle {
+  background: linear-gradient(135deg, #8AC546, #A7D46E); /* Green highlight with your color */
+  box-shadow: 0 10px 28px rgba(138,197,70,0.55);
+}
+
+.personalize-btn {
+  background: linear-gradient(135deg, #0B5295, #1E88E5); /* Deep blue → lighter blue */
+  color: #fff;
+  padding: 1.5rem 2.5rem;
+  border-radius: 9999px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(11, 82, 149, 0.35);
+}
+.personalize-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(11, 82, 149, 0.55);
+}
+
+.personalize-popup { 
+  display:none; 
+  position:fixed; 
+  top:0; left:0; 
+  width:100%; height:100%; 
+  z-index:10000; 
+  opacity:0; 
+  transition:opacity .3s ease; 
+}
+.personalize-popup.active { 
+  display:flex; 
+  justify-content:center; 
+  align-items:center; 
+  opacity:1; 
+}
+.popup-overlay { 
+  position:absolute; 
+  top:0; left:0; 
+  width:100%; height:100%; 
+  background:rgba(0, 0, 0, 0.75); 
+  backdrop-filter:blur(8px); 
+}
+.popup-container {
+  position: relative;
+  width: 100%;
+  max-width: 850px;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: 10001;
+}
+.popup-content { 
+  background: linear-gradient(180deg, #ffffff, #f3f8ff); 
+  border-radius:1.5rem; 
+  box-shadow:0 25px 60px -12px rgba(0,0,0,.35); 
+  padding:2.5rem; 
+  position:relative; 
+  animation:popupIn .4s cubic-bezier(.16,1,.3,1); 
+}
+.close-btn { 
+  position:absolute; 
+  top:1.25rem; 
+  right:1.25rem; 
+  background:#e0f0ff; 
+  border:none; 
+  width:2.5rem; 
+  height:2.5rem; 
+  border-radius:50%; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  cursor:pointer; 
+  color:#0B5295; 
+  transition:.25s; 
+}
+.close-btn:hover { 
+  background:#bbdefb; 
+  color:#083a6b; 
+  transform:rotate(90deg) scale(1.1); 
+}
+
+.popup-header { text-align:center; margin-bottom:2rem; }
+.popup-header h3 { 
+  font-size:2rem; 
+  font-weight:800; 
+  background:linear-gradient(135deg, #0B5295, #1E88E5); 
+  -webkit-background-clip:text; 
+  -webkit-text-fill-color:transparent; 
+  margin-bottom:.5rem; 
+}
+.popup-subtitle { 
+  color:#4b5563; 
+  font-size:1.1rem; 
+}
+
+.personalize-form { 
+  display:flex; 
+  flex-direction:column; 
+  gap:1.5rem; 
+}
+.form-group { display:flex; flex-direction:column; gap:.5rem; }
+.form-label { 
+  font-weight:700; 
+  color:#0B5295; 
+  font-size:1rem; 
+}
+.form-input,.form-select { 
+  padding:1rem 1.25rem; 
+  border:1px solid #90caf9; 
+  border-radius:.75rem; 
+  font-size:1rem; 
+  background:#fff; 
+  transition:all .25s ease; 
+}
+.form-input:focus,.form-select:focus { 
+  outline:none; 
+  border-color:#0B5295; 
+  box-shadow:0 0 0 4px rgba(11,82,149,.2); 
+  background:#fff; 
+}
+
+.option-fields { 
+  padding:1.5rem; 
+  background:linear-gradient(135deg, #f0f7ff, #ffffff); 
+  border-radius:1rem; 
+  display:grid; 
+  grid-template-columns:1fr; 
+  gap:1.25rem; 
+  border:1px solid #bbdefb; 
+}
+@media (min-width: 768px) {
+  .option-fields {
+    grid-template-columns: 1fr 1fr; /* two columns on desktop */
+  }
+}
+
+.product-selector { 
+}
+
+.selected-variants {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  margin-top: .5rem;
+  padding: 1rem;
+  background: #f3f8ff;
+  border: 1px solid #90caf9;
+  border-radius: 1rem;
+}
+.selected-variant { 
+  display:flex; 
+  align-items:center; 
+  gap:.75rem; 
+  padding:.75rem; 
+  border:1px solid #90caf9; 
+  border-radius:.75rem; 
+  background:#fff; 
+  transition:.2s; 
+}
+.selected-variant:hover { 
+  transform:scale(1.02); 
+  background:#f0f7ff; 
+}
+.variant-thumb { 
+  width:50px; 
+  height:50px; 
+  border-radius:.5rem; 
+  object-fit:cover; 
+  border:2px solid #0B5295; 
+}
+.remove-variant { 
+  margin-left:auto; 
+  background:#e3f2fd; 
+  border:none; 
+  color:#0B5295; 
+  font-size:1.25rem; 
+  font-weight:bold; 
+  cursor:pointer; 
+  border-radius:50%; 
+  width:32px; 
+  height:32px; 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  transition:.2s; 
+}
+.remove-variant:hover { 
+  background:#90caf9; 
+  color:#fff; 
+  transform:scale(1.1); 
+}
+
+.submit-btn { 
+  background:linear-gradient(135deg,#0B5295,#1E88E5); 
+  color:#fff; 
+  font-size:1.25rem; 
+  font-weight:700; 
+  padding:1.25rem 2rem; 
+  border-radius:.75rem; 
+  cursor:pointer; 
+  border:none; 
+  transition:.3s; 
+  margin-top:1rem; 
+  box-shadow:0 8px 20px rgba(11,82,149, 0.35);
+}
+.submit-btn:hover { 
+  transform:translateY(-3px) scale(1.02); 
+  box-shadow:0 12px 30px rgba(11,82,149, 0.5); 
+}
+
+@keyframes popupIn { 
+  from{opacity:0; transform:translateY(20px) scale(.95);} 
+  to{opacity:1; transform:translateY(0) scale(1);} 
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .popup-container {
+    max-width: 90%;
+    margin: 1rem;
+  }
+  
+  .popup-content {
+    padding: 1.5rem;
+  }
+  
+  .personalize-btn {
+    padding: 1rem 1.5rem;
+    font-size: 1.2rem;
+  }
+  .toggle-btn {
+    padding: 1rem 1.5rem;
+    font-size: 1.2rem;
+}
+}
+
+</style>

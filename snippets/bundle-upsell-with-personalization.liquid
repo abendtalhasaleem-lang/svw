@@ -1,0 +1,1197 @@
+<style>
+.personalized-bundle-wrapper {
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  margin: 3rem auto;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  max-width: 1200px;
+  border: 1px solid #f0f0f0;
+}
+
+.personalized-bundle-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.personalized-bundle-header h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #111;
+  position: relative;
+  display: inline-block;
+}
+
+.personalized-bundle-header h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
+}
+
+.personalized-bundle-price {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2a2a2a;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.personalized-bundle-item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+}
+
+.personalized-bundle-item:last-child {
+  border-bottom: none;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+}
+
+.personalized-bundle-image {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  height: 150px;
+}
+
+.personalized-bundle-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.personalized-bundle-image:hover img {
+  transform: scale(1.05);
+}
+
+.personalized-bundle-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #222;
+  line-height: 1.3;
+}
+
+.variant-option {
+  margin-top: 1.5rem;
+}
+
+.variant-option label {
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  display: block;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.selected-color-display,
+.selected-size-display {
+  margin-bottom: 1rem;
+  padding: 0.8rem 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #000;
+  display: none;
+  animation: slideIn 0.3s ease;
+}
+
+.selected-color-display.active,
+.selected-size-display.active {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selected-color-preview {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  border: 2px solid #fff;
+}
+
+.selected-color-text,
+.selected-size-text {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+.color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 0.5rem;
+}
+
+.swatch {
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.swatch input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.swatch-color {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 3px solid transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.swatch-color:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.swatch:hover .swatch-color {
+  transform: scale(1.15);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.swatch input[type="radio"]:checked + .swatch-color {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px white, 0 0 0 5px #000;
+  border-color: #fff;
+}
+
+.swatch input[type="radio"]:checked + .swatch-color:after {
+  border-color: rgba(255,255,255,0.3);
+}
+
+.size-selection {
+  margin-top: 1.5rem;
+}
+
+.size-select {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 10px;
+  margin-top: 0.8rem;
+}
+
+.size-option {
+  position: relative;
+}
+
+.size-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.size-label {
+  display: block;
+  padding: 12px 8px;
+  text-align: center;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  color: #555;
+  background: #f8f8f8;
+}
+
+.size-option:hover .size-label {
+  border-color: #ccc;
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.size-option input[type="radio"]:checked + .size-label {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.selection-summary {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid #000;
+  display: none;
+}
+
+.selection-summary.active {
+  display: block;
+  animation: slideIn 0.5s ease;
+}
+
+.selection-summary p {
+  margin: 0.3rem 0;
+  font-weight: 500;
+  color: #333;
+}
+
+.selection-summary .color-preview {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.validation-message {
+  color: #dc3545;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  display: none;
+  font-weight: 500;
+}
+
+.personalized-bundle-submit {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.personalized-bundle-button {
+  padding: 18px 32px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: auto;
+  min-width: 300px;
+  background: linear-gradient(90deg, #000000, #333333);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.personalized-bundle-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  opacity: 0.95;
+}
+
+.personalized-bundle-button:active {
+  transform: translateY(0);
+}
+
+.personalized-bundle-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  background: #ccc;
+}
+
+.loading-spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s ease-in-out infinite;
+}
+
+/* Modal styles */
+.personalize-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.personalize-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 720px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  padding: 1.5rem;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.personalize-modal h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+}
+
+.personalize-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.personalize-row .full {
+  grid-column: 1 / -1;
+}
+
+.personalize-field label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.personalize-field input[type="text"],
+.personalize-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e3e3e3;
+  outline: none;
+  font-size: 1rem;
+  background: #fff;
+}
+
+.personalize-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-secondary {
+  background: #f3f3f3;
+  color: #333;
+}
+
+.btn-primary {
+  background: #111;
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .personalize-row {
+    grid-template-columns: 1fr;
+  }
+
+  .personalized-bundle-item {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .personalized-bundle-image {
+    max-width: 200px;
+    margin: 0 auto;
+    height: 200px;
+  }
+
+  .personalized-bundle-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .personalized-bundle-button {
+    width: 100%;
+    min-width: auto;
+    padding: 16px 24px;
+    font-size: 1.2rem;
+  }
+
+  .size-select {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .personalized-bundle-wrapper {
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+  }
+
+  .swatch-color {
+    width: 32px;
+    height: 32px;
+  }
+
+  .size-label {
+    padding: 10px 6px;
+    font-size: 0.9rem;
+  }
+
+  .selected-color-display,
+  .selected-size-display {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .selected-color-preview {
+    width: 20px;
+    height: 20px;
+  }
+}
+.personalize-open-btn {
+  background: maroon !important;
+  color: #fff !important;
+  border: none;
+  padding: 16px 25px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.personalize-open-btn:hover {
+  opacity: 0.9;
+}
+
+/* After clicked (active state) */
+.personalize-open-btn.active {
+  background: #006400 !important; /* dark green */
+  color: #fff !important;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
+
+<div class="personalized-bundle-wrapper">
+  <div class="personalized-bundle-header">
+    <h2>{{ block.settings.bundle_main_heading }}</h2>
+    <div class="personalized-bundle-price">{{ product.price | money }}</div>
+  </div>
+
+  <form id="personalized-bundle-form">
+    {% for i in (1..2) %}
+      {% assign setting_key = "bundle_product_" | append: i %}
+      {% assign heading_key = "heading_" | append: i %}
+      {% assign product_setting = block.settings[setting_key] %}
+      {% if product_setting != blank %}
+        {% assign bundle_product = all_products[product_setting] %}
+        {% if bundle_product %}
+          <div class="personalized-bundle-item" data-product-index="{{ i }}">
+            <div class="personalized-bundle-image">
+              <img src="{{ bundle_product.featured_image | image_url: width: 300 }}" alt="{{ bundle_product.title }}" loading="lazy">
+            </div>
+            <div class="personalized-bundle-content">
+              <h3>{{ block.settings[heading_key] | default: bundle_product.title }}</h3>
+
+              {% for option in bundle_product.options_with_values %}
+                {% assign option_handle = option.name | handleize %}
+                <div class="variant-option">
+                  <label>{{ option.name }}</label>
+                  
+                  {% assign opt_lower = option.name | downcase %}
+                  {% if opt_lower contains 'color' or opt_lower contains 'colour' or opt_lower contains 'shade' %}
+                    <div class="selected-color-display" id="selected-color-{{ option_handle }}-{{ i }}">
+                      <div class="selected-color-preview"></div>
+                      <span class="selected-color-text">Selected: <span class="selected-color-value"></span></span>
+                    </div>
+                  {% else %}
+                    <div class="selected-size-display" id="selected-size-{{ option_handle }}-{{ i }}">
+                      <span class="selected-size-text">Selected: <span class="selected-size-value"></span></span>
+                    </div>
+                  {% endif %}
+
+                  {% if opt_lower contains 'color' or opt_lower contains 'colour' or opt_lower contains 'shade' %}
+                    <div class="color-swatches">
+                      {% for value in option.values %}
+                        <label class="swatch" title="{{ value }}">
+                          <input 
+                            type="radio" 
+                            name="{{ option_handle }}_{{ i }}" 
+                            value="{{ value }}" 
+                            data-option-name="{{ option.name }}" 
+                            data-product-index="{{ i }}" 
+                            required
+                          >
+                          <span class="swatch-color" style="background-color: {{ value | downcase | replace: ' ', '' }}"></span>
+                        </label>
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    <div class="size-select">
+                      {% for value in option.values %}
+                        <div class="size-option">
+                          <input 
+                            type="radio" 
+                            name="{{ option_handle }}_{{ i }}" 
+                            value="{{ value }}" 
+                            id="{{ option_handle }}_{{ i }}_{{ forloop.index }}" 
+                            data-option-name="{{ option.name }}" 
+                            data-product-index="{{ i }}" 
+                            required
+                          >
+                          <label for="{{ option_handle }}_{{ i }}_{{ forloop.index }}" class="size-label">
+                            {{ value }}
+                          </label>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+
+                  <div class="validation-message" id="validation-{{ option_handle }}-{{ i }}">
+                    Please select a {{ option.name }}
+                  </div>
+                </div>
+              {% endfor %}
+
+              <!-- PERSONALIZE BUTTON -->
+              <div class="variant-option">
+                <button type="button" class="btn btn-secondary personalize-open-btn" data-product-index="{{ i }}">
+                  {{ block.settings.personalize_button_label | default: "Personalize" }}
+                </button>
+
+                <div class="selection-summary personalize-summary" id="personalize-summary-{{ i }}">
+                  <p><strong>{{ block.settings.personalize_summary_label | default: "Personalization:" }}</strong></p>
+                  <div class="personalize-summary-content" id="personalize-summary-content-{{ i }}"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+
+    <div class="personalized-bundle-submit">
+      <button type="submit" class="personalized-bundle-button" id="bundle-submit-btn" disabled>
+        <span class="button-text">Add Bundle to Cart - {{ product.price | money }}</span>
+        <div class="loading-spinner"></div>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Personalize Modal Backdrop (single modal reused, content changes based on product-index) -->
+<div class="personalize-modal-backdrop" id="personalize-modal-backdrop" aria-hidden="true">
+  <div class="personalize-modal" role="dialog" aria-modal="true" aria-labelledby="personalize-modal-title">
+    <h4 id="personalize-modal-title">{{ block.settings.personalize_modal_heading | default: "Personalize your item" }}</h4>
+
+    <div class="personalize-row">
+      <div class="personalize-field full">
+        <label for="personalize-field-1">{{ block.settings.personalize_field1_label | default: "Personalization Line 1 (Required)" }}</label>
+        <input type="text" id="personalize-field-1" data-field="field1" placeholder="{{ block.settings.personalize_field1_placeholder | default: 'Enter text...' }}" required>
+        <div class="validation-message" id="personalize-field1-validation" style="display:none;">This field is required</div>
+      </div>
+
+      {% if block.settings.show_optional_field %}
+        <div class="personalize-field full">
+          <label for="personalize-field-2">{{ block.settings.personalize_field2_label | default: "Personalization Line 2 (Optional)" }}</label>
+          <input type="text" id="personalize-field-2" data-field="field2" placeholder="{{ block.settings.personalize_field2_placeholder | default: 'Optional text...' }}">
+        </div>
+      {% endif %}
+
+      <div class="personalize-field">
+        <label for="personalize-dropdown-1">{{ block.settings.personalize_dropdown1_label | default: "Dropdown 1" }}</label>
+        <select id="personalize-dropdown-1" data-field="drop1">
+          {% assign opts = block.settings.personalize_dropdown1_options | default: "Option A,Option B,Option C" | split: ',' %}
+          {% for opt in opts %}
+            <option value="{{ opt | strip }}">{{ opt | strip }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="personalize-field">
+        <label for="personalize-dropdown-2">{{ block.settings.personalize_dropdown2_label | default: "Dropdown 2" }}</label>
+        <select id="personalize-dropdown-2" data-field="drop2">
+          {% assign opts2 = block.settings.personalize_dropdown2_options | default: "Option 1,Option 2,Option 3" | split: ',' %}
+          {% for opt in opts2 %}
+            <option value="{{ opt | strip }}">{{ opt | strip }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="personalize-field">
+        <label for="personalize-dropdown-3">{{ block.settings.personalize_dropdown3_label | default: "Dropdown 3" }}</label>
+        <select id="personalize-dropdown-3" data-field="drop3">
+          {% assign opts3 = block.settings.personalize_dropdown3_options | default: "Choice 1,Choice 2,Choice 3" | split: ',' %}
+          {% for opt in opts3 %}
+            <option value="{{ opt | strip }}">{{ opt | strip }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="personalize-actions">
+      <button type="button" class="btn btn-secondary" id="personalize-cancel-btn">{{ block.settings.personalize_cancel_label | default: "Cancel" }}</button>
+      <button type="button" class="btn btn-primary" id="personalize-save-btn">{{ block.settings.personalize_save_label | default: "Save" }}</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const bundleProducts = {};
+
+  {% for i in (1..2) %}
+    {% assign setting_key = "bundle_product_" | append: i %}
+    {% assign product_setting = block.settings[setting_key] %}
+    {% if product_setting != blank %}
+      {% assign bundle_product = all_products[product_setting] %}
+      {% if bundle_product %}
+        bundleProducts[{{ i }}] = {
+          id: {{ bundle_product.id }},
+          title: "{{ bundle_product.title | escape }}",
+          options: {{ bundle_product.options | json }},
+          variants: [
+            {% for variant in bundle_product.variants %}
+              {
+                id: {{ variant.id }},
+                options: [
+                  "{{ variant.option1 | escape }}",
+                  "{{ variant.option2 | default: '' | escape }}",
+                  "{{ variant.option3 | default: '' | escape }}"
+                ],
+                available: {{ variant.available }}
+              }{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          ]
+        };
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+
+  // Store personalization per product index
+  const personalizationStore = {};
+
+ // ======= MASTER LIST =======
+  const allowedFonts = {  // Google Fonts (will be loaded dynamically)
+    "Sacramento": { family: "Sacramento", google: true },
+    "Oswald Regular": { family: "Oswald", google: true },
+    "Dancing Script": { family: "Dancing Script", google: true },
+    "Aleo": { family: "Aleo", google: true },
+
+    // System fonts (already installed on devices)
+    "Arial": { family: "Arial, sans-serif", google: false },
+    "Arial Rounded": { family: "Arial Rounded MT Bold, Arial, sans-serif", google: false },
+    "Times Roman": { family: "'Times New Roman', serif", google: false },
+    "Calibri": { family: "Calibri, sans-serif", google: false },
+    "Comics": { family: "'Comic Sans MS', cursive, sans-serif", google: false },
+    "Bodoni": { family: "Bodoni, serif", google: false },
+
+    // Placeholder for fonts you listed but aren’t in Google/system
+    // 👉 These will only apply if you manually install or upload them
+    "Affectionately Yours": { family: "Affectionately Yours", google: false },
+    "Cheltenham Tall": { family: "Cheltenham Tall", google: false },
+    "Camaro": { family: "Camaro", google: false },
+    "Alfie Casual": { family: "Alfie Casual", google: false },
+    "Casual Serif": { family: "Casual Serif", google: false },
+    "Script3": { family: "Script3", google: false },
+    "COLLEGE": { family: "College", google: false },
+    "Block2": { family: "Block2", google: false },
+    "Serif1": { family: "Serif", google: false },
+    "Centurion": { family: "Centurion", google: false },
+    "Civic": { family: "Civic", google: false },
+    "Script6": { family: "Script6", google: false },
+    "Ballantines Script": { family: "Ballantines Script", google: false },
+    "City Medium": { family: "City Medium", google: false },
+    "Schoolbook": { family: "Schoolbook", google: false },
+    "Flares": { family: "Flares", google: false },
+    "Embassy BT": { family: "Embassy BT", google: false }
+  };
+
+  const allowedColors = {
+    "White": "#FFFFFF",
+    "Mallard Teal": "#085D63",
+    "Sky": "#67AEDD",
+    "Silver": "#C0C0C0",
+    "Sand": "#E6D0B4",
+    "Rose Gold": "#C48C74",
+    "Red": "#C8102E",
+    "Purple": "#4B0082",
+    "Purple Pansy": "#8B5FA5",
+    "Champagne": "#EFE1C6",
+    "Black": "#000000",
+    "Pink": "#FF69B4",
+    "Pale Blue": "#7EC8E3",
+    "Orange": "#FF6F1D",
+    "Olive Green": "#556B2F",
+    "Cream": "#FFFDD0",
+    "Nugget Gold": "#DAA520",
+    "Neon Yellow": "#FFFF33",
+    "Navy": "#000080",
+    "Mint": "#98FF98",
+    "Brown": "#8B4513",
+    "Baby Pink": "#F4C2C2",
+    "Maroon": "#800000",
+    "Magenta": "#FF00FF",
+    "Lilac": "#C8A2C8",
+    "Light Green": "#90EE90",
+    "Light Brown": "#C19A6B",
+    "Green": "#008000",
+    "Light Blue": "#ADD8E6",
+    "Grey": "#808080",
+    "Gold": "#FFD700",
+    "Bright Pink": "#FF007F",
+    "Autumn Orange": "#E25822",
+    "Forest Green": "#014421",
+    "Fluorescent Lime": "#39FF14",
+    "Flamingo Pink": "#FC8EAC",
+    "Dark Grey": "#333333",
+    "Dark Brown": "#4B3621",
+    "Dark Gold": "#B8860B",
+    "Dark Blue": "#00008B",
+    "Charcoal": "#36454F",
+    "Bottle Green": "#006A4E",
+    "Yellow": "#FFFF00"
+    // shortened for example; add rest as needed
+  };
+
+  // ======= PREVIEW TARGET =======
+  const previewEl = document.querySelector("#product-preview-text");
+
+  // ======= FONT DROPDOWN =======
+  const fontDropdown = document.getElementById("personalize-dropdown-1");
+  if (fontDropdown) {
+    [...fontDropdown.options].forEach(opt => {
+      const fontName = opt.value.trim();
+      if (allowedFonts[fontName]) {
+        opt.style.fontFamily = allowedFonts[fontName].family;
+        if (allowedFonts[fontName].google) loadGoogleFont(allowedFonts[fontName].family);
+      } else {
+        opt.style.display = "none";
+      }
+    });
+
+    // apply font on change
+    fontDropdown.addEventListener("change", function() {
+      const fontName = this.value.trim();
+      if (allowedFonts[fontName]) {
+        this.style.fontFamily = allowedFonts[fontName].family; // show font in dropdown
+        if (previewEl) previewEl.style.fontFamily = allowedFonts[fontName].family;
+        if (allowedFonts[fontName].google) loadGoogleFont(allowedFonts[fontName].family);
+      }
+    });
+
+    // initial font styling on the dropdown itself
+    if (allowedFonts[fontDropdown.value.trim()]) {
+      fontDropdown.style.fontFamily = allowedFonts[fontDropdown.value.trim()].family;
+    }
+  }
+
+  // ======= COLOR DROPDOWN =======
+  const colorDropdown = document.getElementById("personalize-dropdown-2");
+  if (colorDropdown) {
+    [...colorDropdown.options].forEach(opt => {
+      const colorName = opt.value.trim();
+      if (allowedColors[colorName]) {
+        opt.style.backgroundColor = allowedColors[colorName];
+        opt.style.color = isLight(allowedColors[colorName]) ? "#000" : "#fff";
+      } else {
+        opt.style.display = "none";
+      }
+    });
+
+    // apply color on change
+    colorDropdown.addEventListener("change", function() {
+      const colorName = this.value.trim();
+      if (allowedColors[colorName]) {
+        // set dropdown's visible selection color
+        this.style.backgroundColor = allowedColors[colorName];
+        this.style.color = isLight(allowedColors[colorName]) ? "#000" : "#fff";
+        if (previewEl) previewEl.style.color = allowedColors[colorName];
+      }
+    });
+
+    // initial color styling on dropdown itself
+    if (allowedColors[colorDropdown.value.trim()]) {
+      colorDropdown.style.backgroundColor = allowedColors[colorDropdown.value.trim()];
+      colorDropdown.style.color = isLight(allowedColors[colorDropdown.value.trim()]) ? "#000" : "#fff";
+    }
+  }
+
+  // ======= HELPER FUNCTIONS =======
+  function loadGoogleFont(fontName) {
+    if (!fontName) return;
+    const formattedName = fontName.replace(/ /g, "+");
+    const existing = document.querySelector(`link[data-font="${formattedName}"]`);
+    if (existing) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = `https://fonts.googleapis.com/css2?family=${formattedName}:wght@400;700&display=swap`;
+    link.setAttribute("data-font", formattedName);
+    document.head.appendChild(link);
+  }
+
+  function isLight(color) {
+    const temp = document.createElement("div");
+    temp.style.color = color;
+    document.body.appendChild(temp);
+    const rgb = getComputedStyle(temp).color.match(/\d+/g).map(Number);
+    document.body.removeChild(temp);
+    const brightness = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
+    return brightness > 155;
+  }
+
+  // ======= INITIAL PREVIEW =======
+  if (previewEl) {
+    if (fontDropdown && allowedFonts[fontDropdown.value.trim()]) {
+      previewEl.style.fontFamily = allowedFonts[fontDropdown.value.trim()].family;
+    }
+    if (colorDropdown && allowedColors[colorDropdown.value.trim()]) {
+      previewEl.style.color = allowedColors[colorDropdown.value.trim()];
+    }
+  }
+
+  // Modal elements (single modal reused)
+  const modalBackdrop = document.getElementById('personalize-modal-backdrop');
+  const modalSaveBtn = document.getElementById('personalize-save-btn');
+  const modalCancelBtn = document.getElementById('personalize-cancel-btn');
+  const modalField1 = document.getElementById('personalize-field-1');
+  const modalField2 = document.getElementById('personalize-field-2');
+  const modalDrop1 = document.getElementById('personalize-dropdown-1');
+  const modalDrop2 = document.getElementById('personalize-dropdown-2');
+  const modalDrop3 = document.getElementById('personalize-dropdown-3');
+  const field1Validation = document.getElementById('personalize-field1-validation');
+
+  let currentModalProductIndex = null;
+
+  
+  // Utility to update selection display (color/size)
+  function updateSelectionDisplay(optionName, productIndex, value) {
+    const optionHandle = optionName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const optLower = optionName.toLowerCase();
+
+    if (optLower.includes('color') || optLower.includes('colour') || optLower.includes('shade')) {
+      const display = document.getElementById(`selected-color-${optionHandle}-${productIndex}`);
+      const preview = display.querySelector('.selected-color-preview');
+      const valueSpan = display.querySelector('.selected-color-value');
+
+      display.classList.add('active');
+      preview.style.backgroundColor = value.toLowerCase().replace(' ', '');
+      valueSpan.textContent = value;
+    } else {
+      const display = document.getElementById(`selected-size-${optionHandle}-${productIndex}`);
+      const valueSpan = display.querySelector('.selected-size-value');
+
+      display.classList.add('active');
+      valueSpan.textContent = value;
+    }
+  }
+
+  // Validate main form selection requirements
+  function validateForm() {
+    let isValid = true;
+    document.querySelectorAll('.personalized-bundle-item').forEach(item => {
+      const productIndex = item.dataset.productIndex;
+      const productData = bundleProducts[productIndex];
+
+      if (!productData) return;
+
+      productData.options.forEach((optName) => {
+        const optionHandle = optName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        const selected = item.querySelector(`input[name="${optionHandle}_${productIndex}"]:checked`);
+        const validation = document.getElementById(`validation-${optionHandle}-${productIndex}`);
+
+        if (!selected) {
+          validation.style.display = 'block';
+          isValid = false;
+        } else {
+          validation.style.display = 'none';
+        }
+      });
+
+      // Also ensure personalization required field is present for this product if the merchant requires it.
+      // (We don't force personalization on the whole form by default; only when user saved data)
+    });
+
+    document.getElementById('bundle-submit-btn').disabled = !isValid;
+    return isValid;
+  }
+
+  // Hook radios change
+  document.querySelectorAll('input[type="radio"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      const optionName = this.dataset.optionName;
+      const productIndex = this.dataset.productIndex;
+      const value = this.value;
+
+      updateSelectionDisplay(optionName, productIndex, value);
+      validateForm();
+    });
+  });
+
+  // Personalize open button handlers
+document.querySelectorAll('.personalize-open-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const pIndex = this.dataset.productIndex;
+    currentModalProductIndex = pIndex;
+
+    // Toggle button color (mark active)
+    document.querySelectorAll('.personalize-open-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+
+
+// Prefill modal if stored
+const saved = personalizationStore[pIndex];
+if (saved) {
+  modalField1.value = saved.field1 || '';
+  if (modalField2) modalField2.value = saved.field2 || ''; // Safely set field2
+  modalDrop1.value = saved.drop1 || modalDrop1.options[0].value;
+  modalDrop2.value = saved.drop2 || modalDrop2.options[0].value;
+  modalDrop3.value = saved.drop3 || modalDrop3.options[0].value;
+} else {
+  // defaults
+  modalField1.value = '';
+  if (modalField2) modalField2.value = ''; // Safely clear field2
+  modalDrop1.selectedIndex = 0;
+  modalDrop2.selectedIndex = 0;
+  modalDrop3.selectedIndex = 0;
+}
+
+      field1Validation.style.display = 'none';
+      openModal();
+    });
+  });
+
+  function openModal() {
+    modalBackdrop.style.display = 'flex';
+    modalBackdrop.setAttribute('aria-hidden', 'false');
+    // trap focus if you want (not implemented for brevity)
+  }
+
+  function closeModal() {
+    modalBackdrop.style.display = 'none';
+    modalBackdrop.setAttribute('aria-hidden', 'true');
+    currentModalProductIndex = null;
+  }
+
+  modalCancelBtn.addEventListener('click', function() {
+    closeModal();
+  });
+
+  modalBackdrop.addEventListener('click', function(e) {
+    if (e.target === modalBackdrop) {
+      closeModal();
+    }
+  });
+
+// Save personalization for current product index
+modalSaveBtn.addEventListener('click', function() {
+  const f1 = modalField1.value.trim();
+  // Safely get field2 value - use empty string if element doesn't exist
+  const f2 = modalField2 ? modalField2.value.trim() : '';
+  const d1 = modalDrop1.value;
+  const d2 = modalDrop2.value;
+  const d3 = modalDrop3.value;
+
+  // first field required
+  if (!f1) {
+    field1Validation.style.display = 'block';
+    return;
+  } else {
+    field1Validation.style.display = 'none';
+  }
+
+  if (!currentModalProductIndex) return;
+
+  personalizationStore[currentModalProductIndex] = {
+    field1: f1,
+    field2: f2, // This will be empty string if field2 doesn't exist
+    drop1: d1,
+    drop2: d2,
+    drop3: d3
+  };
+
+    // update summary display under product
+    const summaryWrap = document.getElementById(`personalize-summary-${currentModalProductIndex}`);
+    const summaryContent = document.getElementById(`personalize-summary-content-${currentModalProductIndex}`);
+    if (summaryWrap && summaryContent) {
+      summaryWrap.classList.add('active');
+      // build summary markup
+      const lines = [];
+      const label1 = "{{ block.settings.personalize_field1_label | escape | default: 'Line 1' }}";
+      const label2 = "{{ block.settings.personalize_field2_label | escape | default: 'Line 2' }}";
+      const d1Label = "{{ block.settings.personalize_dropdown1_label | escape | default: 'Dropdown 1' }}";
+      const d2Label = "{{ block.settings.personalize_dropdown2_label | escape | default: 'Dropdown 2' }}";
+      const d3Label = "{{ block.settings.personalize_dropdown3_label | escape | default: 'Dropdown 3' }}";
+
+      lines.push(`<p><strong>${label1}:</strong> ${escapeHtml(f1)}</p>`);
+      if (f2) lines.push(`<p><strong>${label2}:</strong> ${escapeHtml(f2)}</p>`);
+      lines.push(`<p><strong>${d1Label}:</strong> ${escapeHtml(d1)}</p>`);
+      lines.push(`<p><strong>${d2Label}:</strong> ${escapeHtml(d2)}</p>`);
+      lines.push(`<p><strong>${d3Label}:</strong> ${escapeHtml(d3)}</p>`);
+
+      summaryContent.innerHTML = lines.join('');
+    }
+
+    closeModal();
+  });
+
+  // Escaping helper (simple)
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"'`=\/]/g, function(s) {
+      return ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '/': '&#x2F;',
+        '`': '&#x60;',
+        '=': '&#x3D;'
+      })[s];
+    });
+  }
+
+  // Form submission: include personalization as properties
+  document.getElementById('personalized-bundle-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    if (!validateForm()) {
+      alert('Please complete all selections for both products.');
+      return;
+    }
+
+    const submitBtn = document.getElementById('bundle-submit-btn');
+    const buttonText = submitBtn.querySelector('.button-text');
+    const spinner = submitBtn.querySelector('.loading-spinner');
+    submitBtn.disabled = true;
+    buttonText.style.display = 'none';
+    spinner.style.display = 'block';
+
+    try {
+      const bundleItems = [];
+
+      document.querySelectorAll('.personalized-bundle-item').forEach(item => {
+        const productIndex = item.dataset.productIndex;
+        const productData = bundleProducts[productIndex];
+        if (!productData) return;
+
+        const selectedOptions = [];
+        productData.options.forEach((optName) => {
+          const optionHandle = optName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+          const selected = item.querySelector(`input[name="${optionHandle}_${productIndex}"]:checked`);
+          if (selected) {
+            selectedOptions.push(selected.value);
+          }
+        });
+
+        // Find matching variant
+        const matchedVariant = productData.variants.find(v =>
+          v.options.slice(0, selectedOptions.length).every((val, idx) => val === selectedOptions[idx]) && v.available
+        );
+
+        bundleItems.push({
+          productId: productData.id,
+          variantId: matchedVariant ? matchedVariant.id : null,
+          selectedOptions
+        });
+      });
+
+      // Add main bundle product with properties
+      const cartProperties = { '_bundle': 'true' };
+      bundleItems.forEach((item, index) => {
+        cartProperties[`Bundle Item ${index + 1}`] = item.selectedOptions.join(' / ');
+      });
+
+      // Add personalization data into line item properties
+      // We will add each personalization field with merchant-configurable label names
+      {% assign p1label = block.settings.personalize_field1_label | default: "Personalization Line 1" %}
+      {% assign p2label = block.settings.personalize_field2_label | default: "Personalization Line 2" %}
+      {% assign d1label = block.settings.personalize_dropdown1_label | default: "Dropdown 1" %}
+      {% assign d2label = block.settings.personalize_dropdown2_label | default: "Dropdown 2" %}
+      {% assign d3label = block.settings.personalize_dropdown3_label | default: "Dropdown 3" %}
+
+      // For each product in the bundle, attach personalization if present
+      Object.keys(personalizationStore).forEach((pIdx) => {
+        const p = personalizationStore[pIdx];
+        if (!p) return;
+        // use label + product index to separate between bundle items if needed
+        cartProperties["{{ p1label }} - Item " + pIdx] = p.field1 || "";
+        if (p.field2) cartProperties["{{ p2label }} - Item " + pIdx] = p.field2 || "";
+        cartProperties["{{ d1label }} - Item " + pIdx] = p.drop1 || "";
+        cartProperties["{{ d2label }} - Item " + pIdx] = p.drop2 || "";
+        cartProperties["{{ d3label }} - Item " + pIdx] = p.drop3 || "";
+      });
+
+      const cartData = {
+        items: [{
+          id: {{ product.selected_or_first_available_variant.id }},
+          quantity: 1,
+          properties: cartProperties
+        }]
+      };
+
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cartData)
+      });
+
+      if (!response.ok) throw new Error('Failed to add bundle to cart');
+      window.location.href = '/cart';
+
+    } catch (error) {
+      console.error('Error adding bundle:', error);
+      alert('Error: ' + error.message);
+      submitBtn.disabled = false;
+      buttonText.style.display = 'block';
+      spinner.style.display = 'none';
+    }
+  });
+
+  // initial validation
+  validateForm();
+});
+</script>
+
