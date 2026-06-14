@@ -9,8 +9,9 @@
  */
 {
   "current": {
-    "logo": "shopify://shop_images/WhatsApp_Image_2026-06-09_at_4.23.34_AM__1_-removebg-preview.png",
-    "logo_width": 260,
+    "logo": "shopify://shop_images/WhatsApp_Image_2026-06-09_at_4.23.34_AM__1_-removebg-preview_7376bc1c-87f7-45d4-8390-6265eb31ca28.png",
+    "logo_width": 170,
+    "favicon": "shopify://shop_images/WhatsApp_Image_2026-06-09_at_4.23.34_AM__1_-removebg-preview_7376bc1c-87f7-45d4-8390-6265eb31ca28.png",
     "type_header_font": "assistant_n4",
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
@@ -221,11 +222,11 @@
       },
       "scheme-5": {
         "settings": {
-          "background": "#01277E",
+          "background": "#01277e",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
-          "button_label": "#01277E",
+          "button_label": "#01277e",
           "secondary_button_label": "#ffffff",
           "shadow": "#121212"
         }
