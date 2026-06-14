@@ -1,0 +1,85 @@
+{% comment %}
+  Renders one Scotland icon bar item.
+
+  Accepts:
+  - block: {Object} block object
+  - wrapper_class: {String} optional extra class on item wrapper
+{% endcomment %}
+
+<div
+  class="scotland-icon-bar__item{% if wrapper_class != blank %} {{ wrapper_class }}{% endif %}"
+  {% if block != blank %}
+    {{ block.shopify_attributes }}
+  {% endif %}
+>
+  {%- if block.settings.link != blank -%}
+    <a href="{{ block.settings.link }}" class="scotland-icon-bar__link">
+  {%- endif -%}
+
+  <span class="scotland-icon-bar__icon" aria-hidden="true">
+    {%- if block.settings.custom_icon != blank -%}
+      {{
+        block.settings.custom_icon
+        | image_url: width: 80
+        | image_tag:
+          loading: 'lazy',
+          widths: '22, 44, 80',
+          sizes: '22px',
+          class: 'scotland-icon-bar__icon-img',
+          alt: ''
+      }}
+    {%- else -%}
+      {%- case block.settings.icon -%}
+        {%- when 'truck' -%}
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 7H15V17H3V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M15 10H18L21 13V17H15V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="7" cy="17" r="1.5" fill="currentColor"/>
+            <circle cx="18" cy="17" r="1.5" fill="currentColor"/>
+          </svg>
+        {%- when 'clock' -%}
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        {%- when 'calendar' -%}
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="4" y="6" width="16" height="14" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M8 4V7M16 4V7M4 10H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        {%- when 'box' -%}
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 8L12 4L20 8V16L12 20L4 16V8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M12 12L20 8M12 12V20M12 12L4 8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        {%- when 'phone' -%}
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 5H6.5C5.12 5 4 6.12 4 7.5C4 15.84 8.16 20 16.5 20C17.88 20 19 18.88 19 17.5V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M12 4H16C17.1 4 18 4.9 18 6V10M18 10L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        {%- when 'shield' -%}
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3L20 7V12C20 16.5 16.5 19.5 12 21C7.5 19.5 4 16.5 4 12V7L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        {%- when 'star' -%}
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 3L14.6 9.2L21 9.8L16.2 14.2L17.8 20.5L12 17.2L6.2 20.5L7.8 14.2L3 9.8L9.4 9.2L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        {%- else -%}
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+      {%- endcase -%}
+    {%- endif -%}
+  </span>
+
+  {%- if block.settings.heading != blank -%}
+    <p class="scotland-icon-bar__text">{{ block.settings.heading | escape }}</p>
+  {%- endif -%}
+
+  {%- if block.settings.link != blank -%}
+    </a>
+  {%- endif -%}
+</div>

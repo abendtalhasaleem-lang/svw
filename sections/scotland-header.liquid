@@ -1,0 +1,851 @@
+{{ 'section-scotland-header.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
+{{ 'component-search.css' | asset_url | stylesheet_tag }}
+{{ 'component-menu-drawer.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'component-cart-notification.css' | asset_url }}" media="print" onload="this.media='all'">
+
+{%- if settings.predictive_search_enabled -%}
+  <link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" media="print" onload="this.media='all'">
+{%- endif -%}
+
+{%- if section.settings.menu_type_desktop == 'mega' -%}
+  {{ 'component-mega-menu.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+
+{%- liquid
+  assign login_url = section.settings.login_url
+  if login_url == blank
+    if customer
+      assign login_url = routes.account_url
+    else
+      assign login_url = routes.account_login_url
+    endif
+  endif
+
+  assign view_all_url = section.settings.view_all_url
+  if view_all_url == blank
+    assign view_all_url = routes.all_products_collection_url
+  endif
+
+  capture desktop_search_id
+    echo 'Search-ScotlandHeader-Desktop-' | append: section.id
+  endcapture
+
+  capture mobile_search_id
+    echo 'Search-ScotlandHeader-Mobile-' | append: section.id
+  endcapture
+
+  assign whatsapp_digits = section.settings.help_whatsapp_number | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '+' | remove: '.'
+  assign whatsapp_url = 'https://wa.me/' | append: whatsapp_digits
+
+  if section.settings.active_link_style == 'gradient'
+    assign active_link_bg = 'linear-gradient(' | append: section.settings.active_link_gradient_angle | append: 'deg, ' | append: section.settings.active_link_gradient_start | append: ', ' | append: section.settings.active_link_gradient_end | append: ')'
+  else
+    assign active_link_bg = section.settings.active_link_bg_color
+  endif
+-%}
+
+{%- style -%}
+  #ScotlandHeader-{{ section.id }} {
+    --scotland-header-bg: {{ section.settings.header_bg_color }};
+    --scotland-header-text: {{ section.settings.header_text_color }};
+    --scotland-header-menu-bg: {{ section.settings.menu_row_bg_color }};
+    --scotland-header-menu-text: {{ section.settings.menu_text_color }};
+    --scotland-header-menu-text-hover: {{ section.settings.menu_text_hover_color }};
+    --scotland-header-active-bg: {{ active_link_bg }};
+    --scotland-header-active-text: {{ section.settings.active_link_text_color }};
+    --scotland-header-view-all-color: {{ section.settings.view_all_color }};
+    --scotland-header-search-bg: {{ section.settings.search_bg_color }};
+    --scotland-header-search-icon: {{ section.settings.search_icon_color }};
+    --scotland-header-search-radius: {{ section.settings.search_border_radius }}px;
+    --scotland-header-search-max-width: {{ section.settings.search_max_width }}px;
+    --scotland-header-logo-width: {{ settings.logo_width }}px;
+    --scotland-header-icon-bg: {{ section.settings.utility_icon_bg_color }};
+    --scotland-header-icon-radius: {{ section.settings.utility_icon_radius }}px;
+    --scotland-header-login-bg: {{ section.settings.mobile_login_bg_color }};
+    --scotland-header-login-text: {{ section.settings.mobile_login_text_color }};
+    --scotland-header-login-radius: {{ section.settings.mobile_login_border_radius }}px;
+    --scotland-header-menu-link-radius: {{ section.settings.menu_link_border_radius }}px;
+    --scotland-header-menu-padding-x: {{ section.settings.menu_horizontal_padding }}px;
+    --scotland-header-padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    --scotland-header-padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    --scotland-header-divider: {{ section.settings.divider_color }};
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__menu-link--active {
+    background: {{ active_link_bg }} !important;
+    color: {{ section.settings.active_link_text_color }} !important;
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__menu-link--active .scotland-header__menu-link-text,
+  #ScotlandHeader-{{ section.id }} .scotland-header__menu-link--active .icon-caret {
+    color: {{ section.settings.active_link_text_color }};
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__menu-link--active:hover,
+  #ScotlandHeader-{{ section.id }} .scotland-header__menu-link--active:focus-visible {
+    background: {{ active_link_bg }} !important;
+    color: {{ section.settings.active_link_text_color }} !important;
+  }
+
+  #ScotlandHeader-{{ section.id }} .header__icon--menu {
+    width: 4rem;
+    height: 4rem;
+    overflow: hidden;
+  }
+
+  #ScotlandHeader-{{ section.id }} .header__icon--menu .icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__drawer .header__icon--menu .svg-wrapper {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    #ScotlandHeader-{{ section.id }} {
+      --scotland-header-padding-top: {{ section.settings.padding_top }}px;
+      --scotland-header-padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .section-header {
+    position: sticky;
+    margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-header {
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+
+  {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
+    .scrolled-past-header #ScotlandHeader-{{ section.id }} .scotland-header__logo-img {
+      max-width: calc(var(--scotland-header-logo-width, 260px) * 0.75);
+    }
+  {%- endif -%}
+
+  @media screen and (min-width: 990px) {
+    #ScotlandHeader-{{ section.id }} .scotland-header__drawer {
+      display: none !important;
+    }
+  }
+{%- endstyle -%}
+
+<script src="{{ 'cart-notification.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'scotland-header.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign header_tag = 'div'
+  if section.settings.sticky_header_type != 'none'
+    assign header_tag = 'sticky-header'
+  endif
+-%}
+
+<{{ header_tag }}
+  {% if header_tag == 'sticky-header' %}
+    data-sticky-type="{{ section.settings.sticky_header_type }}"
+  {% endif %}
+  class="header-wrapper scotland-header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}"
+>
+  <header
+    id="ScotlandHeader-{{ section.id }}"
+    class="scotland-header{% if section.settings.menu != blank %} scotland-header--has-menu{% endif %}"
+  >
+    <div class="scotland-header__inner">
+      <div class="scotland-header__top{% if section.settings.menu_full_width %} scotland-header__top--full{% endif %}">
+        <div class="scotland-header__top-shell{% unless section.settings.menu_full_width %} page-width{% endunless %}">
+        <div class="scotland-header__top-grid">
+        <div class="scotland-header__logo">
+          {%- if request.page_type == 'index' -%}
+            <h1 class="scotland-header__logo-heading visually-hidden">{{ shop.name }}</h1>
+          {%- endif -%}
+          <a href="{{ routes.root_url }}" class="scotland-header__logo-link link focus-inset">
+            {%- if settings.logo != blank -%}
+              {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+              {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+              {% capture sizes %}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{% endcapture %}
+              {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
+              {{
+                settings.logo
+                | image_url: width: 600
+                | image_tag:
+                  class: 'scotland-header__logo-img motion-reduce',
+                  widths: widths,
+                  height: logo_height,
+                  width: settings.logo_width,
+                  alt: logo_alt,
+                  sizes: sizes,
+                  preload: true
+              }}
+            {%- else -%}
+              <span class="scotland-header__logo-text">{{ shop.name }}</span>
+            {%- endif -%}
+          </a>
+        </div>
+
+        <div class="scotland-header__search scotland-header__search--desktop">
+          {% render 'scotland-header-search',
+            input_id: desktop_search_id,
+            placeholder: section.settings.search_placeholder,
+            modifier: 'desktop'
+          %}
+        </div>
+
+        <div class="scotland-header__utilities">
+          {%- if section.settings.show_login -%}
+            <a
+              href="{{ login_url }}"
+              class="scotland-header__utility scotland-header__utility--login link focus-inset"
+              rel="nofollow"
+            >
+              <span class="scotland-header__utility-icon">
+                {%- if section.settings.login_icon != blank -%}
+                  {{
+                    section.settings.login_icon
+                    | image_url: width: 80
+                    | image_tag: loading: 'lazy', widths: '40, 80', alt: section.settings.login_label
+                  }}
+                {%- else -%}
+                  <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                {%- endif -%}
+              </span>
+              <span class="scotland-header__utility-text">{{ section.settings.login_label | escape }}</span>
+            </a>
+          {%- endif -%}
+
+          {%- if section.settings.show_help and whatsapp_digits != blank -%}
+            <a
+              href="{{ whatsapp_url }}"
+              class="scotland-header__utility scotland-header__utility--help scotland-header__utility--icon-only link focus-inset medium-hide large-up-hide"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{{ section.settings.help_label | escape }}"
+            >
+              <span class="scotland-header__utility-icon">
+                {%- if section.settings.help_icon != blank -%}
+                  {{
+                    section.settings.help_icon
+                    | image_url: width: 80
+                    | image_tag: loading: 'lazy', widths: '40, 80', alt: section.settings.help_label
+                  }}
+                {%- else -%}
+                  <span class="svg-wrapper">{{ 'icon-question-mark.svg' | inline_asset_content }}</span>
+                {%- endif -%}
+              </span>
+              <span class="scotland-header__utility-text">{{ section.settings.help_label | escape }}</span>
+            </a>
+            <a
+              href="{{ whatsapp_url }}"
+              class="scotland-header__utility scotland-header__utility--help link focus-inset small-hide"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="scotland-header__utility-icon">
+                {%- if section.settings.help_icon != blank -%}
+                  {{
+                    section.settings.help_icon
+                    | image_url: width: 80
+                    | image_tag: loading: 'lazy', widths: '40, 80', alt: section.settings.help_label
+                  }}
+                {%- else -%}
+                  <span class="svg-wrapper">{{ 'icon-question-mark.svg' | inline_asset_content }}</span>
+                {%- endif -%}
+              </span>
+              <span class="scotland-header__utility-text">{{ section.settings.help_label | escape }}</span>
+            </a>
+          {%- elsif section.settings.show_help -%}
+            <span class="scotland-header__utility scotland-header__utility--help link">
+              <span class="scotland-header__utility-icon">
+                {%- if section.settings.help_icon != blank -%}
+                  {{
+                    section.settings.help_icon
+                    | image_url: width: 80
+                    | image_tag: loading: 'lazy', widths: '40, 80', alt: section.settings.help_label
+                  }}
+                {%- else -%}
+                  <span class="svg-wrapper">{{ 'icon-question-mark.svg' | inline_asset_content }}</span>
+                {%- endif -%}
+              </span>
+              <span class="scotland-header__utility-text">{{ section.settings.help_label | escape }}</span>
+            </span>
+          {%- endif -%}
+
+          <a href="{{ routes.cart_url }}" class="scotland-header__utility scotland-header__utility--cart scotland-header__utility--icon-only scotland-header__cart link focus-inset" id="cart-icon-bubble">
+            <span class="scotland-header__utility-icon">
+              <span class="svg-wrapper">
+                {%- if cart == empty -%}
+                  {{ 'icon-cart-empty.svg' | inline_asset_content }}
+                {%- else -%}
+                  {{ 'icon-cart.svg' | inline_asset_content }}
+                {%- endif -%}
+              </span>
+            </span>
+            <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+            {%- if cart != empty -%}
+              <div class="cart-count-bubble">
+                {%- if cart.item_count < 100 -%}
+                  <span aria-hidden="true">{{ cart.item_count }}</span>
+                {%- endif -%}
+                <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+              </div>
+            {%- endif -%}
+          </a>
+
+          {%- if section.settings.menu != blank -%}
+            <div class="scotland-header__drawer">
+              {% render 'scotland-header-drawer' %}
+            </div>
+          {%- endif -%}
+        </div>
+        </div>
+        </div>
+      </div>
+
+      <div class="scotland-header__search scotland-header__search--mobile">
+        {% render 'scotland-header-search',
+          input_id: mobile_search_id,
+          placeholder: section.settings.search_placeholder,
+          modifier: 'mobile'
+        %}
+      </div>
+
+      {%- if section.settings.menu != blank -%}
+        <div class="scotland-header__nav-row{% if section.settings.menu_full_width %} scotland-header__nav-row--full{% endif %}">
+          <div class="scotland-header__nav-shell{% unless section.settings.menu_full_width %} page-width{% endunless %}">
+            <div class="scotland-header__nav-inner">
+            <div class="scotland-header__menu-nav">
+              {%- if section.settings.menu_type_desktop == 'dropdown' -%}
+                {% render 'scotland-header-dropdown-menu' %}
+              {%- elsif section.settings.menu_type_desktop == 'mega' -%}
+                {% render 'scotland-header-mega-menu' %}
+              {%- endif -%}
+            </div>
+            <a href="{{ view_all_url }}" class="scotland-header__view-all link focus-inset">
+              {{ section.settings.view_all_label | escape }}
+            </a>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </header>
+</{{ header_tag }}>
+
+{%- if settings.cart_type == 'notification' -%}
+  {%- render 'cart-notification',
+    color_scheme: section.settings.color_scheme,
+    desktop_menu_type: section.settings.menu_type_desktop
+  -%}
+{%- endif -%}
+
+{% javascript %}
+  class StickyHeader extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      this.header = document.querySelector('.section-header');
+      this.headerIsAlwaysSticky =
+        this.getAttribute('data-sticky-type') === 'always' ||
+        this.getAttribute('data-sticky-type') === 'reduce-logo-size';
+      this.headerBounds = {};
+
+      this.setHeaderHeight();
+
+      window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
+
+      if (this.headerIsAlwaysSticky) {
+        this.header.classList.add('shopify-section-header-sticky');
+      }
+
+      this.currentScrollTop = 0;
+      this.preventReveal = false;
+      this.predictiveSearchInstances = this.querySelectorAll('predictive-search');
+
+      this.onScrollHandler = this.onScroll.bind(this);
+      this.hideHeaderOnScrollUp = () => (this.preventReveal = true);
+
+      this.addEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
+      window.addEventListener('scroll', this.onScrollHandler, false);
+
+      this.createObserver();
+    }
+
+    setHeaderHeight() {
+      document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
+    }
+
+    disconnectedCallback() {
+      this.removeEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
+      window.removeEventListener('scroll', this.onScrollHandler);
+    }
+
+    createObserver() {
+      let observer = new IntersectionObserver((entries, observer) => {
+        this.headerBounds = entries[0].intersectionRect;
+        observer.disconnect();
+      });
+
+      observer.observe(this.header);
+    }
+
+    onScroll() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (this.isPredictiveSearchOpen()) return;
+
+      if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+        this.header.classList.add('scrolled-past-header');
+        if (this.preventHide) return;
+        requestAnimationFrame(this.hide.bind(this));
+      } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+        this.header.classList.add('scrolled-past-header');
+        if (!this.preventReveal) {
+          requestAnimationFrame(this.reveal.bind(this));
+        } else {
+          window.clearTimeout(this.isScrolling);
+
+          this.isScrolling = setTimeout(() => {
+            this.preventReveal = false;
+          }, 66);
+
+          requestAnimationFrame(this.hide.bind(this));
+        }
+      } else if (scrollTop <= this.headerBounds.top) {
+        this.header.classList.remove('scrolled-past-header');
+        requestAnimationFrame(this.reset.bind(this));
+      }
+
+      this.currentScrollTop = scrollTop;
+    }
+
+    hide() {
+      if (this.headerIsAlwaysSticky) return;
+      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+      this.closeMenuDisclosure();
+    }
+
+    reveal() {
+      if (this.headerIsAlwaysSticky) return;
+      this.header.classList.add('shopify-section-header-sticky', 'animate');
+      this.header.classList.remove('shopify-section-header-hidden');
+    }
+
+    reset() {
+      if (this.headerIsAlwaysSticky) return;
+      this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+    }
+
+    closeMenuDisclosure() {
+      this.disclosures = this.disclosures || this.header.querySelectorAll('header-menu');
+      this.disclosures.forEach((disclosure) => disclosure.close());
+    }
+
+    isPredictiveSearchOpen() {
+      return Array.from(this.predictiveSearchInstances || []).some((instance) => instance.isOpen);
+    }
+  }
+
+  if (!customElements.get('sticky-header')) {
+    customElements.define('sticky-header', StickyHeader);
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Scotland header",
+  "class": "section-header",
+  "max_blocks": 3,
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu"
+    },
+    {
+      "type": "select",
+      "id": "menu_type_desktop",
+      "options": [
+        { "value": "dropdown", "label": "Dropdown" },
+        { "value": "mega", "label": "Mega menu" }
+      ],
+      "default": "dropdown",
+      "label": "Menu type"
+    },
+    {
+      "type": "select",
+      "id": "sticky_header_type",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "on-scroll-up", "label": "On scroll up" },
+        { "value": "always", "label": "Always" },
+        { "value": "reduce-logo-size", "label": "Always, reduce logo size" }
+      ],
+      "default": "on-scroll-up",
+      "label": "Sticky header"
+    },
+    {
+      "type": "checkbox",
+      "id": "menu_full_width",
+      "default": false,
+      "label": "Full width menu row"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_line_separator",
+      "default": true,
+      "label": "Show bottom border"
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "Search products, brands..."
+    },
+    {
+      "type": "color",
+      "id": "search_bg_color",
+      "label": "Search background",
+      "default": "#f3f4f6"
+    },
+    {
+      "type": "color",
+      "id": "search_icon_color",
+      "label": "Search icon color",
+      "default": "#0f766e"
+    },
+    {
+      "type": "range",
+      "id": "search_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Search corner radius",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "search_max_width",
+      "min": 320,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Search max width (desktop)",
+      "default": 560
+    },
+    {
+      "type": "header",
+      "content": "Login"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_login",
+      "default": true,
+      "label": "Show login"
+    },
+    {
+      "type": "text",
+      "id": "login_label",
+      "label": "Login text",
+      "default": "Log in"
+    },
+    {
+      "type": "url",
+      "id": "login_url",
+      "label": "Login link"
+    },
+    {
+      "type": "image_picker",
+      "id": "login_icon",
+      "label": "Login icon"
+    },
+    {
+      "type": "header",
+      "content": "Help (WhatsApp)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_help",
+      "default": true,
+      "label": "Show help"
+    },
+    {
+      "type": "text",
+      "id": "help_label",
+      "label": "Help text",
+      "default": "Help"
+    },
+    {
+      "type": "text",
+      "id": "help_whatsapp_number",
+      "label": "WhatsApp number",
+      "info": "Include country code, e.g. 447700900000"
+    },
+    {
+      "type": "image_picker",
+      "id": "help_icon",
+      "label": "Help icon"
+    },
+    {
+      "type": "header",
+      "content": "View all products"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Button text",
+      "default": "View All Products"
+    },
+    {
+      "type": "url",
+      "id": "view_all_url",
+      "label": "Button link"
+    },
+    {
+      "type": "color",
+      "id": "view_all_color",
+      "label": "Button color",
+      "default": "#0f766e"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "header_bg_color",
+      "label": "Header background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "menu_row_bg_color",
+      "label": "Menu row background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "menu_text_color",
+      "label": "Menu text",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "menu_text_hover_color",
+      "label": "Menu text hover",
+      "default": "#0f766e"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#e5e7eb"
+    },
+    {
+      "type": "color",
+      "id": "utility_icon_bg_color",
+      "label": "Mobile icon button background",
+      "default": "#f3f4f6"
+    },
+    {
+      "type": "range",
+      "id": "utility_icon_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile icon button radius",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "mobile_login_bg_color",
+      "label": "Mobile login button background",
+      "default": "#0f766e"
+    },
+    {
+      "type": "color",
+      "id": "mobile_login_text_color",
+      "label": "Mobile login button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "mobile_login_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile login button radius",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Active menu link"
+    },
+    {
+      "type": "select",
+      "id": "active_link_style",
+      "label": "Active link background",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "active_link_bg_color",
+      "label": "Active background color",
+      "default": "#0f766e"
+    },
+    {
+      "type": "color",
+      "id": "active_link_gradient_start",
+      "label": "Gradient start",
+      "default": "#0f766e"
+    },
+    {
+      "type": "color",
+      "id": "active_link_gradient_end",
+      "label": "Gradient end",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "range",
+      "id": "active_link_gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 5,
+      "unit": "deg",
+      "label": "Gradient angle",
+      "default": 135
+    },
+    {
+      "type": "color",
+      "id": "active_link_text_color",
+      "label": "Active text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "menu_link_border_radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Menu link corner radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "menu_horizontal_padding",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Menu row horizontal padding (full width)",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Mega menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "mega_menu_show_products",
+      "default": false,
+      "label": "Show collection products in mega menu",
+      "info": "Parent menu item must link to a collection. Shows the first products from that collection."
+    },
+    {
+      "type": "select",
+      "id": "mega_menu_product_count",
+      "label": "Product columns in mega menu",
+      "options": [
+        { "value": "3", "label": "3 products + 3 menu columns" },
+        { "value": "4", "label": "4 products + 2 menu columns" }
+      ],
+      "default": "3",
+      "info": "Only applies when collection products are enabled."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Header color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "Menu dropdown color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 36,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 36,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 12
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland header",
+      "category": "Header"
+    }
+  ]
+}
+{% endschema %}

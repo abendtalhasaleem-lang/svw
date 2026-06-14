@@ -1,0 +1,99 @@
+{% comment %}
+  Scotland header desktop dropdown menu — hover to open, click parent link to navigate.
+{% endcomment %}
+
+<nav class="scotland-header__inline-menu header__inline-menu">
+  <ul class="scotland-header__menu-list list-menu list-menu--inline" role="list">
+    {%- for link in section.settings.menu.links -%}
+      <li class="scotland-header__menu-item-wrap">
+        {%- liquid
+          assign menu_active = false
+          if link.current
+            assign menu_active = true
+          elsif link.url == routes.root_url and request.page_type == 'index'
+            assign menu_active = true
+          elsif link.child_active
+            assign menu_active = true
+          endif
+        -%}
+        {%- if link.links != blank -%}
+          <div class="scotland-header__menu-flyout">
+            <a
+              id="ScotlandHeaderMenu-{{ link.handle }}"
+              href="{{ link.url }}"
+              class="scotland-header__menu-link header__menu-item list-menu__item link focus-inset{% if menu_active %} scotland-header__menu-link--active{% endif %}"
+              {% if link.current %}
+                aria-current="page"
+              {% endif %}
+            >
+              <span class="scotland-header__menu-link-text">{{ link.title | escape }}</span>
+              <span class="scotland-header__menu-caret svg-wrapper" aria-hidden="true">
+                {{- 'icon-caret.svg' | inline_asset_content -}}
+              </span>
+            </a>
+            <ul
+              id="ScotlandHeaderMenu-MenuList-{{ section.id }}-{{ forloop.index }}"
+              class="header__submenu list-menu list-menu--disclosure color-{{ section.settings.menu_color_scheme }} gradient caption-large motion-reduce global-settings-popup scotland-header__submenu"
+              role="list"
+              tabindex="-1"
+            >
+              {%- for childlink in link.links -%}
+                <li>
+                  {%- if childlink.links == blank -%}
+                    <a
+                      id="ScotlandHeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                      href="{{ childlink.url }}"
+                      class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if childlink.current %} list-menu__item--active{% endif %}"
+                      {% if childlink.current %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ childlink.title | escape }}
+                    </a>
+                  {%- else -%}
+                    <details id="Details-ScotlandHeaderSubMenu-{{ link.handle }}-{{ childlink.handle }}">
+                      <summary
+                        id="ScotlandHeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                        class="header__menu-item link link--text list-menu__item focus-inset caption-large"
+                      >
+                        <span>{{ childlink.title | escape }}</span>
+                        <span class="svg-wrapper">{{ 'icon-caret.svg' | inline_asset_content }}</span>
+                      </summary>
+                      <ul class="header__submenu list-menu motion-reduce" role="list">
+                        {%- for grandchildlink in childlink.links -%}
+                          <li>
+                            <a
+                              id="ScotlandHeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                              href="{{ grandchildlink.url }}"
+                              class="header__menu-item list-menu__item link link--text focus-inset caption-large{% if grandchildlink.current %} list-menu__item--active{% endif %}"
+                              {% if grandchildlink.current %}
+                                aria-current="page"
+                              {% endif %}
+                            >
+                              {{ grandchildlink.title | escape }}
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </details>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- else -%}
+          <a
+            id="ScotlandHeaderMenu-{{ link.handle }}"
+            href="{{ link.url }}"
+            class="scotland-header__menu-link header__menu-item list-menu__item link focus-inset{% if menu_active %} scotland-header__menu-link--active{% endif %}"
+            {% if link.current %}
+              aria-current="page"
+            {% endif %}
+          >
+            <span class="scotland-header__menu-link-text">{{ link.title | escape }}</span>
+          </a>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>

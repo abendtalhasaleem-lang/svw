@@ -1,0 +1,29 @@
+{% comment %}
+  Compact product card for Scotland header mega menu.
+
+  Accepts:
+  - product: {Object} Product
+  - lazy_load: {Boolean}
+{% endcomment %}
+
+{%- if product != blank -%}
+  <a href="{{ product.url }}" class="scotland-header__mega-product link focus-inset">
+    <div class="scotland-header__mega-product-media">
+      {%- if product.featured_media -%}
+        {{
+          product.featured_media
+          | image_url: width: 400
+          | image_tag:
+            class: 'scotland-header__mega-product-image',
+            loading: lazy_load,
+            widths: '165, 360, 400',
+            sizes: '160px',
+            alt: product.featured_media.alt | default: product.title | escape
+        }}
+      {%- else -%}
+        {{ 'product-apparel-2' | placeholder_svg_tag: 'scotland-header__mega-product-placeholder' }}
+      {%- endif -%}
+    </div>
+    <span class="scotland-header__mega-product-title">{{ product.title | escape }}</span>
+  </a>
+{%- endif -%}
