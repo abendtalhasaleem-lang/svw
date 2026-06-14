@@ -117,7 +117,7 @@
       ],
       "name": "Scotland icon bar",
       "settings": {
-        "mobile_show_above_header": false,
+        "mobile_show_above_header": true,
         "full_width": false,
         "content_padding_horizontal": 24,
         "bar_padding_vertical": 14,
