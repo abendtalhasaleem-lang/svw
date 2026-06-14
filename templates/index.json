@@ -368,8 +368,8 @@
         "header_spacing": 20,
         "show_view_all": true,
         "view_all_label": "View all",
-        "view_all_color": "#14b8a6",
-        "view_all_hover_color": "#0d9488",
+        "view_all_color": "#01277E",
+        "view_all_hover_color": "#336DD1",
         "view_all_font_size": 14,
         "show_feature_image": true,
         "overlay_color": "#336dd1",
@@ -378,7 +378,7 @@
         "feature_title_font_size": 28,
         "feature_column_width": 75,
         "card_gap": 12,
-        "columns_desktop": "5",
+        "columns_desktop": "4",
         "columns_mobile": "2",
         "full_width": false,
         "content_padding_horizontal": 24,
@@ -398,7 +398,7 @@
         "padding_bottom": 36
       }
     },
-    "scotland_collection_row_kkmpCQ": {
+    "scotland_collection_row_9VXr63": {
       "type": "scotland-collection-row",
       "name": "Scotland collection row",
       "settings": {
@@ -410,8 +410,8 @@
         "header_spacing": 20,
         "show_view_all": true,
         "view_all_label": "View all",
-        "view_all_color": "#14b8a6",
-        "view_all_hover_color": "#0d9488",
+        "view_all_color": "#01277E",
+        "view_all_hover_color": "#336DD1",
         "view_all_font_size": 14,
         "show_feature_image": true,
         "overlay_color": "#336dd1",
@@ -420,7 +420,7 @@
         "feature_title_font_size": 28,
         "feature_column_width": 75,
         "card_gap": 12,
-        "columns_desktop": "5",
+        "columns_desktop": "4",
         "columns_mobile": "2",
         "full_width": false,
         "content_padding_horizontal": 24,
@@ -440,7 +440,7 @@
         "padding_bottom": 36
       }
     },
-    "scotland_collection_row_RGDnr7": {
+    "scotland_collection_row_6jKqXL": {
       "type": "scotland-collection-row",
       "name": "Scotland collection row",
       "settings": {
@@ -452,8 +452,8 @@
         "header_spacing": 20,
         "show_view_all": true,
         "view_all_label": "View all",
-        "view_all_color": "#14b8a6",
-        "view_all_hover_color": "#0d9488",
+        "view_all_color": "#01277E",
+        "view_all_hover_color": "#336DD1",
         "view_all_font_size": 14,
         "show_feature_image": true,
         "overlay_color": "#336dd1",
@@ -462,7 +462,7 @@
         "feature_title_font_size": 28,
         "feature_column_width": 75,
         "card_gap": 12,
-        "columns_desktop": "5",
+        "columns_desktop": "4",
         "columns_mobile": "2",
         "full_width": false,
         "content_padding_horizontal": 24,
@@ -482,7 +482,7 @@
         "padding_bottom": 36
       }
     },
-    "scotland_collection_row_HL7WCp": {
+    "scotland_collection_row_HagzBC": {
       "type": "scotland-collection-row",
       "name": "Scotland collection row",
       "settings": {
@@ -494,8 +494,8 @@
         "header_spacing": 20,
         "show_view_all": true,
         "view_all_label": "View all",
-        "view_all_color": "#14b8a6",
-        "view_all_hover_color": "#0d9488",
+        "view_all_color": "#01277E",
+        "view_all_hover_color": "#336DD1",
         "view_all_font_size": 14,
         "show_feature_image": true,
         "overlay_color": "#336dd1",
@@ -504,7 +504,7 @@
         "feature_title_font_size": 28,
         "feature_column_width": 75,
         "card_gap": 12,
-        "columns_desktop": "5",
+        "columns_desktop": "4",
         "columns_mobile": "2",
         "full_width": false,
         "content_padding_horizontal": 24,
@@ -628,9 +628,9 @@
     "scotland_category_buttons_rYd6VM",
     "scotland_logo_marquee_rVtnrc",
     "scotland_collection_row_UxjdnQ",
-    "scotland_collection_row_kkmpCQ",
-    "scotland_collection_row_RGDnr7",
-    "scotland_collection_row_HL7WCp",
+    "scotland_collection_row_9VXr63",
+    "scotland_collection_row_6jKqXL",
+    "scotland_collection_row_HagzBC",
     "scotland_trade_cta_km68a6"
   ]
 }
