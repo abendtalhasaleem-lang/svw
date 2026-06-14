@@ -9,60 +9,6 @@
  */
 {
   "sections": {
-    "scotland_icon_bar_NXtfiM": {
-      "type": "scotland-icon-bar",
-      "blocks": {
-        "icon_text_nYJFHy": {
-          "type": "icon_text",
-          "settings": {
-            "icon": "truck",
-            "heading": "Next day delivery",
-            "link": ""
-          }
-        },
-        "icon_text_ai7RK6": {
-          "type": "icon_text",
-          "settings": {
-            "icon": "clock",
-            "heading": "Same day dispatch before 4pm",
-            "link": ""
-          }
-        },
-        "icon_text_giNRPh": {
-          "type": "icon_text",
-          "settings": {
-            "icon": "calendar",
-            "heading": "Delivery 6 days a week",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "icon_text_nYJFHy",
-        "icon_text_ai7RK6",
-        "icon_text_giNRPh"
-      ],
-      "name": "Scotland icon bar",
-      "settings": {
-        "full_width": false,
-        "content_padding_horizontal": 24,
-        "bar_padding_vertical": 14,
-        "item_gap": 16,
-        "items_per_row": 3,
-        "background_type": "gradient",
-        "background_color": "#14b8a6",
-        "gradient_color_start": "#01277e",
-        "gradient_color_middle": "#336dd1",
-        "gradient_color_end": "#14b8a6",
-        "gradient_angle": 90,
-        "text_color": "#ffffff",
-        "text_font_size": 13,
-        "text_font_weight": "700",
-        "text_transform": "uppercase",
-        "text_letter_spacing": 4,
-        "icon_size": 22
-      }
-    },
     "hero_slideshow_yRF9CP": {
       "type": "hero-slideshow",
       "blocks": {
@@ -677,7 +623,6 @@
     }
   },
   "order": [
-    "scotland_icon_bar_NXtfiM",
     "hero_slideshow_yRF9CP",
     "scotland_images_grid_hAzxAy",
     "scotland_category_buttons_rYd6VM",

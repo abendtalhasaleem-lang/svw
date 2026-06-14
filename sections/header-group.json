@@ -1,1 +1,148 @@
-{"name":"t:sections.header.name","type":"header","sections":{"announcement-bar":{"type":"announcement-bar","blocks":{"announcement-bar-0":{"type":"announcement","settings":{"text":"Welcome to our store","link":""}}},"block_order":["announcement-bar-0"],"settings":{"auto_rotate":false,"change_slides_speed":5,"color_scheme":"scheme-1","show_line_separator":true,"show_social":false,"enable_country_selector":false,"enable_language_selector":false}},"header":{"type":"header","settings":{"logo_position":"middle-left","mobile_logo_position":"center","menu":"main-menu","menu_type_desktop":"dropdown","sticky_header_type":"on-scroll-up","show_line_separator":true,"color_scheme":"scheme-1","menu_color_scheme":"scheme-1","enable_country_selector":true,"enable_language_selector":true,"enable_customer_avatar":true,"margin_bottom":0,"padding_top":20,"padding_bottom":20}}},"order":["announcement-bar","header"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "disabled": true,
+      "settings": {
+        "logo_position": "middle-left",
+        "mobile_logo_position": "center",
+        "menu": "main-menu",
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "enable_customer_avatar": true,
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "scotland_header_PtGJzB": {
+      "type": "scotland-header",
+      "name": "Scotland header",
+      "settings": {
+        "menu": "menu",
+        "menu_type_desktop": "mega",
+        "sticky_header_type": "on-scroll-up",
+        "menu_full_width": false,
+        "show_line_separator": true,
+        "search_placeholder": "Search products, brands...",
+        "search_bg_color": "#f3f4f6",
+        "search_icon_color": "#01277E",
+        "search_border_radius": 10,
+        "search_max_width": 560,
+        "show_login": true,
+        "login_label": "Log in",
+        "login_url": "",
+        "show_help": true,
+        "help_label": "Help",
+        "help_whatsapp_number": "",
+        "view_all_label": "View All Products",
+        "view_all_url": "",
+        "view_all_color": "#01277E",
+        "header_bg_color": "#ffffff",
+        "header_text_color": "#121212",
+        "menu_row_bg_color": "#ffffff",
+        "menu_text_color": "#121212",
+        "menu_text_hover_color": "#01277E",
+        "divider_color": "#e5e7eb",
+        "utility_icon_bg_color": "#f3f4f6",
+        "utility_icon_radius": 12,
+        "mobile_login_bg_color": "#01277E",
+        "mobile_login_text_color": "#ffffff",
+        "mobile_login_border_radius": 40,
+        "active_link_style": "gradient",
+        "active_link_bg_color": "#01277E",
+        "active_link_gradient_start": "#01277E",
+        "active_link_gradient_end": "#14b8a6",
+        "active_link_gradient_angle": 115,
+        "active_link_text_color": "#ffffff",
+        "menu_link_border_radius": 8,
+        "menu_horizontal_padding": 24,
+        "mega_menu_show_products": false,
+        "mega_menu_product_count": "3",
+        "color_scheme": "scheme-5",
+        "menu_color_scheme": "",
+        "margin_bottom": 0,
+        "padding_top": 12,
+        "padding_bottom": 12
+      }
+    },
+    "scotland_icon_bar_RJCbeA": {
+      "type": "scotland-icon-bar",
+      "blocks": {
+        "icon_text_kMMMhg": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "truck",
+            "heading": "Next day delivery",
+            "link": ""
+          }
+        },
+        "icon_text_F4Ff6h": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "clock",
+            "heading": "Same day dispatch before 4pm",
+            "link": ""
+          }
+        },
+        "icon_text_gzwAhN": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "calendar",
+            "heading": "Delivery 6 days a week",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "icon_text_kMMMhg",
+        "icon_text_F4Ff6h",
+        "icon_text_gzwAhN"
+      ],
+      "name": "Scotland icon bar",
+      "settings": {
+        "mobile_show_above_header": false,
+        "full_width": false,
+        "content_padding_horizontal": 24,
+        "bar_padding_vertical": 14,
+        "item_gap": 16,
+        "items_per_row": 3,
+        "mobile_marquee_label": "Promotional highlights",
+        "mobile_marquee_speed": 24,
+        "background_type": "gradient",
+        "background_color": "#14b8a6",
+        "gradient_color_start": "#01277e",
+        "gradient_color_middle": "#336dd1",
+        "gradient_color_end": "#14b8a6",
+        "gradient_angle": 90,
+        "text_color": "#ffffff",
+        "text_font_size": 13,
+        "text_font_weight": "700",
+        "text_transform": "uppercase",
+        "text_letter_spacing": 4,
+        "icon_size": 22
+      }
+    }
+  },
+  "order": [
+    "header",
+    "scotland_header_PtGJzB",
+    "scotland_icon_bar_RJCbeA"
+  ]
+}
