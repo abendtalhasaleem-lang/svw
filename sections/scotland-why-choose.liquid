@@ -1,0 +1,546 @@
+{%- liquid
+  assign s_id = section.id
+  assign s = section.settings
+-%}
+
+<div class="swc-wrap-{{ s_id }} swc-section {% if s.full_width %}swc-full{% else %}swc-contained page-width{% endif %}">
+
+  {%- if s.heading != blank -%}
+    <h2 class="swc-main-heading">{{ s.heading }}</h2>
+  {%- endif -%}
+
+  <div class="swc-blocks">
+    {%- for block in section.blocks -%}
+
+      {%- case block.type -%}
+
+        {%- when 'heading_text' -%}
+          <div class="swc-block swc-heading-text" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h3 class="swc-block-heading" style="color: {{ block.settings.heading_color }};">
+                {{ block.settings.heading }}
+              </h3>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <div class="swc-block-text" style="color: {{ block.settings.text_color }};">
+                {{ block.settings.text }}
+              </div>
+            {%- endif -%}
+          </div>
+
+        {%- when 'quote' -%}
+          {%- liquid
+            assign qbg = block.settings.background_color
+            if block.settings.background_type == 'gradient'
+              assign qbg = 'linear-gradient(135deg, ' | append: block.settings.gradient_start | append: ', ' | append: block.settings.gradient_end | append: ')'
+            endif
+          -%}
+          <div class="swc-block swc-quote" style="background: {{ qbg }};" {{ block.shopify_attributes }}>
+            {%- if block.settings.quote_text != blank -%}
+              <div class="swc-quote-text" style="color: {{ block.settings.text_color }};">
+                {{ block.settings.quote_text }}
+              </div>
+            {%- endif -%}
+
+            <div class="swc-quote-meta">
+              <div class="swc-quote-icon" style="background-color: {{ block.settings.icon_bg_color }}; color: {{ block.settings.icon_text_color }};">
+                {%- if block.settings.icon != blank -%}
+                  {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy', alt: block.settings.icon_heading, class: 'swc-quote-icon-img' }}
+                {%- else -%}
+                  <span>{{ block.settings.icon_initials }}</span>
+                {%- endif -%}
+              </div>
+              <div class="swc-quote-attribution">
+                {%- if block.settings.icon_heading != blank -%}
+                  <h4 class="swc-quote-heading" style="color: {{ block.settings.text_color }};">{{ block.settings.icon_heading }}</h4>
+                {%- endif -%}
+                {%- if block.settings.icon_caption != blank -%}
+                  <p class="swc-quote-caption" style="color: {{ block.settings.text_color }};">{{ block.settings.icon_caption }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+
+        {%- when 'button' -%}
+          {%- liquid
+            assign panel_bg = block.settings.panel_background_color
+            if block.settings.panel_background_type == 'gradient'
+              assign panel_bg = 'linear-gradient(135deg, ' | append: block.settings.panel_gradient_start | append: ', ' | append: block.settings.panel_gradient_end | append: ')'
+            endif
+
+            assign btn_bg = block.settings.button_background_color
+            if block.settings.button_background_type == 'gradient'
+              assign btn_bg = 'linear-gradient(135deg, ' | append: block.settings.button_gradient_start | append: ', ' | append: block.settings.button_gradient_end | append: ')'
+            endif
+          -%}
+          <div class="swc-block swc-cta" style="background: {{ panel_bg }};" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <h3 class="swc-cta-heading" style="color: {{ block.settings.heading_color }};">
+                {{ block.settings.heading }}
+              </h3>
+            {%- endif -%}
+            {%- if block.settings.button_label != blank -%}
+              <a href="{{ block.settings.button_link | default: '#' }}"
+                 class="swc-cta-button"
+                 style="background: {{ btn_bg }}; color: {{ block.settings.button_text_color }}; border-color: {{ block.settings.button_border_color }};">
+                {{ block.settings.button_label }}
+              </a>
+            {%- endif -%}
+          </div>
+
+      {%- endcase -%}
+
+    {%- endfor -%}
+  </div>
+</div>
+
+<style>
+  .swc-wrap-{{ s_id }} {
+    --swc-pad-top: {{ s.padding_top }}px;
+    --swc-pad-bottom: {{ s.padding_bottom }}px;
+    padding-top: var(--swc-pad-top);
+    padding-bottom: var(--swc-pad-bottom);
+  }
+
+  .swc-wrap-{{ s_id }}.swc-contained {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .swc-wrap-{{ s_id }}.swc-full {
+    width: 100%;
+    max-width: none;
+    padding-left: clamp(1.25rem, 4vw, 3rem);
+    padding-right: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .swc-wrap-{{ s_id }} .swc-main-heading {
+    font-size: clamp(1.75rem, 2.6vw, 2.4rem);
+    line-height: 1.2;
+    font-weight: 700;
+    margin: 0 0 2rem;
+    color: {{ s.heading_color }};
+  }
+
+  .swc-wrap-{{ s_id }} .swc-blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Heading + text blocks */
+  .swc-wrap-{{ s_id }} .swc-heading-text {
+    padding: 0;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-block-heading {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-block-text {
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-block-text p {
+    margin: 0;
+  }
+
+  /* Quote block */
+  .swc-wrap-{{ s_id }} .swc-quote {
+    border-radius: 14px;
+    padding: clamp(1.75rem, 3vw, 2.75rem);
+    margin-top: 0.5rem;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-quote-text {
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    font-style: italic;
+    line-height: 1.55;
+    margin: 0 0 1.75rem;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-quote-text p {
+    margin: 0;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-quote-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-quote-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    overflow: hidden;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-quote-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-quote-heading {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-quote-caption {
+    font-size: 0.85rem;
+    margin: 0.15rem 0 0;
+    opacity: 0.8;
+  }
+
+  /* CTA / button block */
+  .swc-wrap-{{ s_id }} .swc-cta {
+    border-radius: 14px;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    text-align: center;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-cta-heading {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 1.25rem;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-cta-button {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .swc-wrap-{{ s_id }} .swc-cta-button:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  @media screen and (min-width: 750px) {
+    .swc-wrap-{{ s_id }} .swc-blocks {
+      gap: 1.75rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Scotland Why Choose",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main heading",
+      "default": "Why Scotland Wholesale Stands Out in the UK Vape Wholesale Market"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Main heading color",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Make section full width",
+      "info": "Leave unchecked to constrain the section to the theme's page width.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading_text",
+      "name": "Heading + Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Unmatched Market Intelligence"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color",
+          "default": "#01277E"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>The vape industry moves fast. We stay ahead of trends so you don't have to.</p>"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#5C5C5C"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Quote / Testimonial",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "quote_text",
+          "label": "Quote text",
+          "default": "<p>In a market flooded with unreliable suppliers, we bring a level of professionalism and consistency that allows our partners to focus on what matters: selling to their customers.</p>"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Quote & attribution text color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "header",
+          "content": "Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon image",
+          "info": "Optional. If empty, the initials below are shown instead."
+        },
+        {
+          "type": "text",
+          "id": "icon_initials",
+          "label": "Icon initials (fallback)",
+          "default": "UK"
+        },
+        {
+          "type": "color",
+          "id": "icon_bg_color",
+          "label": "Icon background color",
+          "default": "#14B8A6"
+        },
+        {
+          "type": "color",
+          "id": "icon_text_color",
+          "label": "Icon text color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "text",
+          "id": "icon_heading",
+          "label": "Heading (next to icon)",
+          "default": "Leading UK Retailer"
+        },
+        {
+          "type": "text",
+          "id": "icon_caption",
+          "label": "Caption (below heading)",
+          "default": "Partner since 2021"
+        },
+        {
+          "type": "header",
+          "content": "Panel background"
+        },
+        {
+          "type": "select",
+          "id": "background_type",
+          "label": "Background type",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "gradient", "label": "Gradient" }
+          ],
+          "default": "gradient"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Solid background color",
+          "default": "#01277E"
+        },
+        {
+          "type": "color",
+          "id": "gradient_start",
+          "label": "Gradient start color",
+          "default": "#01277E"
+        },
+        {
+          "type": "color",
+          "id": "gradient_end",
+          "label": "Gradient end color",
+          "default": "#14B8A6"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "CTA Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Ready to grow your vape retail business?"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color",
+          "default": "#1A1A1A"
+        },
+        {
+          "type": "header",
+          "content": "Panel background"
+        },
+        {
+          "type": "select",
+          "id": "panel_background_type",
+          "label": "Background type",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "gradient", "label": "Gradient" }
+          ],
+          "default": "solid"
+        },
+        {
+          "type": "color",
+          "id": "panel_background_color",
+          "label": "Solid background color",
+          "default": "#F4F5F7"
+        },
+        {
+          "type": "color",
+          "id": "panel_gradient_start",
+          "label": "Gradient start color",
+          "default": "#F4F5F7"
+        },
+        {
+          "type": "color",
+          "id": "panel_gradient_end",
+          "label": "Gradient end color",
+          "default": "#E4E7EC"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Open Your Trade Account"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button text color",
+          "default": "#FFFFFF"
+        },
+        {
+          "type": "color",
+          "id": "button_border_color",
+          "label": "Button border color",
+          "default": "#01277E"
+        },
+        {
+          "type": "select",
+          "id": "button_background_type",
+          "label": "Button background type",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "gradient", "label": "Gradient" }
+          ],
+          "default": "solid"
+        },
+        {
+          "type": "color",
+          "id": "button_background_color",
+          "label": "Button solid background color",
+          "default": "#01277E"
+        },
+        {
+          "type": "color",
+          "id": "button_gradient_start",
+          "label": "Button gradient start color",
+          "default": "#01277E"
+        },
+        {
+          "type": "color",
+          "id": "button_gradient_end",
+          "label": "Button gradient end color",
+          "default": "#14B8A6"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland Why Choose",
+      "blocks": [
+        { "type": "heading_text" },
+        {
+          "type": "heading_text",
+          "settings": {
+            "heading": "Rock-Solid Reliability",
+            "text": "<p>Empty shelves mean lost revenue. Our vast warehousing capabilities and streamlined logistics network ensure that when you order, we deliver. No excuses, just consistent supply lines.</p>"
+          }
+        },
+        {
+          "type": "heading_text",
+          "settings": {
+            "heading": "A True Trade Partner",
+            "text": "<p>We aren't just shifting boxes; we are actively invested in the growth of your retail operation. From compliance advice to marketing support, we provide the tools you need to scale profitably.</p>"
+          }
+        },
+        { "type": "quote" },
+        { "type": "button" }
+      ]
+    }
+  ]
+}
+{% endschema %}
