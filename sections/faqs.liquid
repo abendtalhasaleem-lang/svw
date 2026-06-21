@@ -1,0 +1,695 @@
+<style>
+
+.select-faqs {
+  padding: 40px 30px;
+  transition: background-color 0.3s;
+}
+
+.sfaq-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 550px 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+/* ===== LEFT COLUMN ===== */
+.sfaq-left {
+  position: sticky;
+  top: 40px;
+}
+
+.sfaq-caption {
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sfaq-caption);
+  margin-bottom: 14px;
+  font-weight: bold;
+}
+
+.sfaq-main-heading {
+  font-size: 48px;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--sfaq-heading);
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.sfaq-intro-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--sfaq-text);
+  margin-bottom: 36px;
+}
+
+/* ===== HELP CARD ===== */
+.sfaq-card {
+  background-color: var(--sfaq-card-bg);
+  border-radius: 12px;
+  padding: 32px 50px;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: default;
+}
+
+.sfaq-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+}
+
+.sfaq-card-heading {
+  font-size: 26px;
+  text-transform: uppercase;
+  color: var(--sfaq-card-heading);
+  margin-bottom: 12px;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+}
+
+.sfaq-card-text {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--sfaq-card-text);
+  margin-bottom: 24px;
+}
+
+.sfaq-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background-color: var(--sfaq-btn-bg);
+  color: var(--sfaq-btn-text);
+  border: 2px solid var(--sfaq-btn-bg);
+  border-radius: 6px;
+  padding: 11px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.25s, color 0.25s, border-color 0.25s, transform 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+
+.sfaq-card-btn:hover {
+  background-color: var(--sfaq-btn-hover-bg);
+  color: var(--sfaq-btn-hover-text);
+  border-color: var(--sfaq-btn-hover-bg);
+  transform: scale(1.03);
+}
+
+.sfaq-card-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ===== FAQ ROWS ===== */
+.sfaq-right {
+  width: 100%;
+}
+
+.sfaq-row {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: border-color 0.25s, background-color 0.25s;
+  background-color: transparent;
+}
+
+.sfaq-row.sfaq-active {
+  border-color: var(--sfaq-border);
+  background-color: var(--sfaq-row-open-bg);
+}
+
+.sfaq-row:not(.sfaq-active):hover {
+  background-color: #f8f8f8;
+}
+
+.sfaq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  cursor: pointer;
+  gap: 16px;
+  user-select: none;
+  outline: none;
+}
+
+.sfaq-question:focus-visible {
+  outline: 2px solid var(--sfaq-border);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+.sfaq-question-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.sfaq-num {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sfaq-questioncolor);
+  min-width: 28px;
+  flex-shrink: 0;
+}
+
+.sfaq-question-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--sfaq-heading);
+  line-height: 1.4;
+  margin-bottom: 0px;
+}
+
+.sfaq-toggle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--sfaq-plus-bg);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  transition: background-color 0.25s;
+}
+
+.sfaq-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--sfaq-plus-icon);
+}
+
+.sfaq-h-line {
+  transform-origin: center;
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+/* ===== ANSWER PANEL ===== */
+.sfaq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transition: grid-template-rows 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.35s ease;
+}
+
+.sfaq-row.sfaq-active .sfaq-answer {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.sfaq-answer-inner {
+  overflow: hidden;
+  padding: 0 20px 0 62px;
+  transition: padding 0.35s ease;
+}
+
+.sfaq-row.sfaq-active .sfaq-answer-inner {
+  padding: 0 20px 20px 62px;
+}
+
+.sfaq-answer-inner p,
+.sfaq-answer-inner li {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--sfaq-text);
+}
+
+.sfaq-answer-inner ul,
+.sfaq-answer-inner ol {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media screen and (max-width: 900px) {
+  .select-faqs {
+    padding: 20px 24px;
+  }
+
+  .sfaq-inner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sfaq-left {
+    position: static;
+  }
+
+  .sfaq-main-heading {
+    font-size: 40px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sfaq-main-heading {
+    font-size: 42px;
+  }
+  .sfaq-question {
+    padding: 18px 10px;
+  }
+  .sfaq-question-text {
+    font-size: 14px;
+  }
+
+  .sfaq-answer-inner {
+    padding: 0 16px 0 46px;
+  }
+
+  .sfaq-row.sfaq-active .sfaq-answer-inner {
+    padding: 0 16px 16px 15px;
+  }
+  .sfaq-card {
+    padding: 20px;
+  }
+}
+
+</style>
+
+<section class="select-faqs" id="select-faqs-{{ section.id }}" style="
+  --sfaq-bg: {{ section.settings.bg_color }};
+  --sfaq-caption: {{ section.settings.caption_color }};
+  --sfaq-heading: {{ section.settings.heading_color }};
+  --sfaq-text: {{ section.settings.text_color }};
+  --sfaq-card-bg: {{ section.settings.card_bg }};
+  --sfaq-card-heading: {{ section.settings.card_heading_color }};
+  --sfaq-card-text: {{ section.settings.card_text_color }};
+  --sfaq-btn-bg: {{ section.settings.card_btn_bg }};
+  --sfaq-btn-text: {{ section.settings.card_btn_text }};
+  --sfaq-btn-hover-bg: {{ section.settings.card_btn_hover_bg }};
+  --sfaq-btn-hover-text: {{ section.settings.card_btn_hover_text }};
+  --sfaq-plus-bg: {{ section.settings.plus_icon_bg }};
+  --sfaq-plus-icon: {{ section.settings.plus_icon_color }};
+  --sfaq-border: {{ section.settings.border_color }};
+  --sfaq-row-open-bg: {{ section.settings.row_open_bg }};
+  --sfaq-questioncolor: {{ section.settings.question_color }};
+">
+  <div class="sfaq-inner">
+
+    {%- comment -%} LEFT COLUMN {%- endcomment -%}
+    <div class="sfaq-left">
+
+      {%- if section.settings.caption != blank -%}
+        <p class="sfaq-caption">{{ section.settings.caption }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="sfaq-main-heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.intro_text != blank -%}
+        <p class="sfaq-intro-text">{{ section.settings.intro_text }}</p>
+      {%- endif -%}
+
+      <div class="sfaq-card">
+        {%- if section.settings.card_heading != blank -%}
+          <h3 class="sfaq-card-heading">{{ section.settings.card_heading }}</h3>
+        {%- endif -%}
+        {%- if section.settings.card_text != blank -%}
+          <p class="sfaq-card-text">{{ section.settings.card_text }}</p>
+        {%- endif -%}
+        {%- if section.settings.card_btn_label != blank -%}
+          {%- if section.settings.whatsapp_number != blank -%}
+            {%- assign wa_message = section.settings.whatsapp_message | default: 'Hello! I have a question.' -%}
+            <a href="https://wa.me/{{ section.settings.whatsapp_number }}?text={{ wa_message | url_encode }}" class="sfaq-card-btn" target="_blank" rel="noopener">
+          {%- elsif section.settings.card_btn_url != blank -%}
+            <a href="{{ section.settings.card_btn_url }}" class="sfaq-card-btn">
+          {%- else -%}
+            <a href="#" class="sfaq-card-btn">
+          {%- endif -%}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            {{ section.settings.card_btn_label }}
+          </a>
+        {%- endif -%}
+      </div>
+
+    </div>
+
+    {%- comment -%} RIGHT COLUMN – FAQ ROWS {%- endcomment -%}
+    <div class="sfaq-right">
+
+      {%- assign faq_index = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq_item' -%}
+          {%- assign faq_index = faq_index | plus: 1 -%}
+          {%- assign num = faq_index | prepend: '0' | slice: -2, 2 -%}
+          <div class="sfaq-row" {{ block.shopify_attributes }}>
+            <div class="sfaq-question" role="button" tabindex="0" aria-expanded="false">
+              <div class="sfaq-question-left">
+                <span class="sfaq-num">Q{{ num }}.</span>
+                <h3 class="sfaq-question-text">{{ block.settings.question }}</h3>
+              </div>
+              <button class="sfaq-toggle-btn" aria-label="Toggle answer" tabindex="-1">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="12" y1="5" x2="12" y2="19"/>
+                  <line class="sfaq-h-line" x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+              </button>
+            </div>
+            <div class="sfaq-answer" aria-hidden="true">
+              <div class="sfaq-answer-inner">
+                {{ block.settings.answer }}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+    </div>
+  </div>
+</section>
+
+<style>
+  #select-faqs-{{ section.id }} {
+    background-color: var(--sfaq-bg);
+  }
+</style>
+
+<script>
+(function() {
+  var section = document.getElementById('select-faqs-{{ section.id }}');
+  if (!section) return;
+
+  var activeRow = null;
+
+  function updateIcon(row, isOpen) {
+    var hLine = row.querySelector('.sfaq-h-line');
+    if (!hLine) return;
+    hLine.style.transition = 'opacity 0.25s, transform 0.25s';
+    if (isOpen) {
+      hLine.style.opacity = '0';
+      hLine.style.transform = 'scaleX(0)';
+    } else {
+      hLine.style.opacity = '1';
+      hLine.style.transform = 'scaleX(1)';
+    }
+  }
+
+  function toggleRow(row) {
+    var isActive = row.classList.contains('sfaq-active');
+    var question = row.querySelector('.sfaq-question');
+
+    if (activeRow && activeRow !== row) {
+      activeRow.classList.remove('sfaq-active');
+      var prevQ = activeRow.querySelector('.sfaq-question');
+      if (prevQ) prevQ.setAttribute('aria-expanded', 'false');
+      var prevA = activeRow.querySelector('.sfaq-answer');
+      if (prevA) prevA.setAttribute('aria-hidden', 'true');
+      updateIcon(activeRow, false);
+    }
+
+    if (!isActive) {
+      row.classList.add('sfaq-active');
+      if (question) question.setAttribute('aria-expanded', 'true');
+      var answer = row.querySelector('.sfaq-answer');
+      if (answer) answer.setAttribute('aria-hidden', 'false');
+      updateIcon(row, true);
+      activeRow = row;
+    } else {
+      row.classList.remove('sfaq-active');
+      if (question) question.setAttribute('aria-expanded', 'false');
+      var answer = row.querySelector('.sfaq-answer');
+      if (answer) answer.setAttribute('aria-hidden', 'true');
+      updateIcon(row, false);
+      activeRow = null;
+    }
+  }
+
+  var rows = section.querySelectorAll('.sfaq-row');
+  rows.forEach(function(row) {
+    var question = row.querySelector('.sfaq-question');
+    if (!question) return;
+
+    question.addEventListener('click', function() {
+      toggleRow(row);
+    });
+
+    question.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleRow(row);
+      }
+    });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Select FAQs",
+  "tag": "div",
+  "class": "select-faqs-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left Column Content"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption",
+      "default": "Got Questions?"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Intro Text",
+      "default": "Everything you need to know before you shop. Can't find what you're looking for? Our experts are available 7 days a week."
+    },
+    {
+      "type": "header",
+      "content": "Help Card"
+    },
+    {
+      "type": "text",
+      "id": "card_heading",
+      "label": "Card Heading",
+      "default": "Still Need Help?"
+    },
+    {
+      "type": "textarea",
+      "id": "card_text",
+      "label": "Card Text",
+      "default": "Chat with our team via WhatsApp, email or live chat — 7 days a week. We're always happy to assist."
+    },
+    {
+      "type": "text",
+      "id": "card_btn_label",
+      "label": "Button Label",
+      "default": "Chat With Us"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp Number",
+      "info": "Include country code, no spaces or symbols (e.g. 447911123456). If filled, this overrides the Button URL below.",
+      "placeholder": "447911123456"
+    },
+    {
+      "type": "textarea",
+      "id": "whatsapp_message",
+      "label": "WhatsApp Pre-filled Message",
+      "default": "Hello! I have a question.",
+      "info": "This message will be pre-filled when the customer opens WhatsApp"
+    },
+    {
+      "type": "url",
+      "id": "card_btn_url",
+      "label": "Button URL (fallback if no WhatsApp number)"
+    },
+    {
+      "type": "header",
+      "content": "Colors — Section"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "caption_color",
+      "label": "Caption Color",
+      "default": "#e63030"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#555555"
+    },
+    {
+      "type": "header",
+      "content": "Colors — Help Card"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "card_heading_color",
+      "label": "Card Heading Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card Text Color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "color",
+      "id": "card_btn_bg",
+      "label": "Button Background",
+      "default": "#e63030"
+    },
+    {
+      "type": "color",
+      "id": "card_btn_text",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_btn_hover_bg",
+      "label": "Button Hover Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_btn_hover_text",
+      "label": "Button Hover Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Colors — FAQ Rows"
+    },
+    {
+      "type": "color",
+      "id": "plus_icon_bg",
+      "label": "Plus/Minus Icon Background",
+      "default": "#e63030"
+    },
+    {
+      "type": "color",
+      "id": "plus_icon_color",
+      "label": "Plus/Minus Icon Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Open Row Border Color",
+      "default": "#e63030"
+    },
+    {
+      "type": "color",
+      "id": "question_color",
+      "label": "Question Number color",
+      "default": "#e63030"
+    },
+    {
+      "type": "color",
+      "id": "row_open_bg",
+      "label": "Open Row Background",
+      "default": "#fafafa"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is your question?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Your answer goes here.</p>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 15,
+  "presets": [
+    {
+      "name": "Select FAQs",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is the best vape shop online UK?",
+            "answer": "<p>Select Vape Club is consistently rated as one of the best vape shops online UK has to offer, with over 355 verified 5-star Trustpilot reviews, free next-day delivery, and one of the widest product ranges in Britain.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where can I buy vape UK products safely online?",
+            "answer": "<p>You can buy vape UK products safely online right here at Select Vape Club. We are a fully compliant UK retailer, meaning every product we sell meets MHRA standards.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are you the cheapest vape shop online UK?",
+            "answer": "<p>We work hard to offer the lowest prices on all leading vape brands. Our price-match guarantee means if you find a lower price elsewhere, we'll match it.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How fast is delivery from your UK vape shop?",
+            "answer": "<p>We offer free next-day delivery on all orders placed before 3pm Monday to Friday. Weekend orders are dispatched on Monday.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need to verify my age to buy vape UK products?",
+            "answer": "<p>Yes. UK law requires all customers to be 18 or over to purchase vape products. We use a secure, automated age verification system at checkout.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
