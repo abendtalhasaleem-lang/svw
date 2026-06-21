@@ -524,6 +524,88 @@
         "padding_bottom": 36
       }
     },
+    "scotland_why_choose_CDHxiw": {
+      "type": "scotland-why-choose",
+      "blocks": {
+        "heading_text_D9Fhb7": {
+          "type": "heading_text",
+          "settings": {
+            "heading": "Unmatched Market Intelligence",
+            "heading_color": "#01277E",
+            "text": "<p>The vape industry moves fast. We stay ahead of trends so you don't have to.</p>",
+            "text_color": "#5C5C5C"
+          }
+        },
+        "heading_text_RwXrpy": {
+          "type": "heading_text",
+          "settings": {
+            "heading": "Rock-Solid Reliability",
+            "heading_color": "#01277E",
+            "text": "<p>Empty shelves mean lost revenue. Our vast warehousing capabilities and streamlined logistics network ensure that when you order, we deliver. No excuses, just consistent supply lines.</p>",
+            "text_color": "#5C5C5C"
+          }
+        },
+        "heading_text_EVRwnW": {
+          "type": "heading_text",
+          "settings": {
+            "heading": "A True Trade Partner",
+            "heading_color": "#01277E",
+            "text": "<p>We aren't just shifting boxes; we are actively invested in the growth of your retail operation. From compliance advice to marketing support, we provide the tools you need to scale profitably.</p>",
+            "text_color": "#5C5C5C"
+          }
+        },
+        "quote_bpxC3N": {
+          "type": "quote",
+          "settings": {
+            "quote_text": "<p>In a market flooded with unreliable suppliers, we bring a level of professionalism and consistency that allows our partners to focus on what matters: selling to their customers.</p>",
+            "text_color": "#FFFFFF",
+            "icon_initials": "UK",
+            "icon_bg_color": "#14B8A6",
+            "icon_text_color": "#FFFFFF",
+            "icon_heading": "Leading UK Retailer",
+            "icon_caption": "Partner since 2021",
+            "background_type": "gradient",
+            "background_color": "#01277E",
+            "gradient_start": "#01277E",
+            "gradient_end": "#14B8A6"
+          }
+        },
+        "button_AL8kxj": {
+          "type": "button",
+          "settings": {
+            "heading": "Ready to grow your vape retail business?",
+            "heading_color": "#1A1A1A",
+            "panel_background_type": "solid",
+            "panel_background_color": "#F4F5F7",
+            "panel_gradient_start": "#F4F5F7",
+            "panel_gradient_end": "#E4E7EC",
+            "button_label": "Open Your Trade Account",
+            "button_link": "",
+            "button_text_color": "#FFFFFF",
+            "button_border_color": "#01277E",
+            "button_background_type": "solid",
+            "button_background_color": "#01277E",
+            "button_gradient_start": "#01277E",
+            "button_gradient_end": "#14B8A6"
+          }
+        }
+      },
+      "block_order": [
+        "heading_text_D9Fhb7",
+        "heading_text_RwXrpy",
+        "heading_text_EVRwnW",
+        "quote_bpxC3N",
+        "button_AL8kxj"
+      ],
+      "name": "Scotland Why Choose",
+      "settings": {
+        "heading": "Why Scotland Wholesale Stands Out in the UK Vape Wholesale Market",
+        "heading_color": "#1A1A1A",
+        "full_width": false,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    },
     "scotland_trade_cta_km68a6": {
       "type": "scotland-trade-cta",
       "blocks": {
@@ -684,7 +766,7 @@
       ],
       "name": "Trustpilot Reviews",
       "settings": {
-        "bg_color": "#FFFFFF",
+        "bg_color": "#ffffff",
         "section_padding_top": 48,
         "section_padding_bottom": 48,
         "heading": "Showing our latest reviews",
@@ -699,7 +781,7 @@
         "star_color_5": "#00b67a",
         "star_empty_color": "#dce0e0",
         "text_color": "#1a1a1a",
-        "nav_btn_bg": "#F4F6F8",
+        "nav_btn_bg": "#f4f6f8",
         "nav_btn_border_color": "#d0d0d0",
         "nav_btn_icon_color": "#555555",
         "nav_btn_hover_bg": "#f0f0f0",
@@ -797,6 +879,7 @@
     "scotland_collection_row_9VXr63",
     "scotland_collection_row_6jKqXL",
     "scotland_collection_row_HagzBC",
+    "scotland_why_choose_CDHxiw",
     "scotland_trade_cta_km68a6",
     "trustpliot_slideshow_Wrp69F",
     "faqs_taBnGK"
