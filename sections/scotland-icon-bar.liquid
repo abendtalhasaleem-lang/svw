@@ -51,7 +51,7 @@
     data-pin-above-header="true"
   {% endif %}
 >
-  <div class="scotland-icon-bar__container{% unless section.settings.full_width %} page-width{% endunless %}">
+  <div class="scotland-icon-bar__container{% unless section.settings.full_width %} page-width{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
     {%- if section.blocks.size > 0 -%}
       <div class="scotland-icon-bar__grid scotland-icon-bar__grid--desktop">
         {%- for block in section.blocks -%}

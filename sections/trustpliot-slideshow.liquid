@@ -16,9 +16,18 @@
   }
 
   .tp-container {
-    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    width: 100%;
+  }
+
+  .tp-container.page-width {
+    max-width: var(--page-width);
+  }
+
+  .tp-section--full .tp-container {
+    max-width: 100%;
+    padding-left: {{ section.settings.content_padding_horizontal }}px;
+    padding-right: {{ section.settings.content_padding_horizontal }}px;
   }
 
   /* ── Header ── */
@@ -246,14 +255,18 @@
     .tp-summary {
       font-size: 12px;
     }
+    .tp-section--full .tp-container {
+      padding-left: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+      padding-right: {{ section.settings.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+    }
   }
 </style>
 
-<section class="tp-section" id="tp-section-{{ section.id }}">
-  <div class="tp-container">
+<section class="tp-section{% if section.settings.full_width %} tp-section--full{% else %} tp-section--contained{% endif %}" id="tp-section-{{ section.id }}">
+  <div class="tp-container{% unless section.settings.full_width %} page-width{% endunless %}">
 
     {%- comment -%} ── Header ── {%- endcomment -%}
-    <div class="tp-header">
+    <div class="tp-header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
       <h2 class="tp-heading">{{ section.settings.heading }}</h2>
 
       <div class="tp-logo-wrap">
@@ -276,7 +289,7 @@
     </div>
 
     {%- comment -%} ── Slider ── {%- endcomment -%}
-    <div class="tp-slider-outer" id="tp-outer-{{ section.id }}">
+    <div class="tp-slider-outer{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" id="tp-outer-{{ section.id }}">
       <div class="tp-slider-track" id="tp-track-{{ section.id }}">
 
         {%- for block in section.blocks -%}
@@ -322,7 +335,7 @@
     </div>
 
     {%- comment -%} ── Footer ── {%- endcomment -%}
-    <div class="tp-footer">
+    <div class="tp-footer{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
       <div class="tp-nav">
         <button class="tp-btn tp-prev" id="tp-prev-{{ section.id }}" aria-label="Previous reviews">
           <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
@@ -423,6 +436,23 @@
     {
       "type": "header",
       "content": "Layout & Background"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width section",
+      "default": false,
+      "info": "When off, content uses the theme page width."
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding when full width",
+      "default": 24
     },
     {
       "type": "color",

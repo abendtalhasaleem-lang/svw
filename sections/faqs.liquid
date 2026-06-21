@@ -1,17 +1,29 @@
 <style>
 
 .select-faqs {
-  padding: 40px 30px;
-  transition: background-color 0.3s;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  transition: background 0.3s;
+}
+
+.select-faqs--full .sfaq-inner {
+  max-width: 100%;
+  width: 100%;
+  padding-left: var(--sfaq-h-padding, 24px);
+  padding-right: var(--sfaq-h-padding, 24px);
 }
 
 .sfaq-inner {
-  max-width: 1400px;
   margin: 0 auto;
+  width: 100%;
   display: grid;
   grid-template-columns: 550px 1fr;
   gap: 30px;
   align-items: start;
+}
+
+.sfaq-inner.page-width {
+  max-width: var(--page-width);
 }
 
 /* ===== LEFT COLUMN ===== */
@@ -47,11 +59,12 @@
 
 /* ===== HELP CARD ===== */
 .sfaq-card {
-  background-color: var(--sfaq-card-bg);
+  background: var(--sfaq-card-bg);
   border-radius: 12px;
   padding: 32px 50px;
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
-              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              background 0.3s;
   cursor: default;
 }
 
@@ -238,7 +251,13 @@
 /* ===== RESPONSIVE ===== */
 @media screen and (max-width: 900px) {
   .select-faqs {
-    padding: 20px 24px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .select-faqs--full .sfaq-inner {
+    padding-left: max(var(--sfaq-h-padding, 24px), 24px);
+    padding-right: max(var(--sfaq-h-padding, 24px), 24px);
   }
 
   .sfaq-inner {
@@ -280,12 +299,25 @@
 
 </style>
 
-<section class="select-faqs" id="select-faqs-{{ section.id }}" style="
-  --sfaq-bg: {{ section.settings.bg_color }};
+{%- liquid
+  assign card_bg = section.settings.card_bg
+  if section.settings.card_bg_type == 'gradient'
+    assign card_bg = 'linear-gradient(135deg, ' | append: section.settings.card_gradient_start | append: ', ' | append: section.settings.card_gradient_end | append: ')'
+  endif
+
+  assign section_bg = section.settings.bg_color
+  if section.settings.section_bg_type == 'gradient'
+    assign section_bg = 'linear-gradient(135deg, ' | append: section.settings.section_gradient_start | append: ', ' | append: section.settings.section_gradient_end | append: ')'
+  endif
+-%}
+
+<section class="select-faqs{% if section.settings.full_width %} select-faqs--full{% else %} select-faqs--contained{% endif %}" id="select-faqs-{{ section.id }}" style="
+  --sfaq-h-padding: {{ section.settings.content_padding_horizontal }}px;
+  --sfaq-bg: {{ section_bg }};
   --sfaq-caption: {{ section.settings.caption_color }};
   --sfaq-heading: {{ section.settings.heading_color }};
   --sfaq-text: {{ section.settings.text_color }};
-  --sfaq-card-bg: {{ section.settings.card_bg }};
+  --sfaq-card-bg: {{ card_bg }};
   --sfaq-card-heading: {{ section.settings.card_heading_color }};
   --sfaq-card-text: {{ section.settings.card_text_color }};
   --sfaq-btn-bg: {{ section.settings.card_btn_bg }};
@@ -298,10 +330,10 @@
   --sfaq-row-open-bg: {{ section.settings.row_open_bg }};
   --sfaq-questioncolor: {{ section.settings.question_color }};
 ">
-  <div class="sfaq-inner">
+  <div class="sfaq-inner{% unless section.settings.full_width %} page-width{% endunless %}">
 
     {%- comment -%} LEFT COLUMN {%- endcomment -%}
-    <div class="sfaq-left">
+    <div class="sfaq-left{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
 
       {%- if section.settings.caption != blank -%}
         <p class="sfaq-caption">{{ section.settings.caption }}</p>
@@ -349,7 +381,7 @@
         {%- if block.type == 'faq_item' -%}
           {%- assign faq_index = faq_index | plus: 1 -%}
           {%- assign num = faq_index | prepend: '0' | slice: -2, 2 -%}
-          <div class="sfaq-row" {{ block.shopify_attributes }}>
+          <div class="sfaq-row{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"{% if settings.animations_reveal_on_scroll %} style="--animation-order: {{ faq_index }};"{% endif %} {{ block.shopify_attributes }}>
             <div class="sfaq-question" role="button" tabindex="0" aria-expanded="false">
               <div class="sfaq-question-left">
                 <span class="sfaq-num">Q{{ num }}.</span>
@@ -377,7 +409,7 @@
 
 <style>
   #select-faqs-{{ section.id }} {
-    background-color: var(--sfaq-bg);
+    background: var(--sfaq-bg);
   }
 </style>
 
@@ -458,6 +490,27 @@
   "settings": [
     {
       "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width section",
+      "default": false,
+      "info": "When off, content uses the theme page width."
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding when full width",
+      "default": 24
+    },
+    {
+      "type": "header",
       "content": "Left Column Content"
     },
     {
@@ -524,10 +577,32 @@
       "content": "Colors — Section"
     },
     {
+      "type": "select",
+      "id": "section_bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ],
+      "default": "solid"
+    },
+    {
       "type": "color",
       "id": "bg_color",
-      "label": "Background Color",
+      "label": "Solid background color",
       "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "section_gradient_start",
+      "label": "Gradient start color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "section_gradient_end",
+      "label": "Gradient end color",
+      "default": "#f4f6f8"
     },
     {
       "type": "color",
@@ -552,10 +627,32 @@
       "content": "Colors — Help Card"
     },
     {
+      "type": "select",
+      "id": "card_bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ],
+      "default": "solid"
+    },
+    {
       "type": "color",
       "id": "card_bg",
-      "label": "Card Background",
+      "label": "Solid background color",
       "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "card_gradient_start",
+      "label": "Gradient start color",
+      "default": "#01277e"
+    },
+    {
+      "type": "color",
+      "id": "card_gradient_end",
+      "label": "Gradient end color",
+      "default": "#14b8a6"
     },
     {
       "type": "color",

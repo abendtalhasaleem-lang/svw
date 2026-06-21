@@ -6,7 +6,7 @@
 <div class="swc-wrap-{{ s_id }} swc-section {% if s.full_width %}swc-full{% else %}swc-contained page-width{% endif %}">
 
   {%- if s.heading != blank -%}
-    <h2 class="swc-main-heading" style="--fs: {{ s.heading_font_size }}px; --fs-mobile: {{ s.heading_font_size | times: 0.78 | round }}px;">
+    <h2 class="swc-main-heading{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" style="--fs: {{ s.heading_font_size }}px; --fs-mobile: {{ s.heading_font_size | times: 0.78 | round }}px;">
       {{ s.heading }}
     </h2>
   {%- endif -%}
@@ -17,7 +17,7 @@
       {%- case block.type -%}
 
         {%- when 'heading_text' -%}
-          <div class="swc-block swc-heading-text" {{ block.shopify_attributes }}>
+          <div class="swc-block swc-heading-text{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"{% if settings.animations_reveal_on_scroll %} style="--animation-order: {{ forloop.index }};"{% endif %} {{ block.shopify_attributes }}>
             {%- if block.settings.heading != blank -%}
               <h3 class="swc-block-heading" style="color: {{ block.settings.heading_color }}; --fs: {{ block.settings.heading_font_size }}px; --fs-mobile: {{ block.settings.heading_font_size | times: 0.82 | round }}px;">
                 {{ block.settings.heading }}
@@ -37,7 +37,7 @@
               assign qbg = 'linear-gradient(135deg, ' | append: block.settings.gradient_start | append: ', ' | append: block.settings.gradient_end | append: ')'
             endif
           -%}
-          <div class="swc-block swc-quote" style="background: {{ qbg }};" {{ block.shopify_attributes }}>
+          <div class="swc-block swc-quote{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" style="background: {{ qbg }};{% if settings.animations_reveal_on_scroll %} --animation-order: {{ forloop.index }};{% endif %}" {{ block.shopify_attributes }}>
             {%- if block.settings.quote_text != blank -%}
               <div class="swc-quote-text" style="color: {{ block.settings.text_color }}; --fs: {{ block.settings.quote_text_font_size }}px; --fs-mobile: {{ block.settings.quote_text_font_size | times: 0.85 | round }}px;">
                 {{ block.settings.quote_text }}
@@ -75,7 +75,7 @@
               assign btn_bg = 'linear-gradient(135deg, ' | append: block.settings.button_gradient_start | append: ', ' | append: block.settings.button_gradient_end | append: ')'
             endif
           -%}
-          <div class="swc-block swc-cta" style="background: {{ panel_bg }};" {{ block.shopify_attributes }}>
+          <div class="swc-block swc-cta{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" style="background: {{ panel_bg }};{% if settings.animations_reveal_on_scroll %} --animation-order: {{ forloop.index }};{% endif %}" {{ block.shopify_attributes }}>
             {%- if block.settings.heading != blank -%}
               <h3 class="swc-cta-heading" style="color: {{ block.settings.heading_color }}; --fs: {{ block.settings.heading_font_size }}px; --fs-mobile: {{ block.settings.heading_font_size | times: 0.85 | round }}px;">
                 {{ block.settings.heading }}

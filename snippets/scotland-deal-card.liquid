@@ -1,0 +1,83 @@
+{%- comment -%}
+  Renders a single deal card for scotland-deals section.
+  Accepts:
+  - block: {Object} block object
+  - animation_index: {Number} optional scroll animation order
+{%- endcomment -%}
+
+{%- liquid
+  assign card_bg = block.settings.card_bg_color
+  if block.settings.card_bg_type == 'gradient'
+    assign card_bg = 'radial-gradient(ellipse at top right, ' | append: block.settings.card_gradient_start | append: ', ' | append: block.settings.card_gradient_end | append: ' 72%)'
+  endif
+-%}
+
+<article
+  class="scotland-deals__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  style="background: {{ card_bg }};{% if settings.animations_reveal_on_scroll and animation_index %} --animation-order: {{ animation_index }};{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.corner_icon != blank -%}
+    <div class="scotland-deals__card-corner-icon" aria-hidden="true">
+      {{
+        block.settings.corner_icon
+        | image_url: width: 120
+        | image_tag: loading: 'lazy', alt: ''
+      }}
+    </div>
+  {%- endif -%}
+
+  <div class="scotland-deals__card-top">
+    {%- if block.settings.badge_text != blank -%}
+      <span
+        class="scotland-deals__card-badge"
+        style="background-color: {{ block.settings.badge_bg_color }}; color: {{ block.settings.badge_text_color }};"
+      >
+        {%- if block.settings.badge_icon != blank -%}
+          <span class="scotland-deals__card-badge-icon">
+            {{
+              block.settings.badge_icon
+              | image_url: width: 40
+              | image_tag: loading: 'lazy', alt: ''
+            }}
+          </span>
+        {%- endif -%}
+        {{ block.settings.badge_text | escape }}
+      </span>
+    {%- endif -%}
+  </div>
+
+  {%- if block.settings.heading_part_one != blank or block.settings.heading_part_two != blank -%}
+    <h3 class="scotland-deals__card-heading">
+      {%- if block.settings.heading_part_one != blank -%}
+        <span class="scotland-deals__card-heading-part" style="color: {{ block.settings.heading_color_one }};">
+          {{- block.settings.heading_part_one | escape -}}
+        </span>
+      {%- endif -%}
+      {%- if block.settings.heading_part_two != blank -%}
+        <span class="scotland-deals__card-heading-part" style="color: {{ block.settings.heading_color_two }};">
+          {{- block.settings.heading_part_two | escape -}}
+        </span>
+      {%- endif -%}
+    </h3>
+  {%- endif -%}
+
+  {%- if block.settings.text != blank -%}
+    <div class="scotland-deals__card-text" style="color: {{ block.settings.text_color }};">
+      {{ block.settings.text }}
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.button_label != blank -%}
+    <a
+      href="{{ block.settings.button_link | default: '#' }}"
+      class="scotland-deals__card-button"
+      style="background-color: {{ block.settings.button_bg_color }}; color: {{ block.settings.button_text_color }};"
+    >
+      {{ block.settings.button_label | escape }}
+      <span class="scotland-deals__card-button-icon" aria-hidden="true">
+        {{- 'icon-arrow.svg' | inline_asset_content -}}
+      </span>
+    </a>
+  {%- endif -%}
+</article>

@@ -6,10 +6,6 @@
 {{ 'component-scotland-product-card.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'scotland-collection-row.js' | asset_url }}" defer="defer"></script>
 
-{% if section.settings.image_shape == 'blob' %}
-  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
-{%- endif -%}
-
 {%- unless section.settings.quick_add == 'none' -%}
   {{ 'quick-add.css' | asset_url | stylesheet_tag }}
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
@@ -29,9 +25,24 @@
 {%- liquid
   assign heading_tag = section.settings.heading_tag | default: 'h2'
   assign columns_desktop = section.settings.columns_desktop | plus: 0
-  assign products_to_show = columns_desktop
   assign columns_mobile_int = section.settings.columns_mobile | plus: 0
   assign show_mobile_slider = true
+  assign max_products = section.settings.max_products | default: 10 | plus: 0
+
+  if section.settings.desktop_autoplay
+    assign products_to_show = max_products
+  else
+    assign products_to_show = columns_desktop
+  endif
+
+  if section.settings.collection != blank and section.settings.collection.all_products_count < products_to_show
+    assign products_to_show = section.settings.collection.all_products_count
+  endif
+
+  assign use_desktop_slider = false
+  if section.settings.desktop_autoplay or products_to_show > columns_desktop
+    assign use_desktop_slider = true
+  endif
 
   if section.settings.title != blank
     assign display_title = section.settings.title
@@ -93,6 +104,7 @@
   #ScotlandCollectionRow-{{ section.id }} {
     --scr-product-cols: {{ columns_desktop }};
     --scr-mobile-cols: {{ section.settings.columns_mobile }};
+    --scr-desktop-slide-size: calc((100% - (var(--scr-product-cols) - 1) * var(--scr-card-gap, 12px)) / var(--scr-product-cols));
     --scr-feature-col: {{ feature_col }}fr;
     --scr-title-color: {{ section.settings.title_color }};
     --scr-title-size: {{ section.settings.title_font_size }}px;
@@ -149,12 +161,16 @@
 
 <scotland-collection-row
   id="ScotlandCollectionRow-{{ section.id }}"
-  class="scotland-collection-row color-{{ section.settings.color_scheme }} gradient scotland-product-card{% if section.settings.image_fit == 'contain' %} scotland-product-card--fit-contain{% endif %}{% unless section.settings.show_feature_image %} scotland-collection-row--no-feature{% endunless %}"
+  class="scotland-collection-row scotland-product-card{% if section.settings.image_fit == 'contain' %} scotland-product-card--fit-contain{% endif %}{% unless section.settings.show_feature_image %} scotland-collection-row--no-feature{% endunless %}{% if use_desktop_slider %} scotland-collection-row--desktop-slider{% endif %}"
   data-mobile-autoplay="{{ section.settings.mobile_autoplay }}"
+  data-desktop-autoplay="{{ section.settings.desktop_autoplay }}"
   data-autoplay-speed="{{ section.settings.mobile_autoplay_speed }}"
+  data-desktop-autoplay-speed="{{ section.settings.desktop_autoplay_speed }}"
+  data-mobile-columns="{{ columns_mobile_int }}"
+  data-desktop-columns="{{ columns_desktop }}"
 >
   <div class="scotland-collection-row__container{% unless section.settings.full_width %} page-width{% endunless %}">
-    <div class="scotland-collection-row__header">
+    <div class="scotland-collection-row__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
       <{{ heading_tag }} class="scotland-collection-row__heading">
         {{ display_title | escape }}
       </{{ heading_tag }}>
@@ -208,7 +224,7 @@
       {%- endif -%}
 
       <div class="scotland-collection-row__products">
-        <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}">
+        <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           <ul
             id="Slider-{{ section.id }}"
             data-scr-slider
@@ -222,12 +238,13 @@
               {%- for product in section.settings.collection.products limit: products_to_show -%}{% comment %}EasylockdownFilterBegin{% endcomment %}{% capture easylockdownFilter %}{% render 'easylockdown_filter_collection' with product, easylockdownRender: true, easylockdownItemSelectorOff: easylockdownItemSelectorOff %}{% endcapture %}{% assign easylockdownFilter = easylockdownFilter | strip %}{% if easylockdownFilter == 'continue' %}{% continue %}{% else %}{{ easylockdownFilter }}{% endif %}{% comment %}EasylockdownFilterEnd{% endcomment %}
                 <li
                   id="Slide-{{ section.id }}-{{ forloop.index }}"
-                  class="grid__item slider__slide"
+                  class="grid__item slider__slide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {% if settings.animations_reveal_on_scroll %}style="--animation-order: {{ forloop.index }};"{% endif %}
                 >
                   {% render 'card-product',
                     card_product: product,
                     media_aspect_ratio: card_image_ratio,
-                    image_shape: section.settings.image_shape,
+                    image_shape: 'default',
                     show_secondary_image: section.settings.show_secondary_image,
                     show_vendor: section.settings.show_vendor,
                     show_rating: section.settings.show_rating,
@@ -242,7 +259,11 @@
               {%- endfor -%}
             {%- else -%}
               {%- for i in (1..products_to_show) -%}
-                <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="grid__item slider__slide">
+                <li
+                  id="Slide-{{ section.id }}-{{ forloop.index }}"
+                  class="grid__item slider__slide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  {% if settings.animations_reveal_on_scroll %}style="--animation-order: {{ forloop.index }};"{% endif %}
+                >
                   {% liquid
                     assign ridx = forloop.rindex
                     case ridx
@@ -256,7 +277,7 @@
                   {% render 'card-product',
                     show_vendor: section.settings.show_vendor,
                     media_aspect_ratio: card_image_ratio,
-                    image_shape: section.settings.image_shape,
+                    image_shape: 'default',
                     placeholder_image: placeholder_image
                   %}
                 </li>
@@ -267,10 +288,6 @@
       </div>
     </div>
   </div>
-
-  {% if section.settings.image_shape == 'arch' %}
-    {{ 'mask-arch.svg' | inline_asset_content }}
-  {%- endif -%}
 </scotland-collection-row>
 
 {% schema %}
@@ -373,13 +390,6 @@
       "content": "Feature image"
     },
     {
-      "type": "checkbox",
-      "id": "show_feature_image",
-      "label": "Show feature image",
-      "default": true,
-      "info": "When off, product cards use the full row width on desktop."
-    },
-    {
       "type": "image_picker",
       "id": "feature_image",
       "label": "Image",
@@ -457,6 +467,13 @@
       "default": "5"
     },
     {
+      "type": "checkbox",
+      "id": "show_feature_image",
+      "label": "Show feature image on desktop",
+      "default": true,
+      "info": "The left collection image is always hidden on mobile. Turn off to use the full row width for product cards on desktop."
+    },
+    {
       "type": "select",
       "id": "columns_mobile",
       "label": "Product columns on mobile",
@@ -481,12 +498,6 @@
       "unit": "px",
       "label": "Horizontal padding when full width",
       "default": 24
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
     },
     {
       "type": "header",
@@ -536,22 +547,6 @@
       "info": "Only applies when Image fit is set to Contain."
     },
     {
-      "type": "select",
-      "id": "image_shape",
-      "options": [
-        { "value": "default", "label": "Default" },
-        { "value": "arch", "label": "Arch" },
-        { "value": "blob", "label": "Blob" },
-        { "value": "chevronleft", "label": "Chevron left" },
-        { "value": "chevronright", "label": "Chevron right" },
-        { "value": "diamond", "label": "Diamond" },
-        { "value": "parallelogram", "label": "Parallelogram" },
-        { "value": "round", "label": "Round" }
-      ],
-      "default": "default",
-      "label": "Image shape"
-    },
-    {
       "type": "checkbox",
       "id": "show_secondary_image",
       "default": false,
@@ -582,7 +577,17 @@
     },
     {
       "type": "header",
-      "content": "Mobile slider"
+      "content": "Slider"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "label": "Maximum products in slider",
+      "default": 10,
+      "info": "Used when desktop auto-slide is on, or when there are more products than fit in one row."
     },
     {
       "type": "checkbox",
@@ -591,13 +596,29 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "desktop_autoplay",
+      "label": "Auto-slide on desktop",
+      "default": false
+    },
+    {
       "type": "range",
       "id": "mobile_autoplay_speed",
       "min": 2,
       "max": 10,
       "step": 1,
       "unit": "s",
-      "label": "Auto-slide speed",
+      "label": "Auto-slide speed (mobile)",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "desktop_autoplay_speed",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Auto-slide speed (desktop)",
       "default": 5
     },
     {

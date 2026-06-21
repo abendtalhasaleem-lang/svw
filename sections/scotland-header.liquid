@@ -1,7 +1,111 @@
-{{ 'section-scotland-header.css' | asset_url | stylesheet_tag }}
-{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
-{{ 'component-search.css' | asset_url | stylesheet_tag }}
-{{ 'component-menu-drawer.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  /* Critical FOUC guard — must be first, before external CSS on slow networks */
+  .hidden {
+    display: none !important;
+  }
+
+  .scotland-header-wrapper:not(.is-loaded) {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .scotland-header-wrapper.is-loaded {
+    visibility: visible !important;
+    opacity: 1;
+    pointer-events: auto;
+    max-height: none;
+    overflow: visible;
+    transition: opacity 0.15s ease;
+  }
+
+  #ScotlandHeader-{{ section.id }} svg,
+  #ScotlandHeader-{{ section.id }} .svg-wrapper svg {
+    max-width: 4rem;
+    max-height: 4rem;
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__search-icon,
+  #ScotlandHeader-{{ section.id }} .scotland-header__search-icon svg,
+  #ScotlandHeader-{{ section.id }} .scotland-header__search-reset,
+  #ScotlandHeader-{{ section.id }} .scotland-header__search-reset svg,
+  #ScotlandHeader-{{ section.id }} .scotland-header__search-reset .svg-wrapper {
+    width: 1.8rem !important;
+    height: 1.8rem !important;
+    max-width: 1.8rem !important;
+    max-height: 1.8rem !important;
+    overflow: hidden;
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__search--desktop {
+    display: none;
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__search--mobile {
+    display: block;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 990px) {
+    #ScotlandHeader-{{ section.id }} .scotland-header__search--desktop {
+      display: block;
+    }
+
+    #ScotlandHeader-{{ section.id }} .scotland-header__search--mobile {
+      display: none;
+    }
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__top-grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  #ScotlandHeader-{{ section.id }} .header__icon--menu {
+    width: 4rem;
+    height: 4rem;
+    overflow: hidden;
+  }
+
+  #ScotlandHeader-{{ section.id }} .header__icon--menu span,
+  #ScotlandHeader-{{ section.id }} .header__icon--menu svg,
+  #ScotlandHeader-{{ section.id }} .header__icon--menu .icon {
+    width: 2rem !important;
+    height: 2rem !important;
+    max-width: 2rem !important;
+    max-height: 2rem !important;
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__utility-icon,
+  #ScotlandHeader-{{ section.id }} .scotland-header__utility-icon .svg-wrapper,
+  #ScotlandHeader-{{ section.id }} .scotland-header__utility-icon svg {
+    width: 2rem !important;
+    height: 2rem !important;
+    max-width: 3rem !important;
+    max-height: 3rem !important;
+    overflow: hidden;
+  }
+
+  #ScotlandHeader-{{ section.id }} .scotland-header__inline-menu,
+  #ScotlandHeader-{{ section.id }} .scotland-header__nav-row {
+    display: none;
+  }
+
+  @media screen and (min-width: 990px) {
+    .scotland-header-wrapper.is-loaded #ScotlandHeader-{{ section.id }} .scotland-header__inline-menu,
+    .scotland-header-wrapper.is-loaded #ScotlandHeader-{{ section.id }} .scotland-header__nav-row {
+      display: block;
+    }
+  }
+{%- endstyle -%}
+
+{{ 'section-scotland-header.css' | asset_url | stylesheet_tag: preload: true }}
+{{ 'component-list-menu.css' | asset_url | stylesheet_tag: preload: true }}
+{{ 'component-search.css' | asset_url | stylesheet_tag: preload: true }}
+{{ 'component-menu-drawer.css' | asset_url | stylesheet_tag: preload: true }}
 <link rel="stylesheet" href="{{ 'component-cart-notification.css' | asset_url }}" media="print" onload="this.media='all'">
 
 {%- if settings.predictive_search_enabled -%}
@@ -104,6 +208,13 @@
     height: 2rem;
   }
 
+  #ScotlandHeader-{{ section.id }} .scotland-header__logo-img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: min(var(--scotland-header-logo-width, 260px), 100%);
+  }
+
   @media screen and (min-width: 750px) {
     #ScotlandHeader-{{ section.id }} {
       --scotland-header-padding-top: {{ section.settings.padding_top }}px;
@@ -111,16 +222,27 @@
     }
   }
 
-  .section-header {
-    position: sticky;
+  #shopify-section-{{ section.id }}.section-header {
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
+    z-index: 3;
   }
 
   @media screen and (min-width: 750px) {
-    .section-header {
+    #shopify-section-{{ section.id }}.section-header {
       margin-bottom: {{ section.settings.margin_bottom }}px;
     }
   }
+
+  {%- if section.settings.sticky_header_type == 'always' or section.settings.sticky_header_type == 'reduce-logo-size' -%}
+    #shopify-section-{{ section.id }}.section-header {
+      position: sticky;
+      top: 0;
+    }
+  {%- elsif section.settings.sticky_header_type == 'on-scroll-up' -%}
+    #shopify-section-{{ section.id }}.section-header:not(.shopify-section-header-sticky) {
+      position: relative;
+    }
+  {%- endif -%}
 
   {%- if section.settings.sticky_header_type == 'reduce-logo-size' -%}
     .scrolled-past-header #ScotlandHeader-{{ section.id }} .scotland-header__logo-img {
@@ -148,6 +270,7 @@
 <{{ header_tag }}
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
+    data-section-id="{{ section.id }}"
   {% endif %}
   class="header-wrapper scotland-header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}"
 >
@@ -335,6 +458,37 @@
   </header>
 </{{ header_tag }}>
 
+<script>
+  (function () {
+    var sectionId = '{{ section.id }}';
+    var wrapper = document.querySelector('#shopify-section-' + sectionId + ' .scotland-header-wrapper')
+      || document.querySelector('.scotland-header-wrapper');
+    if (!wrapper) return;
+
+    function notifyStickyHeaderReady() {
+      window.dispatchEvent(new CustomEvent('scotland-header:ready', { detail: { sectionId: sectionId } }));
+    }
+
+    function revealHeader() {
+      if (wrapper.classList.contains('is-loaded')) return;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          wrapper.classList.add('is-loaded');
+          notifyStickyHeaderReady();
+        });
+      });
+    }
+
+    if (document.readyState === 'complete') {
+      revealHeader();
+    } else {
+      window.addEventListener('load', revealHeader, { once: true });
+    }
+
+    window.setTimeout(revealHeader, 5000);
+  })();
+</script>
+
 {%- if settings.cart_type == 'notification' -%}
   {%- render 'cart-notification',
     color_scheme: section.settings.color_scheme,
@@ -349,17 +503,35 @@
     }
 
     connectedCallback() {
-      this.header = document.querySelector('.section-header');
+      this.sectionId = this.getAttribute('data-section-id');
+      this.header = this.sectionId
+        ? document.getElementById('shopify-section-' + this.sectionId)
+        : document.querySelector('.section-header');
       this.headerIsAlwaysSticky =
         this.getAttribute('data-sticky-type') === 'always' ||
         this.getAttribute('data-sticky-type') === 'reduce-logo-size';
-      this.headerBounds = {};
+      this.headerBounds = { bottom: 0 };
+      this.scrollThreshold = 0;
+
+      this.onHeaderReady = this.onHeaderReady.bind(this);
+      this.onScrollHandler = this.onScroll.bind(this);
+      this.hideHeaderOnScrollUp = () => (this.preventReveal = true);
 
       this.setHeaderHeight();
+      this.updateHeaderBounds();
 
-      window.matchMedia('(max-width: 990px)').addEventListener('change', this.setHeaderHeight.bind(this));
+      window.matchMedia('(max-width: 990px)').addEventListener('change', this.onHeaderReady);
+      window.addEventListener('load', this.onHeaderReady);
+      window.addEventListener('scotland-header:ready', this.onHeaderReady);
+      window.addEventListener('scroll', this.onScrollHandler, { passive: true });
+      this.addEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
 
-      if (this.headerIsAlwaysSticky) {
+      if (this.header && typeof ResizeObserver !== 'undefined') {
+        this.resizeObserver = new ResizeObserver(this.onHeaderReady);
+        this.resizeObserver.observe(this.header);
+      }
+
+      if (this.headerIsAlwaysSticky && this.header) {
         this.header.classList.add('shopify-section-header-sticky');
       }
 
@@ -367,56 +539,68 @@
       this.preventReveal = false;
       this.predictiveSearchInstances = this.querySelectorAll('predictive-search');
 
-      this.onScrollHandler = this.onScroll.bind(this);
-      this.hideHeaderOnScrollUp = () => (this.preventReveal = true);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(this.onHeaderReady);
+      });
+    }
 
-      this.addEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
-      window.addEventListener('scroll', this.onScrollHandler, false);
-
-      this.createObserver();
+    onHeaderReady(event) {
+      if (event && event.detail && event.detail.sectionId && event.detail.sectionId !== this.sectionId) {
+        return;
+      }
+      this.setHeaderHeight();
+      this.updateHeaderBounds();
     }
 
     setHeaderHeight() {
-      document.documentElement.style.setProperty('--header-height', `${this.header.offsetHeight}px`);
+      if (!this.header) return;
+      const height = this.header.offsetHeight;
+      if (height > 0) {
+        document.documentElement.style.setProperty('--header-height', `${height}px`);
+      }
+    }
+
+    updateHeaderBounds() {
+      if (!this.header) return;
+      const height = this.header.offsetHeight;
+      this.scrollThreshold = height > 0 ? height : this.scrollThreshold;
+      this.headerBounds.bottom = this.scrollThreshold;
     }
 
     disconnectedCallback() {
       this.removeEventListener('preventHeaderReveal', this.hideHeaderOnScrollUp);
+      window.removeEventListener('load', this.onHeaderReady);
+      window.removeEventListener('scotland-header:ready', this.onHeaderReady);
       window.removeEventListener('scroll', this.onScrollHandler);
-    }
-
-    createObserver() {
-      let observer = new IntersectionObserver((entries, observer) => {
-        this.headerBounds = entries[0].intersectionRect;
-        observer.disconnect();
-      });
-
-      observer.observe(this.header);
+      if (this.resizeObserver) {
+        this.resizeObserver.disconnect();
+      }
     }
 
     onScroll() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      if (!this.header || this.headerIsAlwaysSticky) return;
 
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       if (this.isPredictiveSearchOpen()) return;
 
-      if (scrollTop > this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+      const threshold = this.scrollThreshold || this.headerBounds.bottom || 0;
+
+      if (scrollTop > this.currentScrollTop && scrollTop > threshold) {
         this.header.classList.add('scrolled-past-header');
         if (this.preventHide) return;
         requestAnimationFrame(this.hide.bind(this));
-      } else if (scrollTop < this.currentScrollTop && scrollTop > this.headerBounds.bottom) {
+      } else if (scrollTop < this.currentScrollTop && scrollTop > threshold) {
         this.header.classList.add('scrolled-past-header');
         if (!this.preventReveal) {
           requestAnimationFrame(this.reveal.bind(this));
         } else {
           window.clearTimeout(this.isScrolling);
-
           this.isScrolling = setTimeout(() => {
             this.preventReveal = false;
           }, 66);
-
           requestAnimationFrame(this.hide.bind(this));
         }
-      } else if (scrollTop <= this.headerBounds.top) {
+      } else if (scrollTop <= threshold) {
         this.header.classList.remove('scrolled-past-header');
         requestAnimationFrame(this.reset.bind(this));
       }
@@ -425,19 +609,19 @@
     }
 
     hide() {
-      if (this.headerIsAlwaysSticky) return;
-      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+      if (this.headerIsAlwaysSticky || !this.header) return;
+      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
       this.closeMenuDisclosure();
     }
 
     reveal() {
-      if (this.headerIsAlwaysSticky) return;
+      if (this.headerIsAlwaysSticky || !this.header) return;
       this.header.classList.add('shopify-section-header-sticky', 'animate');
       this.header.classList.remove('shopify-section-header-hidden');
     }
 
     reset() {
-      if (this.headerIsAlwaysSticky) return;
+      if (this.headerIsAlwaysSticky || !this.header) return;
       this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
     }
 

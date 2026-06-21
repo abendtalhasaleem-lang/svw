@@ -58,7 +58,7 @@
 >
   <div class="scotland-category-buttons__container{% unless section.settings.full_width %} page-width{% endunless %}">
     {%- if section.settings.heading != blank -%}
-      <{{ heading_tag }} class="scotland-category-buttons__heading">{{ section.settings.heading | escape }}</{{ heading_tag }}>
+      <{{ heading_tag }} class="scotland-category-buttons__heading{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">{{ section.settings.heading | escape }}</{{ heading_tag }}>
     {%- endif -%}
 
     {%- if section.blocks.size > 0 -%}
@@ -68,13 +68,18 @@
             {%- if block.settings.link != blank -%}
               <a
                 href="{{ block.settings.link }}"
-                class="scotland-category-buttons__button"
+                class="scotland-category-buttons__button{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {% if settings.animations_reveal_on_scroll %}style="--animation-order: {{ forloop.index }};"{% endif %}
                 {{ block.shopify_attributes }}
               >
                 {{ block.settings.label | escape }}
               </a>
             {%- else -%}
-              <span class="scotland-category-buttons__button" {{ block.shopify_attributes }}>
+              <span
+                class="scotland-category-buttons__button{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {% if settings.animations_reveal_on_scroll %}style="--animation-order: {{ forloop.index }};"{% endif %}
+                {{ block.shopify_attributes }}
+              >
                 {{ block.settings.label | escape }}
               </span>
             {%- endif -%}

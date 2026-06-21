@@ -61,6 +61,15 @@
     bindDrawerMenuLinks();
   }
 
+  function revealInEditor() {
+    requestAnimationFrame(function () {
+      document.querySelector('.scotland-header-wrapper')?.classList.add('is-loaded');
+    });
+  }
+
   init();
-  document.addEventListener('shopify:section:load', init);
+  document.addEventListener('shopify:section:load', function () {
+    init();
+    revealInEditor();
+  });
 })();

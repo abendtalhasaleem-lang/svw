@@ -1,0 +1,676 @@
+{{ 'section-scotland-deals.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+
+  if s.section_bg_type == 'gradient'
+    assign section_bg = 'radial-gradient(ellipse at top center, ' | append: s.section_gradient_start | append: ', ' | append: s.section_gradient_end | append: ' 75%)'
+  else
+    assign section_bg = s.section_bg_color
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ s.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ s.padding_bottom | times: 0.75 | round: 0 }}px;
+    background: {{ section_bg }};
+  }
+
+  #ScotlandDeals-{{ section.id }} {
+    --sd-header-gap: {{ s.header_bottom_spacing }}px;
+    --sd-header-gap-mobile: {{ s.header_bottom_spacing | times: 0.7 | round: 0 }}px;
+    --sd-header-inner-gap: {{ s.header_inner_gap }}px;
+    --sd-badge-size: {{ s.badge_font_size }}px;
+    --sd-heading-size: {{ s.heading_font_size }}px;
+    --sd-heading-size-mobile: {{ s.heading_font_size_mobile }}px;
+    --sd-text-size: {{ s.text_font_size }}px;
+    --sd-grid-gap: {{ s.grid_gap }}px;
+    --sd-card-radius: {{ s.card_border_radius }}px;
+    --sd-card-min-height: {% if s.card_min_height > 0 %}{{ s.card_min_height }}px{% else %}auto{% endif %};
+    --sd-card-padding-y: {{ s.card_padding_vertical }}px;
+    --sd-card-padding-x: {{ s.card_padding_horizontal }}px;
+    --sd-card-padding-y-mobile: {{ s.card_padding_vertical | times: 0.78 | round: 0 }}px;
+    --sd-card-padding-x-mobile: {{ s.card_padding_horizontal | times: 0.78 | round: 0 }}px;
+    --sd-card-badge-size: {{ s.card_badge_font_size }}px;
+    --sd-card-heading-size: {{ s.card_heading_font_size }}px;
+    --sd-card-heading-size-mobile: {{ s.card_heading_font_size_mobile }}px;
+    --sd-card-text-size: {{ s.card_text_font_size }}px;
+    --sd-card-button-size: {{ s.card_button_font_size }}px;
+    --sd-corner-icon-size: {{ s.corner_icon_size }}px;
+    --sd-corner-icon-opacity: {{ s.corner_icon_opacity | divided_by: 100.0 }};
+  }
+
+  {%- if s.full_width -%}
+    #ScotlandDeals-{{ section.id }} .scotland-deals__container {
+      max-width: 100%;
+      padding-left: {{ s.content_padding_horizontal }}px;
+      padding-right: {{ s.content_padding_horizontal }}px;
+    }
+  {%- endif -%}
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ s.padding_top }}px;
+      padding-bottom: {{ s.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    {%- if s.full_width -%}
+      #ScotlandDeals-{{ section.id }} .scotland-deals__container {
+        padding-left: {{ s.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+        padding-right: {{ s.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<section
+  id="ScotlandDeals-{{ section.id }}"
+  class="scotland-deals"
+>
+  <div class="scotland-deals__container{% unless s.full_width %} page-width{% endunless %}">
+    <header class="scotland-deals__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      {%- if s.show_badge and s.badge_text != blank -%}
+        <span
+          class="scotland-deals__badge"
+          style="background-color: {{ s.badge_bg_color }}; color: {{ s.badge_text_color }};"
+        >
+          {%- if s.badge_icon != blank -%}
+            <span class="scotland-deals__badge-icon">
+              {{
+                s.badge_icon
+                | image_url: width: 40
+                | image_tag: loading: 'lazy', alt: ''
+              }}
+            </span>
+          {%- endif -%}
+          {{ s.badge_text | escape }}
+        </span>
+      {%- endif -%}
+
+      {%- if s.heading_part_one != blank or s.heading_part_two != blank -%}
+        <h2 class="scotland-deals__heading">
+          {%- if s.heading_part_one != blank -%}
+            <span class="scotland-deals__heading-part" style="color: {{ s.heading_color_one }};">
+              {{- s.heading_part_one | escape -}}
+            </span>
+          {%- endif -%}
+          {%- if s.heading_part_two != blank -%}
+            <span class="scotland-deals__heading-part" style="color: {{ s.heading_color_two }};">
+              {{- s.heading_part_two | escape -}}
+            </span>
+          {%- endif -%}
+        </h2>
+      {%- endif -%}
+
+      {%- if s.text != blank -%}
+        <div class="scotland-deals__text" style="color: {{ s.text_color }};">
+          {{ s.text }}
+        </div>
+      {%- endif -%}
+    </header>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="scotland-deals__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'deal' -%}
+            {% render 'scotland-deal-card', block: block, animation_index: forloop.index %}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scotland deals section",
+  "tag": "section",
+  "class": "section-scotland-deals",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width section",
+      "default": false,
+      "info": "When off, content uses the theme page width."
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding when full width",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between deal cards",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Section background"
+    },
+    {
+      "type": "select",
+      "id": "section_bg_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ],
+      "default": "gradient"
+    },
+    {
+      "type": "color",
+      "id": "section_bg_color",
+      "label": "Solid background color",
+      "default": "#f4f6f8"
+    },
+    {
+      "type": "color",
+      "id": "section_gradient_start",
+      "label": "Gradient start color",
+      "default": "#eef2ff"
+    },
+    {
+      "type": "color",
+      "id": "section_gradient_end",
+      "label": "Gradient end color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Section badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show section badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge text",
+      "default": "Limited time only"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_icon",
+      "label": "Badge icon"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Badge background color",
+      "default": "#e8eef9"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge text color",
+      "default": "#01277e"
+    },
+    {
+      "type": "range",
+      "id": "badge_font_size",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Badge font size",
+      "default": 11
+    },
+    {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
+      "type": "text",
+      "id": "heading_part_one",
+      "label": "Heading line 1",
+      "default": "Today's"
+    },
+    {
+      "type": "color",
+      "id": "heading_color_one",
+      "label": "Heading line 1 color",
+      "default": "#111111"
+    },
+    {
+      "type": "text",
+      "id": "heading_part_two",
+      "label": "Heading line 2",
+      "default": "Hot deals"
+    },
+    {
+      "type": "color",
+      "id": "heading_color_two",
+      "label": "Heading line 2 color",
+      "default": "#01277e"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 24,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size (desktop)",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_mobile",
+      "min": 20,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size (mobile)",
+      "default": 34
+    },
+    {
+      "type": "header",
+      "content": "Section text"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Discover our latest offers and bundles. Limited-time savings on top products — updated regularly.</p>"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "text_font_size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Text font size",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "header_inner_gap",
+      "min": 4,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between header elements",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "header_bottom_spacing",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Space below header",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Deal card layout"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card corner radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_min_height",
+      "min": 0,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Card minimum height (desktop)",
+      "default": 280,
+      "info": "Set to 0 for auto height."
+    },
+    {
+      "type": "range",
+      "id": "card_padding_vertical",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Card vertical padding",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "card_padding_horizontal",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Card horizontal padding",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "card_badge_font_size",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "label": "Card badge font size",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_heading_font_size",
+      "min": 18,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "label": "Card heading font size (desktop)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "card_heading_font_size_mobile",
+      "min": 16,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Card heading font size (mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_text_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Card text font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "card_button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Card button font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "corner_icon_size",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner icon size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "corner_icon_opacity",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Corner icon opacity",
+      "default": 35
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "deal",
+      "name": "Deal card",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Badge"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge text",
+          "default": "Premium"
+        },
+        {
+          "type": "image_picker",
+          "id": "badge_icon",
+          "label": "Badge icon"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg_color",
+          "label": "Badge background color",
+          "default": "#01277e"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Badge text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "image_picker",
+          "id": "corner_icon",
+          "label": "Top right corner icon"
+        },
+        {
+          "type": "header",
+          "content": "Card background"
+        },
+        {
+          "type": "select",
+          "id": "card_bg_type",
+          "label": "Background type",
+          "options": [
+            { "value": "solid", "label": "Solid color" },
+            { "value": "gradient", "label": "Gradient" }
+          ],
+          "default": "gradient"
+        },
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Solid background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "card_gradient_start",
+          "label": "Gradient start color",
+          "default": "#eef2ff"
+        },
+        {
+          "type": "color",
+          "id": "card_gradient_end",
+          "label": "Gradient end color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "heading_part_one",
+          "label": "Heading line 1",
+          "default": "Buy 1"
+        },
+        {
+          "type": "color",
+          "id": "heading_color_one",
+          "label": "Heading line 1 color",
+          "default": "#111111"
+        },
+        {
+          "type": "text",
+          "id": "heading_part_two",
+          "label": "Heading line 2",
+          "default": "Get 1 free"
+        },
+        {
+          "type": "color",
+          "id": "heading_color_two",
+          "label": "Heading line 2 color",
+          "default": "#336dd1"
+        },
+        {
+          "type": "header",
+          "content": "Text"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Double up on our most sought-after products. Add two items to your cart and the second one is free.</p>"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#555555"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Shop deal"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button background color",
+          "default": "#14b8a6"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button text color",
+          "default": "#ffffff"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland deals section",
+      "blocks": [
+        {
+          "type": "deal",
+          "settings": {
+            "badge_text": "Premium",
+            "badge_bg_color": "#01277e",
+            "badge_text_color": "#ffffff",
+            "heading_part_one": "Buy 1",
+            "heading_color_one": "#111111",
+            "heading_part_two": "Get 1 free",
+            "heading_color_two": "#336dd1",
+            "button_bg_color": "#14b8a6",
+            "button_text_color": "#ffffff",
+            "button_label": "Shop BOGO"
+          }
+        },
+        {
+          "type": "deal",
+          "settings": {
+            "badge_text": "Save big",
+            "badge_bg_color": "#336dd1",
+            "badge_text_color": "#ffffff",
+            "heading_part_one": "Final",
+            "heading_color_one": "#111111",
+            "heading_part_two": "Clearance",
+            "heading_color_two": "#01277e",
+            "card_gradient_start": "#f0f4ff",
+            "card_gradient_end": "#ffffff",
+            "button_bg_color": "#01277e",
+            "button_text_color": "#ffffff",
+            "button_label": "Grab the deal"
+          }
+        },
+        {
+          "type": "deal",
+          "settings": {
+            "badge_text": "Value bundle",
+            "badge_bg_color": "#14b8a6",
+            "badge_text_color": "#ffffff",
+            "heading_part_one": "Mystery",
+            "heading_color_one": "#ffffff",
+            "heading_part_two": "Box deals",
+            "heading_color_two": "#14b8a6",
+            "card_bg_type": "gradient",
+            "card_gradient_start": "#01277e",
+            "card_gradient_end": "#001a52",
+            "text_color": "#e8eef9",
+            "button_bg_color": "#14b8a6",
+            "button_text_color": "#ffffff",
+            "button_label": "Reveal box"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

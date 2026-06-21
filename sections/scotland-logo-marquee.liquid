@@ -67,7 +67,7 @@
 >
   <div class="scotland-logo-marquee__container{% unless section.settings.full_width %} page-width{% endunless %}">
     {%- if section.settings.heading != blank or section.settings.show_view_all -%}
-      <div class="scotland-logo-marquee__header{% if section.settings.heading_alignment == 'center' %} scotland-logo-marquee__header--center{% endif %}">
+      <div class="scotland-logo-marquee__header{% if section.settings.heading_alignment == 'center' %} scotland-logo-marquee__header--center{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         {%- if section.settings.heading != blank -%}
           <{{ heading_tag }} class="scotland-logo-marquee__heading">
             {{ section.settings.heading | escape }}
@@ -91,7 +91,7 @@
     {%- endif -%}
 
     {%- if logo_blocks.size > 0 -%}
-      <div class="scotland-logo-marquee__viewport" data-marquee-viewport>
+      <div class="scotland-logo-marquee__viewport{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" data-marquee-viewport>
         <div
           class="scotland-logo-marquee__track{% unless enable_marquee %} scotland-logo-marquee__track--static{% endunless %}"
           data-marquee-track
@@ -107,7 +107,7 @@
         </div>
       </div>
     {%- else -%}
-      <div class="scotland-logo-marquee__viewport" data-marquee-viewport>
+      <div class="scotland-logo-marquee__viewport{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" data-marquee-viewport>
         <div class="scotland-logo-marquee__track scotland-logo-marquee__track--static" data-marquee-track>
           <div class="scotland-logo-marquee__group">
             {%- for i in (1..6) -%}

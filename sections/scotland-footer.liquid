@@ -1,0 +1,403 @@
+{{ 'section-scotland-footer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'scotland-footer.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  if section.settings.background_type == 'gradient'
+    assign footer_bg = 'linear-gradient(' | append: section.settings.gradient_angle | append: 'deg, ' | append: section.settings.gradient_start | append: ', ' | append: section.settings.gradient_end | append: ')'
+  else
+    assign footer_bg = section.settings.background_color
+  endif
+-%}
+
+<footer
+  class="scotland-footer section-{{ section.id }}-padding{% if section.settings.full_width %} scotland-footer--full{% else %} scotland-footer--contained{% endif %}"
+  style="
+    --scotland-footer-bg: {{ footer_bg }};
+    --scotland-footer-text: {{ section.settings.text_color }};
+    --scotland-footer-heading: {{ section.settings.heading_color }};
+    --scotland-footer-input-bg: {{ section.settings.input_background_color }};
+    --scotland-footer-button-bg: {{ section.settings.submit_button_color }};
+    --scotland-footer-h-padding: {{ section.settings.content_padding_horizontal }}px;
+  "
+>
+  <div class="scotland-footer__container{% unless section.settings.full_width %} page-width{% endunless %}">
+    <div class="scotland-footer__top">
+      <div class="scotland-footer__left">
+        {% if section.settings.logo != blank %}
+          <div class="scotland-footer__logo-wrap">
+            {{
+              section.settings.logo
+              | image_url: width: 320
+              | image_tag:
+                class: 'scotland-footer__logo',
+                loading: 'lazy',
+                widths: '120, 180, 240, 320',
+                sizes: '180px',
+                alt: shop.name
+            }}
+          </div>
+        {% endif %}
+
+        <div class="scotland-footer__blocks">
+          {% for block in section.blocks %}
+            <div class="scotland-footer__block" {{ block.shopify_attributes }}>
+              {% if block.settings.heading != blank %}
+                <p class="scotland-footer__block-heading">{{ block.settings.heading }}</p>
+              {% endif %}
+
+              {% if block.type == 'menu_block' %}
+                {% if block.settings.menu != blank %}
+                  <div class="scotland-footer__menu">
+                    {% for link in block.settings.menu.links %}
+                      <p class="scotland-footer__menu-item">
+                        <a href="{{ link.url }}">{{ link.title | escape }}</a>
+                      </p>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              {% elsif block.type == 'text_block' %}
+                {% if block.settings.text != blank %}
+                  <div class="scotland-footer__text rte">{{ block.settings.text }}</div>
+                {% endif %}
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="scotland-footer__right">
+        {% if section.settings.newsletter_text != blank %}
+          <p class="scotland-footer__newsletter-title">{{ section.settings.newsletter_text }}</p>
+        {% endif %}
+
+        {%- liquid
+          assign default_phone_country = section.settings.default_phone_country
+          if default_phone_country == blank
+            assign default_phone_country = localization.country.iso_code | default: shop.address.country_code | default: 'GB'
+          endif
+        -%}
+
+        {%- form 'customer',
+          id: 'ScotlandFooterNewsletter',
+          class: 'scotland-footer__newsletter-form',
+          return_to: request.path,
+          data-scotland-footer-newsletter: '',
+          data-default-phone-country: default_phone_country,
+          data-enable-phone-marketing: section.settings.enable_phone_marketing,
+          onsubmit: 'if (window.scotlandFooterPrepareNewsletter) { window.scotlandFooterPrepareNewsletter(this); }'
+        -%}
+          <input type="hidden" name="contact[tags]" value="newsletter" data-scotland-footer-tags>
+          <input type="hidden" name="contact[note][Phone]" value="" data-scotland-footer-note>
+
+          <input
+            type="email"
+            class="scotland-footer__input"
+            name="contact[email]"
+            value="{{ form.email }}"
+            placeholder="{{ section.settings.email_placeholder }}"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            aria-required="true"
+            required
+          >
+
+          <input
+            type="tel"
+            class="scotland-footer__input"
+            value="{% if form.phone %}{{ form.phone }}{% endif %}"
+            placeholder="{{ section.settings.phone_placeholder }}"
+            autocomplete="tel"
+            inputmode="tel"
+            data-scotland-footer-phone-input
+          >
+
+          <button type="submit" class="scotland-footer__submit">
+            {{ section.settings.submit_label }} &rarr;
+          </button>
+
+          {%- if form.errors -%}
+            <p class="scotland-footer__form-message scotland-footer__form-message--error">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </p>
+          {%- endif -%}
+
+          {%- if form.posted_successfully? -%}
+            <p class="scotland-footer__form-message scotland-footer__form-message--success">
+              {{ 'newsletter.success' | t }}
+            </p>
+          {%- endif -%}
+        {%- endform -%}
+
+        {% if section.settings.policy_richtext != blank %}
+          <div class="scotland-footer__policy rte">{{ section.settings.policy_richtext }}</div>
+        {% endif %}
+
+        {% if section.settings.bottom_note != blank %}
+          <p class="scotland-footer__note">{{ section.settings.bottom_note }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="scotland-footer__bottom">
+      <div class="scotland-footer__bottom-left">
+        {% if section.settings.show_social_icons %}
+          {% render 'social-icons', class: 'scotland-footer__social' %}
+        {% endif %}
+
+        {% if section.settings.copyright_text != blank %}
+          <p class="scotland-footer__copyright">{{ section.settings.copyright_text }}</p>
+        {% endif %}
+      </div>
+
+      <div class="scotland-footer__bottom-right">
+        {% if section.settings.policies_menu != blank %}
+          <div class="scotland-footer__policies">
+            {% for link in section.settings.policies_menu.links %}
+              <p class="scotland-footer__policy-item">
+                <a href="{{ link.url }}">{{ link.title | escape }}</a>
+              </p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Scotland footer",
+  "tag": "section",
+  "class": "section-scotland-footer",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width footer",
+      "default": false,
+      "info": "When off, the footer uses the theme page width."
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Horizontal padding when full width",
+      "default": 16,
+      "info": "Side inset for the footer card when full width is enabled."
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "select",
+      "id": "background_type",
+      "label": "Background type",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Solid background color",
+      "default": "#080A14"
+    },
+    {
+      "type": "color",
+      "id": "gradient_start",
+      "label": "Gradient start color",
+      "default": "#01277e"
+    },
+    {
+      "type": "color",
+      "id": "gradient_end",
+      "label": "Gradient end color",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "range",
+      "id": "gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 5,
+      "unit": "deg",
+      "label": "Gradient angle",
+      "default": 135
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#F1F1F1"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading and icon color",
+      "default": "#F1F1F1"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_text",
+      "label": "Newsletter text",
+      "default": "Sign up for our emails and receive 20% off of your first purchase."
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email address"
+    },
+    {
+      "type": "text",
+      "id": "phone_placeholder",
+      "label": "Phone placeholder",
+      "default": "Phone Number"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_phone_marketing",
+      "label": "Add SMS and WhatsApp subscriber tags when phone is added",
+      "default": true,
+      "info": "Adds sms-subscriber and whatsapp-subscriber customer tags when a phone number is submitted."
+    },
+    {
+      "type": "text",
+      "id": "default_phone_country",
+      "label": "Default phone country code",
+      "default": "GB",
+      "info": "Two-letter country code used to format local numbers (for example GB, CA, US)."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Submit"
+    },
+    {
+      "type": "color",
+      "id": "input_background_color",
+      "label": "Input background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "submit_button_color",
+      "label": "Submit button color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "richtext",
+      "id": "policy_richtext",
+      "label": "Policy rich text",
+      "default": "<p>By submitting this form, you consent to receive informational and/or marketing texts.</p>"
+    },
+    {
+      "type": "text",
+      "id": "bottom_note",
+      "label": "Bottom note",
+      "default": "We no longer send text messages to Texas residents due to new state laws."
+    },
+    {
+      "type": "header",
+      "content": "Bottom bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": "Show social icons",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "default": "© 2026, Scotland Vapes Wholesale. All rights reserved."
+    },
+    {
+      "type": "link_list",
+      "id": "policies_menu",
+      "label": "Policies menu"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_block",
+      "name": "Menu block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Information"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
+      ]
+    },
+    {
+      "type": "text_block",
+      "name": "Text block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Contact"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>(888) 755-6834</p><p>Monday - Friday</p><p>9:00 AM - 5:00 PM EST</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland footer",
+      "blocks": [
+        {
+          "type": "menu_block"
+        },
+        {
+          "type": "text_block"
+        },
+        {
+          "type": "menu_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

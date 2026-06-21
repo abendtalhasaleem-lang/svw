@@ -42,14 +42,18 @@
 {%- endstyle -%}
 
 <section
-  class="scotland-images-grid{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+  class="scotland-images-grid"
   id="ScotlandImagesGrid-{{ section.id }}"
 >
   <div class="scotland-images-grid__container{% unless section.settings.full_width %} page-width{% endunless %}">
   {%- if section.blocks.size > 0 -%}
     <div class="scotland-images-grid__grid">
       {%- for block in section.blocks -%}
-        <div class="scotland-images-grid__item" {{ block.shopify_attributes }}>
+        <div
+          class="scotland-images-grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+          {% if settings.animations_reveal_on_scroll %}style="--animation-order: {{ forloop.index }};"{% endif %}
+          {{ block.shopify_attributes }}
+        >
           {%- if block.settings.url != blank -%}
             <a href="{{ block.settings.url }}" class="scotland-images-grid__link">
           {%- else -%}
