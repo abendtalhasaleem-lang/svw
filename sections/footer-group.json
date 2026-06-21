@@ -1,1 +1,93 @@
-{"name":"t:sections.footer.name","type":"footer","sections":{"footer":{"type":"footer","settings":{"color_scheme":"scheme-1","newsletter_enable":true,"newsletter_heading":"Subscribe to our emails","enable_follow_on_shop":true,"show_social":true,"enable_country_selector":true,"enable_language_selector":true,"payment_enable":true,"show_policy":true,"margin_top":0,"padding_top":36,"padding_bottom":36}}},"order":["footer"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "scotland_footer_p3QFAP": {
+      "type": "scotland-footer",
+      "blocks": {
+        "menu_block_yFEmUX": {
+          "type": "menu_block",
+          "settings": {
+            "heading": "Information",
+            "menu": ""
+          }
+        },
+        "text_block_EW9fEz": {
+          "type": "text_block",
+          "settings": {
+            "heading": "Contact",
+            "text": "<p>(888) 755-6834</p><p>Monday - Friday</p><p>9:00 AM - 5:00 PM EST</p>"
+          }
+        },
+        "menu_block_HfjW9L": {
+          "type": "menu_block",
+          "settings": {
+            "heading": "Information",
+            "menu": ""
+          }
+        }
+      },
+      "block_order": [
+        "menu_block_yFEmUX",
+        "text_block_EW9fEz",
+        "menu_block_HfjW9L"
+      ],
+      "name": "Scotland footer",
+      "settings": {
+        "full_width": true,
+        "content_padding_horizontal": 16,
+        "background_type": "gradient",
+        "background_color": "#080A14",
+        "gradient_start": "#01277e",
+        "gradient_end": "#14b8a6",
+        "gradient_angle": 135,
+        "text_color": "#F1F1F1",
+        "heading_color": "#F1F1F1",
+        "newsletter_text": "Sign up for our emails and receive 20% off of your first purchase.",
+        "email_placeholder": "Enter your email address",
+        "phone_placeholder": "Phone Number",
+        "enable_phone_marketing": true,
+        "default_phone_country": "GB",
+        "submit_label": "Submit",
+        "input_background_color": "#FFFFFF",
+        "submit_button_color": "#FFFFFF",
+        "policy_richtext": "<p>By submitting this form, you consent to receive informational and/or marketing texts.</p>",
+        "bottom_note": "We no longer send text messages to Texas residents due to new state laws.",
+        "show_social_icons": true,
+        "copyright_text": "© 2026, Scotland Vapes Wholesale. All rights reserved.",
+        "policies_menu": ""
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "disabled": true,
+      "settings": {
+        "color_scheme": "scheme-1",
+        "newsletter_enable": true,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "scotland_footer_p3QFAP",
+    "footer"
+  ]
+}
