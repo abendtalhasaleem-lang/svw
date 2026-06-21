@@ -6,7 +6,9 @@
 <div class="swc-wrap-{{ s_id }} swc-section {% if s.full_width %}swc-full{% else %}swc-contained page-width{% endif %}">
 
   {%- if s.heading != blank -%}
-    <h2 class="swc-main-heading">{{ s.heading }}</h2>
+    <h2 class="swc-main-heading" style="--fs: {{ s.heading_font_size }}px; --fs-mobile: {{ s.heading_font_size | times: 0.78 | round }}px;">
+      {{ s.heading }}
+    </h2>
   {%- endif -%}
 
   <div class="swc-blocks">
@@ -17,12 +19,12 @@
         {%- when 'heading_text' -%}
           <div class="swc-block swc-heading-text" {{ block.shopify_attributes }}>
             {%- if block.settings.heading != blank -%}
-              <h3 class="swc-block-heading" style="color: {{ block.settings.heading_color }};">
+              <h3 class="swc-block-heading" style="color: {{ block.settings.heading_color }}; --fs: {{ block.settings.heading_font_size }}px; --fs-mobile: {{ block.settings.heading_font_size | times: 0.82 | round }}px;">
                 {{ block.settings.heading }}
               </h3>
             {%- endif -%}
             {%- if block.settings.text != blank -%}
-              <div class="swc-block-text" style="color: {{ block.settings.text_color }};">
+              <div class="swc-block-text" style="color: {{ block.settings.text_color }}; --fs: {{ block.settings.text_font_size }}px; --fs-mobile: {{ block.settings.text_font_size | times: 0.92 | round }}px;">
                 {{ block.settings.text }}
               </div>
             {%- endif -%}
@@ -37,7 +39,7 @@
           -%}
           <div class="swc-block swc-quote" style="background: {{ qbg }};" {{ block.shopify_attributes }}>
             {%- if block.settings.quote_text != blank -%}
-              <div class="swc-quote-text" style="color: {{ block.settings.text_color }};">
+              <div class="swc-quote-text" style="color: {{ block.settings.text_color }}; --fs: {{ block.settings.quote_text_font_size }}px; --fs-mobile: {{ block.settings.quote_text_font_size | times: 0.85 | round }}px;">
                 {{ block.settings.quote_text }}
               </div>
             {%- endif -%}
@@ -52,10 +54,10 @@
               </div>
               <div class="swc-quote-attribution">
                 {%- if block.settings.icon_heading != blank -%}
-                  <h4 class="swc-quote-heading" style="color: {{ block.settings.text_color }};">{{ block.settings.icon_heading }}</h4>
+                  <h4 class="swc-quote-heading" style="color: {{ block.settings.text_color }}; --fs: {{ block.settings.icon_heading_font_size }}px; --fs-mobile: {{ block.settings.icon_heading_font_size | times: 0.9 | round }}px;">{{ block.settings.icon_heading }}</h4>
                 {%- endif -%}
                 {%- if block.settings.icon_caption != blank -%}
-                  <p class="swc-quote-caption" style="color: {{ block.settings.text_color }};">{{ block.settings.icon_caption }}</p>
+                  <p class="swc-quote-caption" style="color: {{ block.settings.text_color }}; --fs: {{ block.settings.icon_caption_font_size }}px; --fs-mobile: {{ block.settings.icon_caption_font_size | times: 0.9 | round }}px;">{{ block.settings.icon_caption }}</p>
                 {%- endif -%}
               </div>
             </div>
@@ -75,14 +77,14 @@
           -%}
           <div class="swc-block swc-cta" style="background: {{ panel_bg }};" {{ block.shopify_attributes }}>
             {%- if block.settings.heading != blank -%}
-              <h3 class="swc-cta-heading" style="color: {{ block.settings.heading_color }};">
+              <h3 class="swc-cta-heading" style="color: {{ block.settings.heading_color }}; --fs: {{ block.settings.heading_font_size }}px; --fs-mobile: {{ block.settings.heading_font_size | times: 0.85 | round }}px;">
                 {{ block.settings.heading }}
               </h3>
             {%- endif -%}
             {%- if block.settings.button_label != blank -%}
               <a href="{{ block.settings.button_link | default: '#' }}"
                  class="swc-cta-button"
-                 style="background: {{ btn_bg }}; color: {{ block.settings.button_text_color }}; border-color: {{ block.settings.button_border_color }};">
+                 style="background: {{ btn_bg }}; color: {{ block.settings.button_text_color }}; border-color: {{ block.settings.button_border_color }}; --fs: {{ block.settings.button_label_font_size }}px; --fs-mobile: {{ block.settings.button_label_font_size | times: 0.92 | round }}px;">
                 {{ block.settings.button_label }}
               </a>
             {%- endif -%}
@@ -103,6 +105,7 @@
   }
 
 
+
   .swc-wrap-{{ s_id }}.swc-full {
     width: 100%;
     max-width: none;
@@ -111,7 +114,7 @@
   }
 
   .swc-wrap-{{ s_id }} .swc-main-heading {
-    font-size: clamp(1.75rem, 2.6vw, 2.4rem);
+    font-size: var(--fs, 38px);
     line-height: 1.2;
     font-weight: 700;
     margin: 0 0 2rem;
@@ -130,13 +133,13 @@
   }
 
   .swc-wrap-{{ s_id }} .swc-block-heading {
-    font-size: 1.15rem;
+    font-size: var(--fs, 20px);
     font-weight: 700;
     margin: 0 0 0.5rem;
   }
 
   .swc-wrap-{{ s_id }} .swc-block-text {
-    font-size: 0.98rem;
+    font-size: var(--fs, 16px);
     line-height: 1.6;
   }
 
@@ -152,7 +155,7 @@
   }
 
   .swc-wrap-{{ s_id }} .swc-quote-text {
-    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    font-size: var(--fs, 20px);
     font-style: italic;
     line-height: 1.55;
     margin: 0 0 1.75rem;
@@ -189,13 +192,13 @@
   }
 
   .swc-wrap-{{ s_id }} .swc-quote-heading {
-    font-size: 0.95rem;
+    font-size: var(--fs, 15px);
     font-weight: 700;
     margin: 0;
   }
 
   .swc-wrap-{{ s_id }} .swc-quote-caption {
-    font-size: 0.85rem;
+    font-size: var(--fs, 14px);
     margin: 0.15rem 0 0;
     opacity: 0.8;
   }
@@ -208,7 +211,7 @@
   }
 
   .swc-wrap-{{ s_id }} .swc-cta-heading {
-    font-size: 1.2rem;
+    font-size: var(--fs, 19px);
     font-weight: 700;
     margin: 0 0 1.25rem;
   }
@@ -219,7 +222,7 @@
     border-radius: 8px;
     border: 1px solid transparent;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: var(--fs, 15px);
     text-decoration: none;
     transition: opacity 0.15s ease, transform 0.15s ease;
   }
@@ -232,6 +235,19 @@
   @media screen and (min-width: 750px) {
     .swc-wrap-{{ s_id }} .swc-blocks {
       gap: 1.75rem;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .swc-wrap-{{ s_id }} .swc-main-heading,
+    .swc-wrap-{{ s_id }} .swc-block-heading,
+    .swc-wrap-{{ s_id }} .swc-block-text,
+    .swc-wrap-{{ s_id }} .swc-quote-text,
+    .swc-wrap-{{ s_id }} .swc-quote-heading,
+    .swc-wrap-{{ s_id }} .swc-quote-caption,
+    .swc-wrap-{{ s_id }} .swc-cta-heading,
+    .swc-wrap-{{ s_id }} .swc-cta-button {
+      font-size: var(--fs-mobile, 1em);
     }
   }
 </style>
@@ -253,6 +269,16 @@
       "id": "heading_color",
       "label": "Main heading color",
       "default": "#1A1A1A"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 20,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Main heading font size",
+      "default": 38
     },
     {
       "type": "checkbox",
@@ -300,6 +326,16 @@
           "default": "#01277E"
         },
         {
+          "type": "range",
+          "id": "heading_font_size",
+          "min": 14,
+          "max": 36,
+          "step": 1,
+          "unit": "px",
+          "label": "Heading font size",
+          "default": 20
+        },
+        {
           "type": "richtext",
           "id": "text",
           "label": "Text",
@@ -310,6 +346,16 @@
           "id": "text_color",
           "label": "Text color",
           "default": "#5C5C5C"
+        },
+        {
+          "type": "range",
+          "id": "text_font_size",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Text font size",
+          "default": 16
         }
       ]
     },
@@ -329,6 +375,16 @@
           "id": "text_color",
           "label": "Quote & attribution text color",
           "default": "#FFFFFF"
+        },
+        {
+          "type": "range",
+          "id": "quote_text_font_size",
+          "min": 14,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Quote text font size",
+          "default": 20
         },
         {
           "type": "header",
@@ -365,10 +421,30 @@
           "default": "Leading UK Retailer"
         },
         {
+          "type": "range",
+          "id": "icon_heading_font_size",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Icon heading font size",
+          "default": 15
+        },
+        {
           "type": "text",
           "id": "icon_caption",
           "label": "Caption (below heading)",
           "default": "Partner since 2021"
+        },
+        {
+          "type": "range",
+          "id": "icon_caption_font_size",
+          "min": 10,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "label": "Icon caption font size",
+          "default": 14
         },
         {
           "type": "header",
@@ -422,6 +498,16 @@
           "default": "#1A1A1A"
         },
         {
+          "type": "range",
+          "id": "heading_font_size",
+          "min": 14,
+          "max": 36,
+          "step": 1,
+          "unit": "px",
+          "label": "Heading font size",
+          "default": 19
+        },
+        {
           "type": "header",
           "content": "Panel background"
         },
@@ -462,6 +548,16 @@
           "id": "button_label",
           "label": "Button label",
           "default": "Open Your Trade Account"
+        },
+        {
+          "type": "range",
+          "id": "button_label_font_size",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Button text font size",
+          "default": 15
         },
         {
           "type": "url",
