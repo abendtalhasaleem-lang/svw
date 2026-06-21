@@ -368,8 +368,8 @@
         "header_spacing": 20,
         "show_view_all": true,
         "view_all_label": "View all",
-        "view_all_color": "#01277E",
-        "view_all_hover_color": "#336DD1",
+        "view_all_color": "#01277e",
+        "view_all_hover_color": "#336dd1",
         "view_all_font_size": 14,
         "show_feature_image": true,
         "overlay_color": "#336dd1",
@@ -410,8 +410,8 @@
         "header_spacing": 20,
         "show_view_all": true,
         "view_all_label": "View all",
-        "view_all_color": "#01277E",
-        "view_all_hover_color": "#336DD1",
+        "view_all_color": "#01277e",
+        "view_all_hover_color": "#336dd1",
         "view_all_font_size": 14,
         "show_feature_image": true,
         "overlay_color": "#336dd1",
@@ -452,8 +452,8 @@
         "header_spacing": 20,
         "show_view_all": true,
         "view_all_label": "View all",
-        "view_all_color": "#01277E",
-        "view_all_hover_color": "#336DD1",
+        "view_all_color": "#01277e",
+        "view_all_hover_color": "#336dd1",
         "view_all_font_size": 14,
         "show_feature_image": true,
         "overlay_color": "#336dd1",
@@ -494,8 +494,8 @@
         "header_spacing": 20,
         "show_view_all": true,
         "view_all_label": "View all",
-        "view_all_color": "#01277E",
-        "view_all_hover_color": "#336DD1",
+        "view_all_color": "#01277e",
+        "view_all_hover_color": "#336dd1",
         "view_all_font_size": 14,
         "show_feature_image": true,
         "overlay_color": "#336dd1",
@@ -620,6 +620,172 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "trustpliot_slideshow_Wrp69F": {
+      "type": "trustpliot-slideshow",
+      "blocks": {
+        "review_igrXg8": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_title": "Always have offers on always have the…",
+            "review_text": "Always have offers on always have the flavours you want. Love the free chocolate.",
+            "author_name": "MRSJANETAYLOR",
+            "review_date": "10/06/2026"
+          }
+        },
+        "review_Lq9PB9": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_title": "Fantastic company",
+            "review_text": "Fantastic company, even called me when I accidentally double ordered to check that's what I had meant to do. Excellent delivery times, great points system. I won't buy my vape products anywhere else.",
+            "author_name": "Deb T",
+            "review_date": "10/06/2026"
+          }
+        },
+        "review_eM6cig": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "review_title": "I dont think you can beat the pricing…",
+            "review_text": "I dont think you can beat the pricing and very fast delivery from vape uk. I am delighted with my purchase and will definitely be going back to them again.",
+            "author_name": "mark roberts",
+            "review_date": "10/06/2026"
+          }
+        },
+        "review_qhPJeF": {
+          "type": "review",
+          "settings": {
+            "rating": 4,
+            "review_title": "Great service with minor issue",
+            "review_text": "I verified my age 3 times and still had to get a cancellation for some reason. But they did ring me up to help me through the process.",
+            "author_name": "Jamie Ingram",
+            "review_date": "05/06/2026"
+          }
+        },
+        "review_ePMXhn": {
+          "type": "review",
+          "settings": {
+            "rating": 1,
+            "review_title": "Disappointed with recent purchase",
+            "review_text": "I recently purchased a couple of weeks ago and was having problems with the tastes of juice not tasting what they should.",
+            "author_name": "Matthew Harvey",
+            "review_date": "01/06/2026"
+          }
+        }
+      },
+      "block_order": [
+        "review_igrXg8",
+        "review_Lq9PB9",
+        "review_eM6cig",
+        "review_qhPJeF",
+        "review_ePMXhn"
+      ],
+      "name": "Trustpilot Reviews",
+      "settings": {
+        "bg_color": "#f4f6f8",
+        "section_padding_top": 48,
+        "section_padding_bottom": 48,
+        "heading": "Showing our latest reviews",
+        "heading_color": "#1a1a1a",
+        "heading_font_size": 24,
+        "logo_alt": "Trustpilot",
+        "logo_max_height": 40,
+        "star_color_1": "#ff3722",
+        "star_color_2": "#ff8622",
+        "star_color_3": "#ffce00",
+        "star_color_4": "#73cf11",
+        "star_color_5": "#00b67a",
+        "star_empty_color": "#dce0e0",
+        "text_color": "#1a1a1a",
+        "nav_btn_bg": "#ffffff",
+        "nav_btn_border_color": "#d0d0d0",
+        "nav_btn_icon_color": "#555555",
+        "nav_btn_hover_bg": "#f0f0f0",
+        "nav_btn_hover_border": "#aaaaaa",
+        "summary_score": "4.9",
+        "summary_max": "5",
+        "summary_review_text": "16,685 service reviews",
+        "summary_url": "",
+        "auto_slide": false,
+        "auto_slide_delay": 5
+      }
+    },
+    "faqs_taBnGK": {
+      "type": "faqs",
+      "blocks": {
+        "faq_item_43qLCr": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is the best vape shop online UK?",
+            "answer": "<p>Select Vape Club is consistently rated as one of the best vape shops online UK has to offer, with over 355 verified 5-star Trustpilot reviews, free next-day delivery, and one of the widest product ranges in Britain.</p>"
+          }
+        },
+        "faq_item_WhCK9G": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where can I buy vape UK products safely online?",
+            "answer": "<p>You can buy vape UK products safely online right here at Select Vape Club. We are a fully compliant UK retailer, meaning every product we sell meets MHRA standards.</p>"
+          }
+        },
+        "faq_item_ydPj8N": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are you the cheapest vape shop online UK?",
+            "answer": "<p>We work hard to offer the lowest prices on all leading vape brands. Our price-match guarantee means if you find a lower price elsewhere, we'll match it.</p>"
+          }
+        },
+        "faq_item_4RcAED": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How fast is delivery from your UK vape shop?",
+            "answer": "<p>We offer free next-day delivery on all orders placed before 3pm Monday to Friday. Weekend orders are dispatched on Monday.</p>"
+          }
+        },
+        "faq_item_VPnG7g": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need to verify my age to buy vape UK products?",
+            "answer": "<p>Yes. UK law requires all customers to be 18 or over to purchase vape products. We use a secure, automated age verification system at checkout.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_item_43qLCr",
+        "faq_item_WhCK9G",
+        "faq_item_ydPj8N",
+        "faq_item_4RcAED",
+        "faq_item_VPnG7g"
+      ],
+      "name": "Select FAQs",
+      "settings": {
+        "caption": "Got Questions?",
+        "heading": "Frequently Asked Questions",
+        "intro_text": "Everything you need to know before you shop. Can't find what you're looking for? Our experts are available 7 days a week.",
+        "card_heading": "Still Need Help?",
+        "card_text": "Chat with our team via WhatsApp, email or live chat — 7 days a week. We're always happy to assist.",
+        "card_btn_label": "Chat With Us",
+        "whatsapp_number": "",
+        "whatsapp_message": "Hello! I have a question.",
+        "card_btn_url": "",
+        "bg_color": "#ffffff",
+        "caption_color": "#01277E",
+        "heading_color": "#111111",
+        "text_color": "#555555",
+        "card_bg": "#01277E",
+        "card_heading_color": "#ffffff",
+        "card_text_color": "#FFFFFF",
+        "card_btn_bg": "#336DD1",
+        "card_btn_text": "#ffffff",
+        "card_btn_hover_bg": "#ffffff",
+        "card_btn_hover_text": "#111111",
+        "plus_icon_bg": "#01277E",
+        "plus_icon_color": "#ffffff",
+        "border_color": "#01277E",
+        "question_color": "#01277E",
+        "row_open_bg": "#fafafa"
+      }
     }
   },
   "order": [
@@ -631,6 +797,8 @@
     "scotland_collection_row_9VXr63",
     "scotland_collection_row_6jKqXL",
     "scotland_collection_row_HagzBC",
-    "scotland_trade_cta_km68a6"
+    "scotland_trade_cta_km68a6",
+    "trustpliot_slideshow_Wrp69F",
+    "faqs_taBnGK"
   ]
 }
