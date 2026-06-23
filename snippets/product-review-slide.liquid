@@ -1,0 +1,59 @@
+{% comment %}
+  Renders a single review slide.
+
+  Accepts:
+  - name: {String}
+  - rating: {Number} 1-5
+  - text: {String}
+  - date: {String}
+{% endcomment %}
+
+{%- liquid
+  assign rating_value = rating | default: 5 | plus: 0
+  if rating_value < 1
+    assign rating_value = 1
+  elsif rating_value > 5
+    assign rating_value = 5
+  endif
+
+  assign rating_decimal = 0
+  assign decimal = rating_value | modulo: 1
+  if decimal >= 0.3 and decimal <= 0.7
+    assign rating_decimal = 0.5
+  elsif decimal > 0.7
+    assign rating_decimal = 1
+  endif
+-%}
+
+<article class="product-review-slide">
+  <div class="product-review-slide__body">
+    <span class="product-review-slide__quote" aria-hidden="true">&ldquo;</span>
+    <div class="product-review-slide__inner">
+      <div class="product-review-slide__header">
+        <div class="product-review-slide__title-row">
+          {%- if name != blank -%}
+            <p class="product-review-slide__name">{{ name | escape }}</p>
+          {%- endif -%}
+          <div
+            class="product-review-slide__rating rating"
+            role="img"
+            aria-label="{{ rating_value }} out of 5 stars"
+          >
+            <span
+              class="rating-star"
+              aria-hidden="true"
+              style="--rating: {{ rating_value | floor }}; --rating-max: 5; --rating-decimal: {{ rating_decimal }}; --color-rating-star: var(--review-star-color, #f59e0b);"
+            ></span>
+          </div>
+        </div>
+        {%- if date != blank -%}
+          <p class="product-review-slide__date">{{ date | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if text != blank -%}
+        <p class="product-review-slide__text">{{ text | escape }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

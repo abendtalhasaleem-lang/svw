@@ -1,4 +1,4 @@
-.product-media-gallery__label-wrap {
+.product__media-wrapper.product-media-gallery__label-wrap {
   position: relative;
 }
 
@@ -23,7 +23,7 @@
   background-color: var(--product-right-label-bg, #e6faf5);
 }
 
-.product-media-gallery__label-wrap .product-right-label {
+.product__media-wrapper.product-media-gallery__label-wrap .product-right-label {
   top: 1rem;
   right: 1rem;
 }

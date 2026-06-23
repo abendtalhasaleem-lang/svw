@@ -5,7 +5,7 @@
   data-product-id="{{ product.id }}"
   data-update-url="true"
   data-url="{{ product.url }}"
-  {% if section.settings.image_zoom == 'hover' %}
+  {% if section.settings.image_zoom == 'hover' or section.settings.image_zoom == 'hover_zoom' %}
     data-zoom-on-hover
   {% endif %}
 >
@@ -39,6 +39,23 @@
     }
   {%- endstyle -%}
 
+  {%- if section.settings.enable_sticky_info -%}
+    {%- style -%}
+      @media screen and (min-width: 750px) {
+        #MainProduct-{{ section.id }} .product__column-sticky {
+          display: block;
+          position: sticky !important;
+          top: 3rem;
+          z-index: 2;
+        }
+
+        #MainProduct-{{ section.id }} .product--thumbnail_slider media-gallery.product__column-sticky {
+          display: grid;
+        }
+      }
+    {%- endstyle -%}
+  {%- endif -%}
+
   <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
   {%- if product.quantity_price_breaks_configured? -%}
@@ -46,7 +63,7 @@
     <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 
-  {% if section.settings.image_zoom == 'hover' %}
+  {% if section.settings.image_zoom == 'hover' or section.settings.image_zoom == 'hover_zoom' %}
     <script id="EnableZoomOnHover-main" src="{{ 'magnify.js' | asset_url }}" defer="defer"></script>
   {% endif %}
   {%- if request.design_mode -%}
@@ -75,10 +92,10 @@
   {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
   <div class="page-width">
     <div class="product product--{{ section.settings.media_size }} product--{{ section.settings.media_position }} product--{{ section.settings.gallery_layout }} product--mobile-{{ section.settings.mobile_thumbnails }} grid grid--1-col {% if product.media.size > 0 %}grid--2-col-tablet{% else %}product--no-media{% endif %}">
-      <div class="grid__item product__media-wrapper">
+      <div class="grid__item product__media-wrapper product-media-gallery__label-wrap">
         {% render 'product-media-gallery', variant_images: variant_images %}
       </div>
-      <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="product__info-wrapper grid__item{% if settings.page_width > 1400 and section.settings.media_size == "small" %} product__info-wrapper--extra-padding{% endif %}{% if section.settings.enable_sticky_info == false and settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
         <section
           id="ProductInfo-{{ section.id }}"
           class="product__info-container{% if section.settings.enable_sticky_info %} product__column-sticky{% endif %}"
@@ -490,6 +507,12 @@
                   section_id: section.id,
                   show_pickup_availability: true
                 -%}
+              {%- when 'reviews_slider' -%}
+                {% render 'product-reviews-slider', block: block, section: section %}
+              {%- when 'scotland_icon_text_pdp' -%}
+                {% render 'scotland-icon-text-pdp', block: block %}
+              {%- when 'scotland_delivery_timer' -%}
+                {% render 'scotland-delivery-timer', block: block %}
               {%- when 'rating' -%}
                 {%- if product.metafields.reviews.rating.value != blank -%}
                   <div class="rating-wrapper">
@@ -930,9 +953,810 @@
           "default": true,
           "label": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.label",
           "info": "t:sections.main-product.blocks.buy_buttons.settings.show_gift_card_recipient.info"
+        },
+        {
+          "type": "checkbox",
+          "id": "desktop_buttons_in_row",
+          "default": false,
+          "label": "Show buttons in one row on desktop",
+          "info": "Displays Add to cart and Buy it now side by side on screens 750px and wider."
+        },
+        {
+          "type": "header",
+          "content": "Add to cart button"
+        },
+        {
+          "type": "select",
+          "id": "add_to_cart_bg_type",
+          "label": "Button background type",
+          "default": "solid",
+          "options": [
+            { "value": "solid", "label": "Solid color" },
+            { "value": "gradient", "label": "Gradient" }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "add_to_cart_bg_color",
+          "label": "Button background color",
+          "default": "#14b8a6",
+          "info": "Used when button background type is solid."
+        },
+        {
+          "type": "color",
+          "id": "add_to_cart_gradient_start",
+          "label": "Button gradient start",
+          "default": "#01277e"
+        },
+        {
+          "type": "color",
+          "id": "add_to_cart_gradient_end",
+          "label": "Button gradient end",
+          "default": "#14b8a6"
+        },
+        {
+          "type": "range",
+          "id": "add_to_cart_gradient_angle",
+          "min": 0,
+          "max": 360,
+          "step": 15,
+          "unit": "deg",
+          "label": "Button gradient angle",
+          "default": 90
+        },
+        {
+          "type": "color",
+          "id": "add_to_cart_text_color",
+          "label": "Button text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Buy it now button"
+        },
+        {
+          "type": "select",
+          "id": "buy_button_bg_type",
+          "label": "Button background type",
+          "default": "solid",
+          "options": [
+            { "value": "solid", "label": "Solid color" },
+            { "value": "gradient", "label": "Gradient" }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "buy_button_bg_color",
+          "label": "Button background color",
+          "default": "#01277e",
+          "info": "Used when button background type is solid."
+        },
+        {
+          "type": "color",
+          "id": "buy_button_gradient_start",
+          "label": "Button gradient start",
+          "default": "#01277e"
+        },
+        {
+          "type": "color",
+          "id": "buy_button_gradient_end",
+          "label": "Button gradient end",
+          "default": "#14b8a6"
+        },
+        {
+          "type": "range",
+          "id": "buy_button_gradient_angle",
+          "min": 0,
+          "max": 360,
+          "step": 15,
+          "unit": "deg",
+          "label": "Button gradient angle",
+          "default": 90
+        },
+        {
+          "type": "color",
+          "id": "buy_button_text_color",
+          "label": "Button text color",
+          "default": "#ffffff"
         }
       ]
-    }, 
+    },
+    {
+      "type": "reviews_slider",
+      "name": "Scotland review slider",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "autoplay",
+          "default": true,
+          "label": "Auto-rotate reviews"
+        },
+        {
+          "type": "range",
+          "id": "autoplay_speed",
+          "min": 3,
+          "max": 10,
+          "step": 1,
+          "unit": "s",
+          "label": "Change slides every",
+          "default": 5
+        },
+        {
+          "type": "color",
+          "id": "star_color",
+          "label": "Star color",
+          "default": "#f59e0b"
+        },
+        {
+          "type": "color",
+          "id": "quote_color",
+          "label": "Quotation mark color",
+          "default": "#e5e7eb"
+        },
+        {
+          "type": "header",
+          "content": "Review 1"
+        },
+        {
+          "type": "text",
+          "id": "review_1_name",
+          "label": "Name",
+          "default": "Patrick K"
+        },
+        {
+          "type": "range",
+          "id": "review_1_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_1_text",
+          "label": "Review text",
+          "default": "Excellent products at great prices"
+        },
+        {
+          "type": "text",
+          "id": "review_1_date",
+          "label": "Date",
+          "default": "27.02.2025"
+        },
+        {
+          "type": "header",
+          "content": "Review 2"
+        },
+        {
+          "type": "text",
+          "id": "review_2_name",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "review_2_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_2_text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "review_2_date",
+          "label": "Date"
+        },
+        {
+          "type": "header",
+          "content": "Review 3"
+        },
+        {
+          "type": "text",
+          "id": "review_3_name",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "review_3_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_3_text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "review_3_date",
+          "label": "Date"
+        },
+        {
+          "type": "header",
+          "content": "Review 4"
+        },
+        {
+          "type": "text",
+          "id": "review_4_name",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "review_4_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_4_text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "review_4_date",
+          "label": "Date"
+        },
+        {
+          "type": "header",
+          "content": "Review 5"
+        },
+        {
+          "type": "text",
+          "id": "review_5_name",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "review_5_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_5_text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "review_5_date",
+          "label": "Date"
+        },
+        {
+          "type": "header",
+          "content": "Review 6"
+        },
+        {
+          "type": "text",
+          "id": "review_6_name",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "review_6_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_6_text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "review_6_date",
+          "label": "Date"
+        },
+        {
+          "type": "header",
+          "content": "Review 7"
+        },
+        {
+          "type": "text",
+          "id": "review_7_name",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "review_7_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_7_text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "review_7_date",
+          "label": "Date"
+        },
+        {
+          "type": "header",
+          "content": "Review 8"
+        },
+        {
+          "type": "text",
+          "id": "review_8_name",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "review_8_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_8_text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "review_8_date",
+          "label": "Date"
+        },
+        {
+          "type": "header",
+          "content": "Review 9"
+        },
+        {
+          "type": "text",
+          "id": "review_9_name",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "review_9_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_9_text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "review_9_date",
+          "label": "Date"
+        },
+        {
+          "type": "header",
+          "content": "Review 10"
+        },
+        {
+          "type": "text",
+          "id": "review_10_name",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "review_10_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Star rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review_10_text",
+          "label": "Review text"
+        },
+        {
+          "type": "text",
+          "id": "review_10_date",
+          "label": "Date"
+        }
+      ]
+    },
+    {
+      "type": "scotland_icon_text_pdp",
+      "name": "Scotland icon text PDP",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Style"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 20,
+          "max": 56,
+          "step": 2,
+          "unit": "px",
+          "label": "Icon size",
+          "default": 32,
+          "info": "Adjust the size of all row icons."
+        },
+        {
+          "type": "range",
+          "id": "item_gap",
+          "min": 8,
+          "max": 32,
+          "step": 2,
+          "unit": "px",
+          "label": "Space between rows",
+          "default": 14
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon color",
+          "default": "#121212"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color",
+          "default": "#121212"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#4b5563"
+        },
+        {
+          "type": "header",
+          "content": "Row 1"
+        },
+        {
+          "type": "select",
+          "id": "item_1_icon",
+          "label": "Icon",
+          "default": "truck",
+          "options": [
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "box", "label": "Box" },
+            { "value": "stock", "label": "Box with stock badge" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "star", "label": "Star" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "item_1_custom_icon",
+          "label": "Custom icon image",
+          "info": "Optional. Replaces the selected icon."
+        },
+        {
+          "type": "text",
+          "id": "item_1_heading",
+          "label": "Heading",
+          "default": "Spend £40"
+        },
+        {
+          "type": "text",
+          "id": "item_1_text",
+          "label": "Text",
+          "default": "Get Free Shipping"
+        },
+        {
+          "type": "url",
+          "id": "item_1_link",
+          "label": "Link (optional)"
+        },
+        {
+          "type": "header",
+          "content": "Row 2"
+        },
+        {
+          "type": "select",
+          "id": "item_2_icon",
+          "label": "Icon",
+          "default": "box",
+          "options": [
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "box", "label": "Box" },
+            { "value": "stock", "label": "Box with stock badge" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "star", "label": "Star" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "item_2_custom_icon",
+          "label": "Custom icon image",
+          "info": "Optional. Replaces the selected icon."
+        },
+        {
+          "type": "text",
+          "id": "item_2_heading",
+          "label": "Heading",
+          "default": "Fast Dispatch Till 5PM"
+        },
+        {
+          "type": "text",
+          "id": "item_2_text",
+          "label": "Text",
+          "default": "We Ship 7 Days A Week"
+        },
+        {
+          "type": "url",
+          "id": "item_2_link",
+          "label": "Link (optional)"
+        },
+        {
+          "type": "header",
+          "content": "Row 3"
+        },
+        {
+          "type": "select",
+          "id": "item_3_icon",
+          "label": "Icon",
+          "default": "stock",
+          "options": [
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "box", "label": "Box" },
+            { "value": "stock", "label": "Box with stock badge" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "star", "label": "Star" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "item_3_custom_icon",
+          "label": "Custom icon image",
+          "info": "Optional. Replaces the selected icon."
+        },
+        {
+          "type": "text",
+          "id": "item_3_heading",
+          "label": "Heading",
+          "default": "In stock and ready for shipping"
+        },
+        {
+          "type": "text",
+          "id": "item_3_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_3_link",
+          "label": "Link (optional)"
+        },
+        {
+          "type": "header",
+          "content": "Row 4"
+        },
+        {
+          "type": "select",
+          "id": "item_4_icon",
+          "label": "Icon",
+          "default": "truck",
+          "options": [
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "box", "label": "Box" },
+            { "value": "stock", "label": "Box with stock badge" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "star", "label": "Star" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "item_4_custom_icon",
+          "label": "Custom icon image",
+          "info": "Optional. Replaces the selected icon."
+        },
+        {
+          "type": "text",
+          "id": "item_4_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "item_4_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_4_link",
+          "label": "Link (optional)"
+        }
+      ]
+    },
+    {
+      "type": "scotland_delivery_timer",
+      "name": "Scotland delivery timer",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Timer row"
+        },
+        {
+          "type": "text",
+          "id": "cutoff_time",
+          "label": "Cutoff time (24hr format)",
+          "default": "12:00",
+          "info": "Example: 12:00 or 17:00"
+        },
+        {
+          "type": "text",
+          "id": "text_1",
+          "label": "Text before countdown",
+          "default": "Order within:"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_1_upload",
+          "label": "Timer icon image",
+          "info": "Optional. Upload PNG or SVG (displayed at 30x30)."
+        },
+        {
+          "type": "header",
+          "content": "Delivery row"
+        },
+        {
+          "type": "text",
+          "id": "text_2",
+          "label": "Text before delivery date",
+          "default": "Get it by"
+        },
+        {
+          "type": "range",
+          "id": "delivery_days",
+          "min": 1,
+          "max": 7,
+          "step": 1,
+          "label": "Delivery after (operating days)",
+          "default": 1,
+          "info": "Number of operating days after dispatch."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_date_in_parentheses",
+          "label": "Show date in parentheses",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_2_upload",
+          "label": "Delivery icon image",
+          "info": "Optional. Upload PNG or SVG (displayed at 30x30)."
+        },
+        {
+          "type": "header",
+          "content": "Operating days"
+        },
+        {
+          "type": "paragraph",
+          "content": "Choose the days you dispatch and deliver. Orders on non-operating days roll to the next operating day."
+        },
+        {
+          "type": "checkbox",
+          "id": "deliver_monday",
+          "label": "Monday",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "deliver_tuesday",
+          "label": "Tuesday",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "deliver_wednesday",
+          "label": "Wednesday",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "deliver_thursday",
+          "label": "Thursday",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "deliver_friday",
+          "label": "Friday",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "deliver_saturday",
+          "label": "Saturday",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "deliver_sunday",
+          "label": "Sunday",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Style"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 20,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "label": "Icon size",
+          "default": 30
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border color",
+          "default": "#e5e7eb"
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon color",
+          "default": "#121212"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#121212"
+        },
+        {
+          "type": "color",
+          "id": "highlight_color",
+          "label": "Countdown color",
+          "default": "#dc2626"
+        },
+        {
+          "type": "color",
+          "id": "date_suffix_color",
+          "label": "Delivery date suffix color",
+          "default": "#6b7280",
+          "info": "Color for the date in parentheses, e.g. (Jun 25)."
+        }
+      ]
+    },
   {
   "type": "personalize_product",
   "name": "Personalize Product",
@@ -2408,6 +3232,10 @@
         {
           "value": "hover",
           "label": "t:sections.main-product.settings.image_zoom.options__2.label"
+        },
+        {
+          "value": "hover_zoom",
+          "label": "t:sections.main-product.settings.image_zoom.options__4.label"
         },
         {
           "value": "none",

@@ -1,0 +1,115 @@
+.scotland-icon-text-pdp {
+  margin: 1.6rem 0 2rem;
+}
+
+.scotland-icon-text-pdp__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--scotland-icon-text-pdp-gap, 1.4rem);
+  margin: 0;
+  padding: 0;
+}
+
+.scotland-icon-text-pdp__item {
+  list-style: none;
+}
+
+.scotland-icon-text-pdp__link,
+.scotland-icon-text-pdp__row {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.scotland-icon-text-pdp__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--scotland-icon-text-pdp-icon-size, 32px);
+  height: var(--scotland-icon-text-pdp-icon-size, 32px);
+  color: var(--scotland-icon-text-pdp-icon-color, #121212);
+}
+
+.scotland-icon-text-pdp__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.scotland-icon-text-pdp__icon .svg-wrapper,
+.scotland-icon-text-pdp__icon .svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+}
+
+.scotland-icon-text-pdp__icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.scotland-icon-text-pdp__icon-stock {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scotland-icon-text-pdp__icon-badge {
+  position: absolute;
+  right: -0.3rem;
+  bottom: -0.2rem;
+  width: calc(var(--scotland-icon-text-pdp-icon-size, 32px) * 0.45);
+  height: calc(var(--scotland-icon-text-pdp-icon-size, 32px) * 0.45);
+  color: #3ed660;
+}
+
+.scotland-icon-text-pdp__icon-badge svg {
+  width: 100%;
+  height: 100%;
+}
+
+.scotland-icon-text-pdp__content {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.scotland-icon-text-pdp__heading {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--scotland-icon-text-pdp-heading-color, #121212);
+}
+
+.scotland-icon-text-pdp__text {
+  margin: 0.2rem 0 0;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--scotland-icon-text-pdp-text-color, #4b5563);
+}
+
+.scotland-icon-text-pdp__heading:only-child {
+  font-size: 1.5rem;
+}
+
+.scotland-icon-text-pdp__link:hover .scotland-icon-text-pdp__heading,
+.scotland-icon-text-pdp__link:focus-visible .scotland-icon-text-pdp__heading {
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+@media screen and (max-width: 749px) {
+  .scotland-icon-text-pdp__heading {
+    font-size: 1.4rem;
+  }
+
+  .scotland-icon-text-pdp__text {
+    font-size: 1.3rem;
+  }
+}

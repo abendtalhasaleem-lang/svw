@@ -1,0 +1,129 @@
+.product-reviews-slider {
+  margin: 5px 0px;
+}
+
+.product-reviews-slider__component {
+  display: block;
+}
+
+.product-reviews-slider__track {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.product-reviews-slider__slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.55s ease, visibility 0.55s ease;
+  pointer-events: none;
+}
+
+.product-reviews-slider__slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.product-review-slide {
+  position: relative;
+  padding: 0.2rem 0 0.6rem;
+}
+
+.product-review-slide__body {
+  position: relative;
+  isolation: isolate;
+}
+
+.product-review-slide__quote {
+  position: absolute;
+  left: 0;
+  top: -0.8rem;
+  z-index: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 7rem;
+  line-height: 0.75;
+  color: var(--review-quote-color, #e5e7eb);
+  pointer-events: none;
+  user-select: none;
+}
+
+.product-review-slide__inner {
+  position: relative;
+  z-index: 1;
+  padding-left: 2.2rem;
+}
+
+.product-review-slide__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.product-review-slide__title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  min-width: 0;
+}
+
+.product-review-slide__name {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: rgb(var(--color-foreground));
+}
+
+.product-review-slide__rating {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+
+.product-review-slide__rating .rating-star {
+  --letter-spacing: 0.2;
+  --font-size: 1.5;
+}
+
+.product-review-slide__date {
+  flex-shrink: 0;
+  margin: 0.15rem 0 0;
+  font-size: 1.4rem;
+  line-height: 1.3;
+  color: rgb(var(--color-foreground));
+  white-space: nowrap;
+}
+
+.product-review-slide__text {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: rgba(var(--color-foreground), 0.82);
+}
+
+@media screen and (max-width: 749px) {
+  .product-review-slide__header {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .product-review-slide__date {
+    white-space: normal;
+  }
+
+  .product-review-slide__quote {
+    font-size: 6rem;
+    top: -0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-reviews-slider__slide {
+    transition: none;
+  }
+}

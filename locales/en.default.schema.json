@@ -2369,6 +2369,9 @@
           },
           "options__3": {
             "label": "No zoom"
+          },
+          "options__4": {
+            "label": "Zoom on hover"
           }
         },
         "media_position": {

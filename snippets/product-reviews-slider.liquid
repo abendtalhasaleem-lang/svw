@@ -1,0 +1,93 @@
+{% comment %}
+  Renders a product reviews slider block.
+
+  Accepts:
+  - block: {Object} reviews_slider block
+  - section: {Object} section object
+{% endcomment %}
+
+{%- liquid
+  assign review_count = 0
+  for i in (1..10)
+    assign name_key = 'review_' | append: i | append: '_name'
+    assign name_value = block.settings[name_key]
+    if name_value != blank
+      assign review_count = review_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if review_count > 0 -%}
+  {{ 'component-product-reviews-slider.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'product-reviews-slider.js' | asset_url }}" defer="defer"></script>
+
+  <div
+    id="ProductReviewsSlider-{{ block.id }}"
+    class="product-reviews-slider"
+    {{ block.shopify_attributes }}
+    style="--review-star-color: {{ block.settings.star_color }}; --review-quote-color: {{ block.settings.quote_color }};"
+  >
+    {%- if review_count > 1 -%}
+      <product-reviews-slider
+        class="product-reviews-slider__component"
+        role="region"
+        aria-label="Customer reviews"
+        data-autoplay="{{ block.settings.autoplay }}"
+        data-speed="{{ block.settings.autoplay_speed }}"
+      >
+        <div class="product-reviews-slider__track">
+          {%- assign slide_index = 0 -%}
+          {%- for i in (1..10) -%}
+            {%- liquid
+              assign name_key = 'review_' | append: i | append: '_name'
+              assign rating_key = 'review_' | append: i | append: '_rating'
+              assign text_key = 'review_' | append: i | append: '_text'
+              assign date_key = 'review_' | append: i | append: '_date'
+              assign review_name = block.settings[name_key]
+              assign review_rating = block.settings[rating_key] | default: 5
+              assign review_text = block.settings[text_key]
+              assign review_date = block.settings[date_key]
+            -%}
+            {%- if review_name != blank -%}
+              {%- assign slide_index = slide_index | plus: 1 -%}
+              <div
+                class="product-reviews-slider__slide{% if slide_index == 1 %} is-active{% endif %}"
+                id="ReviewSlide-{{ block.id }}-{{ i }}"
+                aria-hidden="{% if slide_index == 1 %}false{% else %}true{% endif %}"
+              >
+                {% render 'product-review-slide',
+                  name: review_name,
+                  rating: review_rating,
+                  text: review_text,
+                  date: review_date
+                %}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </product-reviews-slider>
+    {%- else -%}
+      {%- for i in (1..10) -%}
+        {%- liquid
+          assign name_key = 'review_' | append: i | append: '_name'
+          assign rating_key = 'review_' | append: i | append: '_rating'
+          assign text_key = 'review_' | append: i | append: '_text'
+          assign date_key = 'review_' | append: i | append: '_date'
+          assign review_name = block.settings[name_key]
+          assign review_rating = block.settings[rating_key] | default: 5
+          assign review_text = block.settings[text_key]
+          assign review_date = block.settings[date_key]
+        -%}
+        {%- if review_name != blank -%}
+          {% render 'product-review-slide',
+            name: review_name,
+            rating: review_rating,
+            text: review_text,
+            date: review_date
+          %}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+{%- endif -%}

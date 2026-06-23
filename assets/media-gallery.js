@@ -77,9 +77,22 @@ if (!customElements.get('media-gallery')) {
           .querySelectorAll('button')
           .forEach((element) => element.removeAttribute('aria-current'));
         thumbnail.querySelector('button').setAttribute('aria-current', true);
+
+        const slider = this.elements.thumbnails.slider;
+        const isVertical =
+          this.elements.thumbnails.classList.contains('thumbnail-slider--vertical') && this.mql.matches;
+
+        if (isVertical && slider) {
+          const sliderRect = slider.getBoundingClientRect();
+          const thumbRect = thumbnail.getBoundingClientRect();
+          if (thumbRect.top >= sliderRect.top && thumbRect.bottom <= sliderRect.bottom) return;
+          slider.scrollTo({ top: thumbnail.offsetTop, behavior: 'smooth' });
+          return;
+        }
+
         if (this.elements.thumbnails.isSlideVisible(thumbnail, 10)) return;
 
-        this.elements.thumbnails.slider.scrollTo({ left: thumbnail.offsetLeft });
+        slider.scrollTo({ left: thumbnail.offsetLeft });
       }
 
       announceLiveRegion(activeItem, position) {

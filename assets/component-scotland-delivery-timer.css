@@ -1,0 +1,75 @@
+.scotland-delivery-timer {
+  margin: 1.6rem 0 2rem;
+  padding: 1.4rem 1.6rem;
+  border: 0.1rem solid var(--scotland-delivery-border, #e5e7eb);
+  border-radius: 0.8rem;
+  background: var(--scotland-delivery-bg, #ffffff);
+  color: var(--scotland-delivery-text, #121212);
+  font-size: 1.4rem;
+  line-height: 1.45;
+}
+
+.scotland-delivery-timer__row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.scotland-delivery-timer__row + .scotland-delivery-timer__row {
+  margin-top: 0.8rem;
+}
+
+.scotland-delivery-timer__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--scotland-delivery-icon-size, 30px);
+  height: var(--scotland-delivery-icon-size, 30px);
+  color: var(--scotland-delivery-icon, #121212);
+}
+
+.scotland-delivery-timer__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.scotland-delivery-timer__icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.scotland-delivery-timer__text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.scotland-delivery-timer__label {
+  color: var(--scotland-delivery-text, #121212);
+}
+
+.scotland-delivery-timer__highlight {
+  color: var(--scotland-delivery-highlight, #dc2626);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.scotland-delivery-timer__date-label {
+  color: var(--scotland-delivery-text, #121212);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.scotland-delivery-timer__date-suffix {
+  color: var(--scotland-delivery-date-suffix, #6b7280);
+  font-size: 1.3rem;
+  font-weight: 400;
+}

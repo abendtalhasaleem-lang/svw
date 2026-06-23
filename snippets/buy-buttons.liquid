@@ -10,7 +10,64 @@
   Usage:
   {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true %}
 {% endcomment %}
-<div {{ block.shopify_attributes }}>
+
+{%- liquid
+  if block.settings.add_to_cart_bg_type == 'gradient'
+    assign add_to_cart_background = 'linear-gradient(' | append: block.settings.add_to_cart_gradient_angle | append: 'deg, ' | append: block.settings.add_to_cart_gradient_start | append: ' 0%, ' | append: block.settings.add_to_cart_gradient_end | append: ' 100%)'
+  else
+    assign add_to_cart_background = block.settings.add_to_cart_bg_color
+  endif
+
+  if block.settings.buy_button_bg_type == 'gradient'
+    assign buy_button_background = 'linear-gradient(' | append: block.settings.buy_button_gradient_angle | append: 'deg, ' | append: block.settings.buy_button_gradient_start | append: ' 0%, ' | append: block.settings.buy_button_gradient_end | append: ' 100%)'
+  else
+    assign buy_button_background = block.settings.buy_button_bg_color
+  endif
+-%}
+
+{%- style -%}
+  {%- if add_to_cart_background != blank or block.settings.add_to_cart_text_color != blank -%}
+    #BuyButtons-{{ block.id }} .product-form__submit.button {
+      {%- if add_to_cart_background != blank -%}
+        --alpha-button-background: 1;
+        background: {{ add_to_cart_background }};
+        border-color: transparent;
+      {%- endif -%}
+      {%- if block.settings.add_to_cart_text_color != blank -%}
+        --color-button-text: {{ block.settings.add_to_cart_text_color.red }}, {{ block.settings.add_to_cart_text_color.green }}, {{ block.settings.add_to_cart_text_color.blue }};
+        color: {{ block.settings.add_to_cart_text_color }};
+      {%- endif -%}
+    }
+
+    #BuyButtons-{{ block.id }} .product-form__submit.button::before,
+    #BuyButtons-{{ block.id }} .product-form__submit.button::after {
+      {%- if add_to_cart_background != blank -%}
+        display: none;
+      {%- endif -%}
+    }
+  {%- endif -%}
+
+  {%- if buy_button_background != blank or block.settings.buy_button_text_color != blank -%}
+    #BuyButtons-{{ block.id }} .shopify-payment-button__button--unbranded {
+      {%- if buy_button_background != blank -%}
+        background: {{ buy_button_background }} !important;
+        border-color: transparent !important;
+      {%- endif -%}
+      {%- if block.settings.buy_button_text_color != blank -%}
+        color: {{ block.settings.buy_button_text_color }} !important;
+      {%- endif -%}
+    }
+
+    #BuyButtons-{{ block.id }} .shopify-payment-button__button--unbranded::before,
+    #BuyButtons-{{ block.id }} .shopify-payment-button__button--unbranded::after {
+      {%- if buy_button_background != blank -%}
+        display: none !important;
+      {%- endif -%}
+    }
+  {%- endif -%}
+{%- endstyle -%}
+
+<div id="BuyButtons-{{ block.id }}" {{ block.shopify_attributes }}>
   {%- if product != blank -%}
     {%- liquid
       assign gift_card_recipient_feature_active = false
@@ -60,7 +117,7 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
 
-        <div class="product-form__buttons">
+        <div class="product-form__buttons{% if block.settings.desktop_buttons_in_row %} product-form__buttons--desktop-row{% endif %}">
           {%- liquid
             assign check_against_inventory = true
             if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'

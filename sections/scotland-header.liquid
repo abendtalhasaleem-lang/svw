@@ -510,8 +510,9 @@
       this.headerIsAlwaysSticky =
         this.getAttribute('data-sticky-type') === 'always' ||
         this.getAttribute('data-sticky-type') === 'reduce-logo-size';
-      this.headerBounds = { bottom: 0 };
-      this.scrollThreshold = 0;
+      this.headerBounds = { top: 0, bottom: 0 };
+      this.scrollDeltaMin = 5;
+      this.isHeaderHidden = false;
 
       this.onHeaderReady = this.onHeaderReady.bind(this);
       this.onScrollHandler = this.onScroll.bind(this);
@@ -519,6 +520,7 @@
 
       this.setHeaderHeight();
       this.updateHeaderBounds();
+      this.createObserver();
 
       window.matchMedia('(max-width: 990px)').addEventListener('change', this.onHeaderReady);
       window.addEventListener('load', this.onHeaderReady);
@@ -535,7 +537,7 @@
         this.header.classList.add('shopify-section-header-sticky');
       }
 
-      this.currentScrollTop = 0;
+      this.currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
       this.preventReveal = false;
       this.predictiveSearchInstances = this.querySelectorAll('predictive-search');
 
@@ -563,8 +565,24 @@
     updateHeaderBounds() {
       if (!this.header) return;
       const height = this.header.offsetHeight;
-      this.scrollThreshold = height > 0 ? height : this.scrollThreshold;
-      this.headerBounds.bottom = this.scrollThreshold;
+      if (height > 0) {
+        this.headerBounds.bottom = height;
+      }
+    }
+
+    createObserver() {
+      if (!this.header) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        const intersectionRect = entries[0].intersectionRect;
+        if (intersectionRect.bottom > 0) {
+          this.headerBounds.top = intersectionRect.top;
+          this.headerBounds.bottom = this.header.offsetHeight || intersectionRect.bottom;
+        }
+        observer.disconnect();
+      });
+
+      observer.observe(this.header);
     }
 
     disconnectedCallback() {
@@ -575,6 +593,9 @@
       if (this.resizeObserver) {
         this.resizeObserver.disconnect();
       }
+      if (this.scrollAnimationFrame) {
+        cancelAnimationFrame(this.scrollAnimationFrame);
+      }
     }
 
     onScroll() {
@@ -583,45 +604,61 @@
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       if (this.isPredictiveSearchOpen()) return;
 
-      const threshold = this.scrollThreshold || this.headerBounds.bottom || 0;
+      if (this.scrollAnimationFrame) {
+        cancelAnimationFrame(this.scrollAnimationFrame);
+      }
 
-      if (scrollTop > this.currentScrollTop && scrollTop > threshold) {
+      this.scrollAnimationFrame = requestAnimationFrame(() => {
+        this.handleScroll(scrollTop);
+      });
+    }
+
+    handleScroll(scrollTop) {
+      const scrollDelta = scrollTop - this.currentScrollTop;
+      const pastHeader = scrollTop > this.headerBounds.bottom;
+
+      if (scrollDelta > this.scrollDeltaMin && pastHeader) {
         this.header.classList.add('scrolled-past-header');
-        if (this.preventHide) return;
-        requestAnimationFrame(this.hide.bind(this));
-      } else if (scrollTop < this.currentScrollTop && scrollTop > threshold) {
+        if (!this.preventHide) {
+          this.hide();
+        }
+      } else if (scrollDelta < -this.scrollDeltaMin && pastHeader) {
         this.header.classList.add('scrolled-past-header');
         if (!this.preventReveal) {
-          requestAnimationFrame(this.reveal.bind(this));
+          this.reveal();
         } else {
           window.clearTimeout(this.isScrolling);
           this.isScrolling = setTimeout(() => {
             this.preventReveal = false;
           }, 66);
-          requestAnimationFrame(this.hide.bind(this));
+          this.hide();
         }
-      } else if (scrollTop <= threshold) {
+      } else if (scrollTop <= this.headerBounds.top) {
         this.header.classList.remove('scrolled-past-header');
-        requestAnimationFrame(this.reset.bind(this));
+        this.reset();
       }
 
       this.currentScrollTop = scrollTop;
     }
 
     hide() {
-      if (this.headerIsAlwaysSticky || !this.header) return;
-      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
+      if (this.headerIsAlwaysSticky || !this.header || this.isHeaderHidden) return;
+      this.isHeaderHidden = true;
+      this.header.classList.add('shopify-section-header-hidden', 'shopify-section-header-sticky');
+      this.header.classList.remove('animate');
       this.closeMenuDisclosure();
     }
 
     reveal() {
-      if (this.headerIsAlwaysSticky || !this.header) return;
+      if (this.headerIsAlwaysSticky || !this.header || !this.isHeaderHidden) return;
+      this.isHeaderHidden = false;
       this.header.classList.add('shopify-section-header-sticky', 'animate');
       this.header.classList.remove('shopify-section-header-hidden');
     }
 
     reset() {
       if (this.headerIsAlwaysSticky || !this.header) return;
+      this.isHeaderHidden = false;
       this.header.classList.remove('shopify-section-header-hidden', 'shopify-section-header-sticky', 'animate');
     }
 
