@@ -1,1 +1,231 @@
-{"sections":{"main":{"type":"main-product","blocks":{"vendor":{"type":"text","settings":{"text":"{{ product.vendor }}","text_style":"uppercase"}},"title":{"type":"title","settings":{}},"price":{"type":"price","settings":{}},"variant_picker":{"type":"variant_picker","settings":{"picker_type":"dropdown","swatch_shape":"circle"}},"personalize_product_YWWpAB":{"type":"personalize_product","disabled":true,"settings":{"option1_product":"variants-only-use","option2_product":"printing-personalization-charges","option3_product":"sublimation-personalization-charges","option4_product":"engraving-personalization-charges","product_label":"Choose a variant","button_text":"Personalize This Product","toggle_button_text":"Plain","popup_title":"Customize Your Product","dropdown_label":"Choose Option","dropdown_options":"Embroidery Text, Printing, Sublimation, Engraving","option1_field1_label":"Name","option1_field1_placeholder":"Name Goes Here","option1_field4_enable":true,"option1_field4_label":"Conditional Input","option1_field4_placeholder":"Conditional Input Here","option1_field2_label":"Font","option1_field2_options":"Sacramento, Arial Rounded, Affectionately Yours, Cheltenham Tall, Times Roman, Camaro, Bodoni, Alfie Casual, Casual Serif, Script3, Oswald Regular, COLLEGE, Block2, Serif1, Centurion, Civic, Calibri, Script6, Ballantines Script, City Medium, Schoolbook, Flares, Comics, Embassy BT, Dancing Script, Arial, Aleo,","option1_field3_label":"Thread Color","option1_field3_options":"White, Mallard Teal, Sky, Silver, Sand, Rose Gold, Red, Purple, Purple Pansy, Champagne, Black, Pink, Pale Blue, Orange, Olive Green, Cream, Nugget Gold, Neon Yellow, Navy, Mint, Brown, Baby Pink, Maroon, Magenta, Lilac, Light Green, Light Brown, Green, Light Blue, Grey, Gold, Bright Pink, Autumn Orange, Forest Green, Fluorescent Lime, Flamingo Pink, Dark Grey, Dark Brown, Dark Gold, Dark Blue, Charcoal, Bottle Green, Yellow","option2_field1_label":"Lorum","option2_field1_placeholder":"Name","option2_field2_label":"Ipsum","option2_field2_placeholder":"Font","option3_field1_label":"Field 1 Label","option3_field1_placeholder":"Field 1 placeholder","option3_field2_label":"Field 2 Label","option3_field2_options":"Option A, Option B, Option C","option3_field3_label":"Field 3 Label","option3_field3_options":"Option X, Option Y, Option Z","option4_field1_label":"Field 1 Label","option4_field1_placeholder":"Field 1 placeholder","option4_field2_label":"Field 2 Label","option4_field2_options":"Option A, Option B, Option C","option4_field3_label":"Field 3 Label","option4_field3_options":"Option X, Option Y, Option Z","add_to_cart_text":"Add to Cart"}},"personalize_input_bQPrBJ":{"type":"personalize_input","disabled":true,"settings":{"label_text":"Your Label"}},"quantity_selector":{"type":"quantity_selector","settings":{}},"buy_buttons":{"type":"buy_buttons","settings":{"show_dynamic_checkout":true,"show_gift_card_recipient":true}},"description":{"type":"description","settings":{}},"share":{"type":"share","settings":{"share_label":"Share"}}},"block_order":["vendor","title","price","variant_picker","personalize_product_YWWpAB","personalize_input_bQPrBJ","quantity_selector","buy_buttons","description","share"],"settings":{"enable_sticky_info":true,"color_scheme":"scheme-1","media_size":"large","constrain_to_viewport":true,"media_fit":"contain","gallery_layout":"stacked","mobile_thumbnails":"hide","media_position":"left","image_zoom":"lightbox","hide_variants":true,"enable_video_looping":false,"padding_top":36,"padding_bottom":12}},"related-products":{"type":"related-products","settings":{"heading":"You may also like","heading_size":"h2","products_to_show":4,"columns_desktop":4,"columns_mobile":"2","color_scheme":"scheme-1","image_ratio":"square","image_shape":"default","show_secondary_image":true,"show_vendor":false,"show_rating":false,"padding_top":36,"padding_bottom":28}}},"order":["main","related-products"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "reviews_slider_RRRVRd": {
+          "type": "reviews_slider",
+          "settings": {
+            "autoplay": true,
+            "autoplay_speed": 3,
+            "star_color": "#f59e0b",
+            "quote_color": "#e5e7eb",
+            "review_1_name": "Patrick K",
+            "review_1_rating": 5,
+            "review_1_text": "Excellent products at great prices",
+            "review_1_date": "27.02.2025",
+            "review_2_name": "Patrick",
+            "review_2_rating": 4,
+            "review_2_text": "Excellent at great prices",
+            "review_2_date": "",
+            "review_3_name": "K",
+            "review_3_rating": 5,
+            "review_3_text": "Excellent products",
+            "review_3_date": "",
+            "review_4_name": "John",
+            "review_4_rating": 5,
+            "review_4_text": "Excellent products at prices",
+            "review_4_date": "",
+            "review_5_name": "",
+            "review_5_rating": 5,
+            "review_5_text": "",
+            "review_5_date": ""
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "dropdown",
+            "swatch_shape": "circle"
+          }
+        },
+        "scotland_icon_text_pdp_y6GQnP": {
+          "type": "scotland_icon_text_pdp",
+          "settings": {
+            "icon_size": 40,
+            "item_gap": 14,
+            "icon_color": "#121212",
+            "heading_color": "#121212",
+            "text_color": "#4b5563",
+            "item_1_icon": "truck",
+            "item_1_custom_icon": "shopify://shop_images/reminder.png",
+            "item_1_heading": "",
+            "item_1_text": "",
+            "item_1_link": "",
+            "item_2_icon": "box",
+            "item_2_custom_icon": "shopify://shop_images/box.png",
+            "item_2_heading": "",
+            "item_2_text": "",
+            "item_2_link": "",
+            "item_3_icon": "stock",
+            "item_3_custom_icon": "shopify://shop_images/delivery.png",
+            "item_3_heading": "In stock and ready for shipping",
+            "item_3_text": "",
+            "item_3_link": "",
+            "item_4_icon": "truck",
+            "item_4_heading": "",
+            "item_4_text": "",
+            "item_4_link": ""
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "desktop_buttons_in_row": false,
+            "add_to_cart_bg_type": "gradient",
+            "add_to_cart_bg_color": "",
+            "add_to_cart_gradient_start": "#01277e",
+            "add_to_cart_gradient_end": "#14b8a6",
+            "add_to_cart_gradient_angle": 90,
+            "add_to_cart_text_color": "#ffffff",
+            "buy_button_bg_type": "solid",
+            "buy_button_bg_color": "#01277e",
+            "buy_button_gradient_start": "#01277e",
+            "buy_button_gradient_end": "#14b8a6",
+            "buy_button_gradient_angle": 90,
+            "buy_button_text_color": "#ffffff"
+          }
+        },
+        "scotland_delivery_timer_PYF4Xr": {
+          "type": "scotland_delivery_timer",
+          "settings": {
+            "cutoff_time": "03:22",
+            "text_1": "Order within:",
+            "icon_1_upload": "shopify://shop_images/product.png",
+            "text_2": "Get it by",
+            "delivery_days": 1,
+            "show_date_in_parentheses": true,
+            "icon_2_upload": "shopify://shop_images/box-truck.png",
+            "deliver_monday": true,
+            "deliver_tuesday": true,
+            "deliver_wednesday": true,
+            "deliver_thursday": true,
+            "deliver_friday": true,
+            "deliver_saturday": false,
+            "deliver_sunday": false,
+            "icon_size": 40,
+            "background_color": "#fafafa",
+            "border_color": "#fbfbfb",
+            "icon_color": "#121212",
+            "text_color": "#000000",
+            "highlight_color": "#14b8a6",
+            "date_suffix_color": "#6b7280"
+          }
+        },
+        "scotland_icon_text_pdp_biJGQT": {
+          "type": "scotland_icon_text_pdp",
+          "settings": {
+            "icon_size": 24,
+            "item_gap": 14,
+            "icon_color": "#121212",
+            "heading_color": "#121212",
+            "text_color": "#4b5563",
+            "item_1_icon": "truck",
+            "item_1_custom_icon": "shopify://shop_images/reminder.png",
+            "item_1_heading": "Spend £40",
+            "item_1_text": "Get Free Shipping",
+            "item_1_link": "",
+            "item_2_icon": "box",
+            "item_2_custom_icon": "shopify://shop_images/box.png",
+            "item_2_heading": "Fast Dispatch Till 5PM",
+            "item_2_text": "We Ship 7 Days A Week",
+            "item_2_link": "",
+            "item_3_icon": "stock",
+            "item_3_custom_icon": "shopify://shop_images/delivery.png",
+            "item_3_heading": "",
+            "item_3_text": "",
+            "item_3_link": "",
+            "item_4_icon": "truck",
+            "item_4_heading": "",
+            "item_4_text": "",
+            "item_4_link": ""
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "reviews_slider_RRRVRd",
+        "price",
+        "variant_picker",
+        "scotland_icon_text_pdp_y6GQnP",
+        "quantity_selector",
+        "buy_buttons",
+        "scotland_delivery_timer_PYF4Xr",
+        "scotland_icon_text_pdp_biJGQT",
+        "description"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "small",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "hover_zoom",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related-products"
+  ]
+}
