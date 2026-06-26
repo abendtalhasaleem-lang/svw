@@ -149,30 +149,10 @@
     },
     "content_for_index": [],
     "blocks": {
-      "3720565183479497137": {
-        "type": "shopify://apps/globo-product-options-variant/blocks/app-embed-block/fdc9fad5-1a0f-4bd4-9c8a-1af6a6eef6b8",
+      "13768625480086291342": {
+        "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
         "disabled": false,
         "settings": {}
-      },
-      "17636508176111841644": {
-        "type": "shopify://apps/lift/blocks/static_section_widget/b039c5f3-9a23-4f96-9f44-403c20ed258e",
-        "disabled": false,
-        "settings": {}
-      },
-      "1326963984681910494": {
-        "type": "shopify://apps/lift/blocks/popup_widget/b039c5f3-9a23-4f96-9f44-403c20ed258e",
-        "disabled": false,
-        "settings": {
-          "trigger_corners": 15,
-          "popup_corners": 1,
-          "popup_border_width": 1,
-          "popup_border_color": "#000000",
-          "popup_background_color": "#ffffff",
-          "body_text_color": "#000000",
-          "primary_base": "#6366f1",
-          "element_corners": 5,
-          "css_variables": ""
-        }
       }
     },
     "color_schemes": {
