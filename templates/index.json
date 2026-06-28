@@ -229,7 +229,7 @@
         "accent_gradient_angle": 60,
         "accent_text_color": "#ffffff",
         "card_image_bg_type": "gradient",
-        "card_image_bg_color": "#e8f4fc",
+        "card_image_bg_color": "#FFFFFF",
         "card_image_bg_gradient_start": "#e8f4fc",
         "card_image_bg_gradient_middle": "#d4ebf7",
         "card_image_bg_gradient_end": "#c5e8f5",
