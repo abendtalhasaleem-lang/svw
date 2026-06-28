@@ -114,6 +114,172 @@
         "title_margin_top": 10
       }
     },
+    "scotland_collection_grid_Lhdcrz": {
+      "type": "scotland-collection-grid",
+      "blocks": {
+        "collection_card_XKqbJ6": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "frontpage",
+            "image": "shopify://shop_images/shop-cp-pro-switch-30k-prefilled-vape-kit-box-of-5-blueberry-raspberry-sour-vape-blaze-2502928_670x-removebg-preview.png",
+            "title": "E Liquids",
+            "text": "Premium e-liquids in every flavour profile.",
+            "link": ""
+          }
+        },
+        "collection_card_w7kEtm": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "image": "shopify://shop_images/shop-oxva-xlim-go-2-vape-kit-oxva-xlim-go-2-pod-vape-kit-metal-blue-vape-blaze-7907976-removebg-preview.png",
+            "title": "Vape Kits",
+            "text": "Complete starter and advanced vape kits.",
+            "link": ""
+          }
+        },
+        "collection_card_eDEk9c": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Nic Salts",
+            "text": "Smooth nicotine salt e-liquids.",
+            "link": ""
+          }
+        },
+        "collection_card_y3JDCX": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Nic Pouch",
+            "text": "Discreet nicotine pouches in top brands.",
+            "link": ""
+          }
+        },
+        "collection_card_Qeytab": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Prefilled Pods",
+            "text": "Ready-to-use prefilled pod systems.",
+            "link": ""
+          }
+        },
+        "collection_card_MMjLJz": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Pod Kits",
+            "text": "Compact pod kits for everyday vaping.",
+            "link": ""
+          }
+        },
+        "collection_card_bjREKk": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Coils",
+            "text": "Replacement coils for all major devices.",
+            "link": ""
+          }
+        },
+        "collection_card_V7mcfE": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Pods",
+            "text": "Empty and prefilled pods in stock.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_XKqbJ6",
+        "collection_card_w7kEtm",
+        "collection_card_eDEk9c",
+        "collection_card_y3JDCX",
+        "collection_card_Qeytab",
+        "collection_card_MMjLJz",
+        "collection_card_bjREKk",
+        "collection_card_V7mcfE"
+      ],
+      "name": "Scotland collection grid",
+      "settings": {
+        "full_width": false,
+        "content_padding_horizontal": 24,
+        "section_background_color": "#ffffff",
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "heading": "Shop by Category",
+        "subtext": "Browse our most popular product categories and find exactly what your customers need.",
+        "heading_tag": "h2",
+        "header_alignment": "center",
+        "heading_color": "#111111",
+        "heading_font_size": 32,
+        "heading_font_weight": "700",
+        "subtext_color": "#666666",
+        "subtext_font_size": 15,
+        "header_bottom_spacing": 36,
+        "header_inner_gap": 12,
+        "line_thickness": 2,
+        "accent_type": "gradient",
+        "accent_color": "#01277e",
+        "accent_gradient_start": "#01277e",
+        "accent_gradient_middle": "#336dd1",
+        "accent_gradient_end": "#14b8a6",
+        "accent_gradient_angle": 60,
+        "accent_text_color": "#ffffff",
+        "card_image_bg_type": "gradient",
+        "card_image_bg_color": "#e8f4fc",
+        "card_image_bg_gradient_start": "#e8f4fc",
+        "card_image_bg_gradient_middle": "#d4ebf7",
+        "card_image_bg_gradient_end": "#c5e8f5",
+        "card_image_bg_gradient_angle": 180,
+        "card_image_bg_opacity": 35,
+        "desktop_columns": "4",
+        "mobile_columns": "2",
+        "grid_gap": 20,
+        "card_background_color": "#ffffff",
+        "card_border_color": "#dfeaf5",
+        "card_border_radius": 16,
+        "card_padding_top": 20,
+        "card_padding_horizontal": 16,
+        "card_padding_bottom": 24,
+        "card_image_circle_size": 140,
+        "card_image_max_height": 180,
+        "card_button_min_height": 40,
+        "card_button_border_radius": 10,
+        "card_button_font_size": 15,
+        "card_button_font_weight": "700",
+        "card_text_color": "#555555",
+        "card_text_font_size": 13,
+        "card_icon_size": 40,
+        "show_bottom_bar": true,
+        "bottom_bar_bg_type": "gradient",
+        "bottom_bar_bg_color": "#e8f4fc",
+        "bottom_bar_bg_gradient_start": "#e0f7fa",
+        "bottom_bar_bg_gradient_middle": "#d4ebf7",
+        "bottom_bar_bg_gradient_end": "#c5e8f5",
+        "bottom_bar_bg_gradient_angle": 90,
+        "bottom_bar_heading": "Can't find what you're looking for?",
+        "bottom_bar_text": "Browse our full product catalogue for even more options.",
+        "bottom_bar_button_label": "View All Products",
+        "bottom_bar_button_link": "https://dummy-teststore.myshopify.com/collections/all",
+        "bottom_bar_top_spacing": 32,
+        "bottom_bar_padding_vertical": 24,
+        "bottom_bar_padding_horizontal": 28,
+        "bottom_bar_border_radius": 16,
+        "bottom_bar_icon_size": 48,
+        "bottom_bar_heading_color": "#111111",
+        "bottom_bar_heading_font_size": 18,
+        "bottom_bar_heading_font_weight": "700",
+        "bottom_bar_text_color": "#555555",
+        "bottom_bar_text_font_size": 14,
+        "bottom_bar_button_min_height": 48,
+        "bottom_bar_button_border_radius": 16,
+        "bottom_bar_button_font_size": 15,
+        "bottom_bar_button_font_weight": "600"
+      }
+    },
     "scotland_category_buttons_rYd6VM": {
       "type": "scotland-category-buttons",
       "blocks": {
@@ -535,18 +701,18 @@
           "type": "deal",
           "settings": {
             "badge_text": "Premium",
-            "badge_bg_color": "#14B8A6",
+            "badge_bg_color": "#14b8a6",
             "badge_text_color": "#ffffff",
             "card_bg_type": "gradient",
             "card_bg_color": "#ffffff",
-            "card_gradient_start": "#14B8A6",
-            "card_gradient_end": "#01277E",
+            "card_gradient_start": "#14b8a6",
+            "card_gradient_end": "#01277e",
             "heading_part_one": "Buy 1",
-            "heading_color_one": "#FFFFFF",
+            "heading_color_one": "#ffffff",
             "heading_part_two": "Get 1 free",
-            "heading_color_two": "#FFFFFF",
+            "heading_color_two": "#ffffff",
             "text": "<p>Double up on our most sought-after products. Add two items to your cart and the second one is free.</p>",
-            "text_color": "#FFFFFF",
+            "text_color": "#ffffff",
             "button_label": "Shop BOGO",
             "button_link": "",
             "button_bg_color": "#14b8a6",
@@ -557,21 +723,21 @@
           "type": "deal",
           "settings": {
             "badge_text": "Save big",
-            "badge_bg_color": "#14B8A6",
+            "badge_bg_color": "#14b8a6",
             "badge_text_color": "#ffffff",
             "card_bg_type": "gradient",
             "card_bg_color": "#ffffff",
-            "card_gradient_start": "#14B8A6",
-            "card_gradient_end": "#01277E",
+            "card_gradient_start": "#14b8a6",
+            "card_gradient_end": "#01277e",
             "heading_part_one": "Final",
-            "heading_color_one": "#FFFFFF",
+            "heading_color_one": "#ffffff",
             "heading_part_two": "Clearance",
-            "heading_color_two": "#FFFFFF",
+            "heading_color_two": "#ffffff",
             "text": "<p>Double up on our most sought-after products. Add two items to your cart and the second one is free.</p>",
-            "text_color": "#FFFFFF",
+            "text_color": "#ffffff",
             "button_label": "Grab the deal",
             "button_link": "",
-            "button_bg_color": "#14B8A6",
+            "button_bg_color": "#14b8a6",
             "button_text_color": "#ffffff"
           }
         },
@@ -583,14 +749,14 @@
             "badge_text_color": "#ffffff",
             "card_bg_type": "gradient",
             "card_bg_color": "#ffffff",
-            "card_gradient_start": "#14B8A6",
-            "card_gradient_end": "#01277E",
+            "card_gradient_start": "#14b8a6",
+            "card_gradient_end": "#01277e",
             "heading_part_one": "Mystery",
             "heading_color_one": "#ffffff",
             "heading_part_two": "Box deals",
             "heading_color_two": "#14b8a6",
             "text": "<p>Double up on our most sought-after products. Add two items to your cart and the second one is free.</p>",
-            "text_color": "#FFFFFF",
+            "text_color": "#ffffff",
             "button_label": "Reveal box",
             "button_link": "",
             "button_bg_color": "#14b8a6",
@@ -609,9 +775,9 @@
         "content_padding_horizontal": 24,
         "grid_gap": 20,
         "section_bg_type": "solid",
-        "section_bg_color": "#FFFFFF",
-        "section_gradient_start": "#01277E",
-        "section_gradient_end": "#14B8A6",
+        "section_bg_color": "#ffffff",
+        "section_gradient_start": "#01277e",
+        "section_gradient_end": "#14b8a6",
         "show_badge": true,
         "badge_text": "Limited time only",
         "badge_bg_color": "#e8eef9",
@@ -1014,6 +1180,7 @@
   "order": [
     "hero_slideshow_yRF9CP",
     "scotland_images_grid_hAzxAy",
+    "scotland_collection_grid_Lhdcrz",
     "scotland_category_buttons_rYd6VM",
     "scotland_logo_marquee_rVtnrc",
     "scotland_collection_row_UxjdnQ",
