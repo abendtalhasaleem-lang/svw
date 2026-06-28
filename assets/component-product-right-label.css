@@ -2,10 +2,6 @@
   position: relative;
 }
 
-.card__inner .card__media {
-  position: relative;
-}
-
 .product-right-label {
   position: absolute;
   top: 0.75rem;

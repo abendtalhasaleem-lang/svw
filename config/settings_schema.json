@@ -1498,5 +1498,144 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "Age restriction gate",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "age_gate_enable",
+        "label": "Enable age restriction popup",
+        "default": true,
+        "info": "Shows on first visit each browser session. Cleared when the browser session ends or site cookies are deleted."
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "age_gate_heading",
+        "label": "Heading",
+        "default": "Welcome to our store"
+      },
+      {
+        "type": "textarea",
+        "id": "age_gate_text",
+        "label": "Message",
+        "default": "Please verify that you are 18 years of age or older to enter this site."
+      },
+      {
+        "type": "text",
+        "id": "age_gate_agree_label",
+        "label": "Agree button label",
+        "default": "Yes, I am 18"
+      },
+      {
+        "type": "text",
+        "id": "age_gate_disagree_label",
+        "label": "Disagree button label",
+        "default": "No"
+      },
+      {
+        "type": "url",
+        "id": "age_gate_disagree_url",
+        "label": "Disagree redirect URL",
+        "info": "Where visitors go if they click No. Defaults to Google if left empty."
+      },
+      {
+        "type": "header",
+        "content": "Style"
+      },
+      {
+        "type": "range",
+        "id": "age_gate_backdrop_blur",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "Background blur",
+        "default": 10,
+        "info": "Blurs the store content behind the popup. Set to 0 to disable blur."
+      },
+      {
+        "type": "range",
+        "id": "age_gate_backdrop_dim",
+        "min": 0,
+        "max": 90,
+        "step": 5,
+        "unit": "%",
+        "label": "Background dim",
+        "default": 35,
+        "info": "Darkens the blurred background behind the popup."
+      },
+      {
+        "type": "header",
+        "content": "Popup background"
+      },
+      {
+        "type": "select",
+        "id": "age_gate_bg_type",
+        "label": "Background type",
+        "default": "solid",
+        "options": [
+          {
+            "value": "solid",
+            "label": "Solid color"
+          },
+          {
+            "value": "gradient",
+            "label": "Gradient"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "age_gate_bg_color",
+        "label": "Background color",
+        "default": "#000000",
+        "info": "Used when background type is solid."
+      },
+      {
+        "type": "color",
+        "id": "age_gate_gradient_start",
+        "label": "Gradient start",
+        "default": "#01277e"
+      },
+      {
+        "type": "color",
+        "id": "age_gate_gradient_middle",
+        "label": "Gradient middle",
+        "default": "#336dd1"
+      },
+      {
+        "type": "color",
+        "id": "age_gate_gradient_end",
+        "label": "Gradient end",
+        "default": "#14b8a6"
+      },
+      {
+        "type": "range",
+        "id": "age_gate_gradient_angle",
+        "min": 0,
+        "max": 360,
+        "step": 15,
+        "unit": "deg",
+        "label": "Gradient angle",
+        "default": 90
+      },
+      {
+        "type": "color",
+        "id": "age_gate_text_color",
+        "label": "Text color",
+        "default": "#f97316"
+      },
+      {
+        "type": "color",
+        "id": "age_gate_button_border_color",
+        "label": "Button border color",
+        "default": "#f97316"
+      }
+    ]
   }
 ]

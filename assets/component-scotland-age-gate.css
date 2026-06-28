@@ -1,0 +1,121 @@
+html.age-gate-active {
+  --age-gate-blur: 10px;
+  --age-gate-backdrop-dim: 0.35;
+}
+
+html.age-gate-active:not(.age-gate-verified) body {
+  overflow: hidden;
+}
+
+html.age-gate-active:not(.age-gate-verified) body > *:not(#ScotlandAgeGate) {
+  filter: blur(var(--age-gate-blur, 10px));
+  pointer-events: none;
+  user-select: none;
+}
+
+html.age-gate-verified .scotland-age-gate {
+  display: none !important;
+}
+
+.scotland-age-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.6rem;
+  pointer-events: none;
+}
+
+.scotland-age-gate__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: auto;
+  background-color: rgba(0, 0, 0, var(--age-gate-backdrop-dim, 0.35));
+}
+
+.scotland-age-gate__dialog {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 42rem;
+  padding: 3.2rem 2.4rem;
+  border-radius: 0.8rem;
+  text-align: center;
+  pointer-events: auto;
+  background: var(--age-gate-bg);
+  color: var(--age-gate-text);
+}
+
+.scotland-age-gate__heading {
+  margin: 0 0 1.6rem;
+  font-size: clamp(2rem, 5vw, 2.6rem);
+  line-height: 1.25;
+  font-weight: 700;
+  color: var(--age-gate-text);
+}
+
+.scotland-age-gate__text {
+  margin: 0 0 2.4rem;
+  font-size: clamp(1.4rem, 3.5vw, 1.6rem);
+  line-height: 1.5;
+  color: var(--age-gate-text);
+}
+
+.scotland-age-gate__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.scotland-age-gate__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 4.8rem;
+  padding: 1.2rem 2rem;
+  border: 0.1rem solid var(--age-gate-button-border);
+  border-radius: 0.6rem;
+  background: transparent;
+  color: var(--age-gate-text);
+  font: inherit;
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.scotland-age-gate__button:hover {
+  background: var(--age-gate-button-border);
+  color: var(--age-gate-bg-solid, #000);
+}
+
+.scotland-age-gate__button:focus-visible {
+  outline: 0.2rem solid var(--age-gate-button-border);
+  outline-offset: 0.2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .scotland-age-gate {
+    padding: 2.4rem;
+  }
+
+  .scotland-age-gate__dialog {
+    padding: 4rem 3.6rem;
+    border-radius: 1rem;
+  }
+
+  .scotland-age-gate__actions {
+    gap: 1.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.age-gate-active:not(.age-gate-verified) body > *:not(#ScotlandAgeGate) {
+    filter: none;
+  }
+}

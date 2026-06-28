@@ -1,0 +1,409 @@
+.scotland-collection-grid {
+  width: 100%;
+}
+
+.scotland-collection-grid__container {
+  width: 100%;
+}
+
+.scotland-collection-grid__header {
+  margin-bottom: var(--scg-header-gap, 32px);
+}
+
+.scotland-collection-grid__header--center {
+  text-align: center;
+}
+
+.scotland-collection-grid__header--left {
+  text-align: left;
+}
+
+.scotland-collection-grid__title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  width: 100%;
+  margin-bottom: var(--scg-header-inner-gap, 12px);
+}
+
+.scotland-collection-grid__header--left .scotland-collection-grid__title-wrap {
+  justify-content: flex-start;
+}
+
+.scotland-collection-grid__header--center .scotland-collection-grid__line {
+  flex: 0 0 18%;
+  width: 18%;
+  max-width: 18%;
+}
+
+.scotland-collection-grid__line {
+  height: var(--scg-line-thickness, 2px);
+  background: var(--scg-accent-bg, #336dd1);
+  border-radius: 999px;
+  display: block;
+}
+
+.scotland-collection-grid__header--left .scotland-collection-grid__line {
+  display: none;
+}
+
+.scotland-collection-grid__heading {
+  margin: 0;
+  flex: 0 0 auto;
+  max-width: 40%;
+  font-size: var(--scg-heading-size, 32px);
+  font-weight: var(--scg-heading-weight, 700);
+  line-height: 1.2;
+  color: var(--scg-heading-color, #111111);
+}
+
+.scotland-collection-grid__header--left .scotland-collection-grid__heading {
+  max-width: none;
+}
+
+.scotland-collection-grid__subtext {
+  margin: 0 auto;
+  max-width: 72rem;
+  font-size: var(--scg-subtext-size, 15px);
+  line-height: 1.6;
+  color: var(--scg-subtext-color, #666666);
+}
+
+.scotland-collection-grid__header--left .scotland-collection-grid__subtext {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.scotland-collection-grid__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--scg-desktop-cols, 4), minmax(0, 1fr));
+  column-gap: var(--scg-grid-gap, 20px);
+  row-gap: calc(var(--scg-grid-gap, 20px) + (var(--scg-image-circle-size, 140px) * 0.5));
+  padding-top: calc(var(--scg-image-circle-size, 140px) * 0.5);
+}
+
+.scotland-collection-grid__card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: auto;
+  padding: 0;
+  overflow: visible;
+  position: relative;
+  border: 1px solid var(--scg-card-border-color, #dfeaf5);
+  border-radius: var(--scg-card-radius, 16px);
+  background: var(--scg-card-bg, #ffffff);
+  box-shadow: 0 4px 20px rgba(1, 39, 126, 0.06);
+  text-align: center;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.scotland-collection-grid__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(1, 39, 126, 0.12);
+}
+
+.scotland-collection-grid__card-media {
+  position: relative;
+  width: 100%;
+  height: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+}
+
+.scotland-collection-grid__card-media-bg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  height: calc((var(--scg-image-circle-size, 140px) * 0.5) + 3.2rem);
+  border-radius: calc(var(--scg-card-radius, 16px) - 1px) calc(var(--scg-card-radius, 16px) - 1px) 0 0;
+  background: var(--scg-card-image-bg, linear-gradient(180deg, #e8f4fc, #d4ebf7));
+  opacity: var(--scg-card-image-bg-opacity, 0.35);
+  pointer-events: none;
+}
+
+.scotland-collection-grid__card-image-circle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--scg-image-circle-size, 140px);
+  height: var(--scg-image-circle-size, 140px);
+  border-radius: 50%;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(1, 39, 126, 0.08);
+}
+
+.scotland-collection-grid__card-image-circle-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(circle at 22% 34%, var(--scg-circle-dot-start-soft, rgba(1, 39, 126, 0.14)) 0%, transparent 58%),
+    radial-gradient(circle at 74% 28%, var(--scg-circle-dot-end, rgba(20, 184, 166, 0.24)) 0%, transparent 52%),
+    radial-gradient(circle at 58% 72%, var(--scg-circle-dot-start, rgba(1, 39, 126, 0.24)) 0%, transparent 50%),
+    radial-gradient(circle at 30% 78%, var(--scg-circle-dot-end-soft, rgba(20, 184, 166, 0.14)) 0%, transparent 48%),
+    radial-gradient(circle at 82% 62%, var(--scg-circle-dot-end-soft, rgba(20, 184, 166, 0.14)) 0%, transparent 42%);
+  pointer-events: none;
+}
+
+.scotland-collection-grid__card-image-circle-bg::after {
+  content: none;
+}
+
+.scotland-collection-grid__card-image-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+}
+
+.scotland-collection-grid__card-image {
+  display: block;
+  width: auto;
+  max-height: var(--scg-card-image-max-height, 120px);
+  height: auto;
+  object-fit: contain;
+  object-position: center center;
+}
+
+.scotland-collection-grid__card-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 78%;
+  height: 78%;
+  color: rgba(1, 39, 126, 0.25);
+}
+
+.scotland-collection-grid__card-image-placeholder svg {
+  width: 4rem;
+  height: 4rem;
+}
+
+.scotland-collection-grid__card-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc((var(--scg-image-circle-size, 140px) * 0.5) + 12px) var(--scg-card-padding-x, 16px) var(--scg-card-padding-bottom, 24px);
+}
+
+.scotland-collection-grid__card-button {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  min-height: var(--scg-card-button-height, 44px);
+  margin-bottom: 1.2rem;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: var(--scg-card-button-radius, 10px);
+  background: var(--scg-accent-bg, #01277e);
+  color: var(--scg-accent-text, #ffffff);
+  font-size: var(--scg-card-button-size, 15px);
+  font-weight: var(--scg-card-button-weight, 700);
+  line-height: 1.25;
+  text-decoration: none;
+  opacity: 1;
+  isolation: isolate;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.scotland-collection-grid__card-button:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(1, 39, 126, 0.18);
+}
+
+.scotland-collection-grid__card-text {
+  margin: 0 0 1.4rem;
+  width: 100%;
+  font-size: var(--scg-card-text-size, 13px);
+  line-height: 1.55;
+  color: var(--scg-card-text-color, #555555);
+}
+
+.scotland-collection-grid__card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--scg-card-icon-size, 40px);
+  height: var(--scg-card-icon-size, 40px);
+  border-radius: 50%;
+  background: var(--scg-accent-bg, #336dd1);
+  color: var(--scg-accent-text, #ffffff);
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.scotland-collection-grid__card-icon:hover {
+  transform: scale(1.06);
+  opacity: 0.92;
+}
+
+.scotland-collection-grid__card-icon .svg-wrapper {
+  display: flex;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.scotland-collection-grid__bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: var(--scg-bottom-bar-top-spacing, 32px);
+  padding: var(--scg-bottom-bar-padding-y, 24px) var(--scg-bottom-bar-padding-x, 28px);
+  border-radius: var(--scg-bottom-bar-radius, 16px);
+  background: var(--scg-bottom-bar-bg, linear-gradient(90deg, rgba(20, 184, 166, 0.12), rgba(51, 109, 209, 0.1)));
+}
+
+.scotland-collection-grid__bottom-content {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  min-width: 0;
+}
+
+.scotland-collection-grid__bottom-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--scg-bottom-icon-size, 48px);
+  height: var(--scg-bottom-icon-size, 48px);
+  border-radius: 50%;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.scotland-collection-grid__bottom-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.scotland-collection-grid__bottom-text-wrap {
+  min-width: 0;
+}
+
+.scotland-collection-grid__bottom-heading {
+  margin: 0 0 0.4rem;
+  font-size: var(--scg-bottom-heading-size, 18px);
+  font-weight: var(--scg-bottom-heading-weight, 700);
+  line-height: 1.3;
+  color: var(--scg-bottom-heading-color, #111111);
+}
+
+.scotland-collection-grid__bottom-text {
+  margin: 0;
+  font-size: var(--scg-bottom-text-size, 14px);
+  line-height: 1.5;
+  color: var(--scg-bottom-text-color, #555555);
+}
+
+.scotland-collection-grid__bottom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  min-height: var(--scg-bottom-button-height, 48px);
+  padding: 0.8rem 1.8rem;
+  border: none;
+  border-radius: var(--scg-bottom-button-radius, 999px);
+  background: var(--scg-accent-bg, #14b8a6);
+  color: var(--scg-accent-text, #ffffff);
+  font-size: var(--scg-bottom-button-size, 15px);
+  font-weight: var(--scg-bottom-button-weight, 600);
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.scotland-collection-grid__bottom-button:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.scotland-collection-grid__bottom-button .svg-wrapper {
+  display: flex;
+  width: 1rem;
+  height: 1rem;
+}
+
+@media screen and (max-width: 749px) {
+  .scotland-collection-grid__grid {
+    grid-template-columns: repeat(var(--scg-mobile-cols, 2), minmax(0, 1fr));
+    column-gap: calc(var(--scg-grid-gap, 20px) * 0.85);
+    row-gap: calc((var(--scg-grid-gap, 20px) * 0.85) + (var(--scg-image-circle-size, 140px) * 0.5));
+    padding-top: calc(var(--scg-image-circle-size, 140px) * 0.45);
+  }
+
+  .scotland-collection-grid__heading {
+    font-size: calc(var(--scg-heading-size, 32px) * 0.82);
+    max-width: 50%;
+  }
+
+  .scotland-collection-grid__header--center .scotland-collection-grid__line {
+    flex-basis: 18%;
+    width: 18%;
+    max-width: 18%;
+  }
+
+  .scotland-collection-grid__card-image {
+    max-height: calc(var(--scg-card-image-max-height, 120px) * 0.88);
+  }
+
+  .scotland-collection-grid__bottom-bar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 1.6rem;
+  }
+
+  .scotland-collection-grid__bottom-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .scotland-collection-grid__bottom-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scotland-collection-grid__card,
+  .scotland-collection-grid__card-button,
+  .scotland-collection-grid__card-icon,
+  .scotland-collection-grid__bottom-button {
+    transition: none;
+  }
+
+  .scotland-collection-grid__card:hover,
+  .scotland-collection-grid__card-button:hover,
+  .scotland-collection-grid__card-icon:hover,
+  .scotland-collection-grid__bottom-button:hover {
+    transform: none;
+  }
+}

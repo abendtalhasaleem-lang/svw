@@ -305,6 +305,10 @@
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+    {%- if settings.age_gate_enable -%}
+      {% render 'scotland-age-gate', render_mode: 'head' %}
+    {%- endif -%}
+
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -377,6 +381,10 @@
 
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {%- if settings.age_gate_enable -%}
+      {% render 'scotland-age-gate' %}
     {%- endif -%}
 
 {% render 'ajaxify-cart' %}

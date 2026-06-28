@@ -1,0 +1,1024 @@
+{{ 'section-scotland-collection-grid.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+
+  if s.accent_type == 'gradient'
+    assign accent_bg = 'linear-gradient(' | append: s.accent_gradient_angle | append: 'deg, ' | append: s.accent_gradient_start | append: ' 0%, ' | append: s.accent_gradient_middle | append: ' 50%, ' | append: s.accent_gradient_end | append: ' 100%)'
+  else
+    assign accent_bg = s.accent_color
+  endif
+
+  if s.card_image_bg_type == 'gradient'
+    assign card_image_bg = 'linear-gradient(' | append: s.card_image_bg_gradient_angle | append: 'deg, ' | append: s.card_image_bg_gradient_start | append: ' 0%, ' | append: s.card_image_bg_gradient_middle | append: ' 50%, ' | append: s.card_image_bg_gradient_end | append: ' 100%)'
+  else
+    assign card_image_bg = s.card_image_bg_color
+  endif
+
+  if s.bottom_bar_bg_type == 'gradient'
+    assign bottom_bar_bg = 'linear-gradient(' | append: s.bottom_bar_bg_gradient_angle | append: 'deg, ' | append: s.bottom_bar_bg_gradient_start | append: ' 0%, ' | append: s.bottom_bar_bg_gradient_middle | append: ' 50%, ' | append: s.bottom_bar_bg_gradient_end | append: ' 100%)'
+  else
+    assign bottom_bar_bg = s.bottom_bar_bg_color
+  endif
+
+  assign heading_tag = s.heading_tag | default: 'h2'
+  assign header_align_class = 'scotland-collection-grid__header--' | append: s.header_alignment
+
+  if s.bottom_bar_button_border_radius >= 40
+    assign bottom_button_radius_css = '999px'
+  else
+    assign bottom_button_radius_css = s.bottom_bar_button_border_radius | append: 'px'
+  endif
+
+  if s.accent_type == 'gradient'
+    assign circle_dot_start = s.accent_gradient_start
+    assign circle_dot_end = s.accent_gradient_end
+  else
+    assign circle_dot_start = s.accent_color
+    assign circle_dot_end = s.accent_color
+  endif
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ s.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ s.padding_bottom | times: 0.75 | round: 0 }}px;
+    background-color: {{ s.section_background_color }};
+  }
+
+  #ScotlandCollectionGrid-{{ section.id }} {
+    --scg-accent-bg: {{ accent_bg }};
+    --scg-accent-text: {{ s.accent_text_color }};
+    --scg-card-image-bg: {{ card_image_bg }};
+    --scg-card-image-bg-opacity: {{ s.card_image_bg_opacity | divided_by: 100.0 }};
+    --scg-circle-dot-start: {{ circle_dot_start | color_modify: 'alpha', 0.24 }};
+    --scg-circle-dot-start-soft: {{ circle_dot_start | color_modify: 'alpha', 0.14 }};
+    --scg-circle-dot-end: {{ circle_dot_end | color_modify: 'alpha', 0.24 }};
+    --scg-circle-dot-end-soft: {{ circle_dot_end | color_modify: 'alpha', 0.14 }};
+    --scg-bottom-bar-bg: {{ bottom_bar_bg }};
+    --scg-header-gap: {{ s.header_bottom_spacing }}px;
+    --scg-header-inner-gap: {{ s.header_inner_gap }}px;
+    --scg-line-thickness: {{ s.line_thickness }}px;
+    --scg-heading-size: {{ s.heading_font_size }}px;
+    --scg-heading-weight: {{ s.heading_font_weight }};
+    --scg-heading-color: {{ s.heading_color }};
+    --scg-subtext-size: {{ s.subtext_font_size }}px;
+    --scg-subtext-color: {{ s.subtext_color }};
+    --scg-grid-gap: {{ s.grid_gap }}px;
+    --scg-desktop-cols: {{ s.desktop_columns }};
+    --scg-mobile-cols: {{ s.mobile_columns }};
+    --scg-card-radius: {{ s.card_border_radius }}px;
+    --scg-card-bg: {{ s.card_background_color }};
+    --scg-card-border-color: {{ s.card_border_color }};
+    --scg-card-padding-y: {{ s.card_padding_top }}px;
+    --scg-card-padding-x: {{ s.card_padding_horizontal }}px;
+    --scg-card-padding-bottom: {{ s.card_padding_bottom }}px;
+    --scg-card-image-max-height: {{ s.card_image_max_height }}px;
+    --scg-image-circle-size: {{ s.card_image_circle_size }}px;
+    --scg-card-button-height: {{ s.card_button_min_height }}px;
+    --scg-card-button-radius: {{ s.card_button_border_radius }}px;
+    --scg-card-button-size: {{ s.card_button_font_size }}px;
+    --scg-card-button-weight: {{ s.card_button_font_weight }};
+    --scg-card-text-size: {{ s.card_text_font_size }}px;
+    --scg-card-text-color: {{ s.card_text_color }};
+    --scg-card-icon-size: {{ s.card_icon_size }}px;
+    --scg-bottom-bar-top-spacing: {{ s.bottom_bar_top_spacing }}px;
+    --scg-bottom-bar-padding-y: {{ s.bottom_bar_padding_vertical }}px;
+    --scg-bottom-bar-padding-x: {{ s.bottom_bar_padding_horizontal }}px;
+    --scg-bottom-bar-radius: {{ s.bottom_bar_border_radius }}px;
+    --scg-bottom-icon-size: {{ s.bottom_bar_icon_size }}px;
+    --scg-bottom-heading-size: {{ s.bottom_bar_heading_font_size }}px;
+    --scg-bottom-heading-weight: {{ s.bottom_bar_heading_font_weight }};
+    --scg-bottom-heading-color: {{ s.bottom_bar_heading_color }};
+    --scg-bottom-text-size: {{ s.bottom_bar_text_font_size }}px;
+    --scg-bottom-text-color: {{ s.bottom_bar_text_color }};
+    --scg-bottom-button-height: {{ s.bottom_bar_button_min_height }}px;
+    --scg-bottom-button-radius: {{ bottom_button_radius_css }};
+    --scg-bottom-button-size: {{ s.bottom_bar_button_font_size }}px;
+    --scg-bottom-button-weight: {{ s.bottom_bar_button_font_weight }};
+  }
+
+  {%- if s.full_width -%}
+    #ScotlandCollectionGrid-{{ section.id }} .scotland-collection-grid__container {
+      max-width: 100%;
+      padding-left: {{ s.content_padding_horizontal }}px;
+      padding-right: {{ s.content_padding_horizontal }}px;
+    }
+  {%- endif -%}
+
+  @media screen and (min-width: 750px) {
+    #shopify-section-{{ section.id }} {
+      padding-top: {{ s.padding_top }}px;
+      padding-bottom: {{ s.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    {%- if s.full_width -%}
+      #ScotlandCollectionGrid-{{ section.id }} .scotland-collection-grid__container {
+        padding-left: {{ s.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+        padding-right: {{ s.content_padding_horizontal | divided_by: 2 | at_least: 12 }}px;
+      }
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<section class="scotland-collection-grid" id="ScotlandCollectionGrid-{{ section.id }}">
+  <div class="scotland-collection-grid__container{% unless s.full_width %} page-width{% endunless %}">
+    {%- if s.heading != blank or s.subtext != blank -%}
+      <header class="scotland-collection-grid__header {{ header_align_class }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        {%- if s.heading != blank -%}
+          <div class="scotland-collection-grid__title-wrap">
+            <span class="scotland-collection-grid__line" aria-hidden="true"></span>
+            <{{ heading_tag }} class="scotland-collection-grid__heading">{{ s.heading | escape }}</{{ heading_tag }}>
+            <span class="scotland-collection-grid__line" aria-hidden="true"></span>
+          </div>
+        {%- endif -%}
+
+        {%- if s.subtext != blank -%}
+          <p class="scotland-collection-grid__subtext">{{ s.subtext | escape }}</p>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="scotland-collection-grid__grid">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign card_link = block.settings.link
+            assign card_title = block.settings.title
+            assign card_text = block.settings.text
+            assign card_image = block.settings.image
+
+            if block.settings.collection != blank
+              assign card_collection = block.settings.collection
+              if card_link == blank
+                assign card_link = card_collection.url
+              endif
+              if card_title == blank
+                assign card_title = card_collection.title
+              endif
+              if card_image == blank and card_collection.featured_image
+                assign card_image = card_collection.featured_image
+              endif
+            endif
+          -%}
+
+          <article
+            class="scotland-collection-grid__card{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {% if settings.animations_reveal_on_scroll %}style="--animation-order: {{ forloop.index }};"{% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <div class="scotland-collection-grid__card-media">
+              <span class="scotland-collection-grid__card-media-bg" aria-hidden="true"></span>
+              <div class="scotland-collection-grid__card-image-circle">
+                <span class="scotland-collection-grid__card-image-circle-bg" aria-hidden="true"></span>
+                <div class="scotland-collection-grid__card-image-wrap">
+                  {%- if card_image != blank -%}
+                    {{
+                      card_image
+                      | image_url: width: 800
+                      | image_tag:
+                        class: 'scotland-collection-grid__card-image',
+                        loading: 'lazy',
+                        widths: '200, 300, 400, 600, 800',
+                        sizes: '140px',
+                        alt: card_image.alt | default: card_title | escape
+                    }}
+                  {%- else -%}
+                    <span class="scotland-collection-grid__card-image-placeholder" aria-hidden="true">
+                      {{- 'product-apparel-1' | placeholder_svg_tag -}}
+                    </span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+
+            <div class="scotland-collection-grid__card-body">
+              {%- if card_title != blank -%}
+                {%- if card_link != blank -%}
+                  <a href="{{ card_link }}" class="scotland-collection-grid__card-button">{{ card_title | escape }}</a>
+                {%- else -%}
+                  <span class="scotland-collection-grid__card-button">{{ card_title | escape }}</span>
+                {%- endif -%}
+              {%- endif -%}
+
+              {%- if card_text != blank -%}
+                <p class="scotland-collection-grid__card-text">{{ card_text | escape }}</p>
+              {%- endif -%}
+
+              {%- if card_link != blank -%}
+                <a href="{{ card_link }}" class="scotland-collection-grid__card-icon" aria-label="{{ card_title | default: 'View collection' | escape }}">
+                  <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+                </a>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if s.show_bottom_bar and s.bottom_bar_heading != blank -%}
+      <div class="scotland-collection-grid__bottom-bar{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="scotland-collection-grid__bottom-content">
+          {%- if s.bottom_bar_icon != blank -%}
+            <span class="scotland-collection-grid__bottom-icon">
+              {{
+                s.bottom_bar_icon
+                | image_url: width: 96
+                | image_tag: loading: 'lazy', alt: ''
+              }}
+            </span>
+          {%- endif -%}
+
+          <div class="scotland-collection-grid__bottom-text-wrap">
+            <p class="scotland-collection-grid__bottom-heading">{{ s.bottom_bar_heading | escape }}</p>
+            {%- if s.bottom_bar_text != blank -%}
+              <p class="scotland-collection-grid__bottom-text">{{ s.bottom_bar_text | escape }}</p>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if s.bottom_bar_button_label != blank and s.bottom_bar_button_link != blank -%}
+          <a href="{{ s.bottom_bar_button_link }}" class="scotland-collection-grid__bottom-button">
+            <span>{{ s.bottom_bar_button_label | escape }}</span>
+            <span class="svg-wrapper">{{- 'icon-arrow.svg' | inline_asset_content -}}</span>
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scotland collection grid",
+  "tag": "section",
+  "class": "section section-scotland-collection-grid",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width content",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "content_padding_horizontal",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Content side padding (full width)",
+      "default": 24
+    },
+    {
+      "type": "color",
+      "id": "section_background_color",
+      "label": "Section background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Section heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Text below heading",
+      "default": "Browse our most popular product categories and find exactly what your customers need."
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading HTML tag",
+      "default": "h2",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Heading and text alignment",
+      "default": "center",
+      "info": "Lines show when centered, hidden when left aligned.",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "min": 20,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading font size",
+      "default": 32
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Heading font weight",
+      "default": "700",
+      "options": [
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra bold" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "subtext_color",
+      "label": "Subtext color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "subtext_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtext font size",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "header_bottom_spacing",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Space below heading area",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "header_inner_gap",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between heading and subtext",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "label": "Decorative line thickness",
+      "default": 2
+    },
+    {
+      "type": "header",
+      "content": "Accent color"
+    },
+    {
+      "type": "select",
+      "id": "accent_type",
+      "label": "Accent type",
+      "default": "gradient",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#01277e"
+    },
+    {
+      "type": "color",
+      "id": "accent_gradient_start",
+      "label": "Accent gradient start",
+      "default": "#01277e"
+    },
+    {
+      "type": "color",
+      "id": "accent_gradient_middle",
+      "label": "Accent gradient middle",
+      "default": "#336dd1"
+    },
+    {
+      "type": "color",
+      "id": "accent_gradient_end",
+      "label": "Accent gradient end",
+      "default": "#14b8a6"
+    },
+    {
+      "type": "range",
+      "id": "accent_gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "deg",
+      "label": "Accent gradient angle",
+      "default": 90
+    },
+    {
+      "type": "color",
+      "id": "accent_text_color",
+      "label": "Accent button and icon text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card image background"
+    },
+    {
+      "type": "select",
+      "id": "card_image_bg_type",
+      "label": "Image area background type",
+      "default": "gradient",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "card_image_bg_color",
+      "label": "Image area background color",
+      "default": "#e8f4fc"
+    },
+    {
+      "type": "color",
+      "id": "card_image_bg_gradient_start",
+      "label": "Image area gradient start",
+      "default": "#e8f4fc"
+    },
+    {
+      "type": "color",
+      "id": "card_image_bg_gradient_middle",
+      "label": "Image area gradient middle",
+      "default": "#d4ebf7"
+    },
+    {
+      "type": "color",
+      "id": "card_image_bg_gradient_end",
+      "label": "Image area gradient end",
+      "default": "#c5e8f5"
+    },
+    {
+      "type": "range",
+      "id": "card_image_bg_gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "deg",
+      "label": "Image area gradient angle",
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "card_image_bg_opacity",
+      "min": 5,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Image area background opacity",
+      "default": 35
+    },
+    {
+      "type": "header",
+      "content": "Grid"
+    },
+    {
+      "type": "select",
+      "id": "desktop_columns",
+      "label": "Cards per row on desktop",
+      "default": "4",
+      "options": [
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Cards per row on mobile",
+      "default": "2",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Gap between cards",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Cards"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "#dfeaf5"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding_top",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card top padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_padding_horizontal",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Card side padding",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding_bottom",
+      "min": 12,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card bottom padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_image_circle_size",
+      "min": 100,
+      "max": 180,
+      "step": 10,
+      "unit": "px",
+      "label": "Image circle size",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "card_image_max_height",
+      "min": 80,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Image maximum height",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "card_button_min_height",
+      "min": 36,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Card title button height",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "card_button_border_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Card title button radius",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_button_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Card title button font size",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "card_button_font_weight",
+      "label": "Card title button font weight",
+      "default": "700",
+      "options": [
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "card_text_color",
+      "label": "Card description color",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "card_text_font_size",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Card description font size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "card_icon_size",
+      "min": 32,
+      "max": 56,
+      "step": 2,
+      "unit": "px",
+      "label": "Card icon button size",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Bottom bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_bar",
+      "label": "Show bottom bar",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "bottom_bar_bg_type",
+      "label": "Bottom bar background type",
+      "default": "gradient",
+      "options": [
+        { "value": "solid", "label": "Solid color" },
+        { "value": "gradient", "label": "Gradient" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bottom_bar_bg_color",
+      "label": "Bottom bar background color",
+      "default": "#e8f4fc"
+    },
+    {
+      "type": "color",
+      "id": "bottom_bar_bg_gradient_start",
+      "label": "Bottom bar gradient start",
+      "default": "#e0f7fa"
+    },
+    {
+      "type": "color",
+      "id": "bottom_bar_bg_gradient_middle",
+      "label": "Bottom bar gradient middle",
+      "default": "#d4ebf7"
+    },
+    {
+      "type": "color",
+      "id": "bottom_bar_bg_gradient_end",
+      "label": "Bottom bar gradient end",
+      "default": "#c5e8f5"
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_bg_gradient_angle",
+      "min": 0,
+      "max": 360,
+      "step": 15,
+      "unit": "deg",
+      "label": "Bottom bar gradient angle",
+      "default": 90
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_bar_icon",
+      "label": "Bottom bar icon"
+    },
+    {
+      "type": "text",
+      "id": "bottom_bar_heading",
+      "label": "Bottom bar heading",
+      "default": "Can't find what you're looking for?"
+    },
+    {
+      "type": "textarea",
+      "id": "bottom_bar_text",
+      "label": "Bottom bar text",
+      "default": "Browse our full product catalogue for even more options."
+    },
+    {
+      "type": "text",
+      "id": "bottom_bar_button_label",
+      "label": "Bottom bar button label",
+      "default": "View All Products"
+    },
+    {
+      "type": "url",
+      "id": "bottom_bar_button_link",
+      "label": "Bottom bar button link"
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_top_spacing",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Space above bottom bar",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_padding_vertical",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom bar vertical padding",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_padding_horizontal",
+      "min": 12,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom bar horizontal padding",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom bar border radius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_icon_size",
+      "min": 32,
+      "max": 72,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom bar icon size",
+      "default": 48
+    },
+    {
+      "type": "color",
+      "id": "bottom_bar_heading_color",
+      "label": "Bottom bar heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_heading_font_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom bar heading font size",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "bottom_bar_heading_font_weight",
+      "label": "Bottom bar heading font weight",
+      "default": "700",
+      "options": [
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "bottom_bar_text_color",
+      "label": "Bottom bar text color",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_text_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom bar text font size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_button_min_height",
+      "min": 40,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom bar button height",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom bar button radius",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_bar_button_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom bar button font size",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "bottom_bar_button_font_weight",
+      "label": "Bottom bar button font weight",
+      "default": "600",
+      "options": [
+        { "value": "600", "label": "Semibold" },
+        { "value": "700", "label": "Bold" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Optional. Uses collection title, image, and URL."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Button title",
+          "default": "Collection"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Short description for this collection."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland collection grid",
+      "blocks": [
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "E Liquids",
+            "text": "Premium e-liquids in every flavour profile."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Vape Kits",
+            "text": "Complete starter and advanced vape kits."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Nic Salts",
+            "text": "Smooth nicotine salt e-liquids."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Nic Pouch",
+            "text": "Discreet nicotine pouches in top brands."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Prefilled Pods",
+            "text": "Ready-to-use prefilled pod systems."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Pod Kits",
+            "text": "Compact pod kits for everyday vaping."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Coils",
+            "text": "Replacement coils for all major devices."
+          }
+        },
+        {
+          "type": "collection_card",
+          "settings": {
+            "title": "Pods",
+            "text": "Empty and prefilled pods in stock."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

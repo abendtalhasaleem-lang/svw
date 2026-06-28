@@ -1,7 +1,3 @@
-.card__inner .card__media {
-  position: relative;
-}
-
 .product-card-sale-badge {
   position: absolute;
   z-index: 2;

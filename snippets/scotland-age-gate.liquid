@@ -1,0 +1,95 @@
+{%- liquid
+  if settings.age_gate_bg_type == 'gradient'
+    assign age_gate_bg = 'linear-gradient(' | append: settings.age_gate_gradient_angle | append: 'deg, ' | append: settings.age_gate_gradient_start | append: ' 0%, ' | append: settings.age_gate_gradient_middle | append: ' 50%, ' | append: settings.age_gate_gradient_end | append: ' 100%)'
+    assign age_gate_bg_solid = settings.age_gate_gradient_end
+  else
+    assign age_gate_bg = settings.age_gate_bg_color
+    assign age_gate_bg_solid = settings.age_gate_bg_color
+  endif
+
+  assign disagree_url = settings.age_gate_disagree_url
+  if disagree_url == blank
+    assign disagree_url = 'https://www.google.com'
+  endif
+
+  assign backdrop_blur = settings.age_gate_backdrop_blur | default: 10
+  assign backdrop_dim = settings.age_gate_backdrop_dim | default: 35 | divided_by: 100.0
+-%}
+
+{%- if render_mode == 'head' -%}
+  {{ 'component-scotland-age-gate.css' | asset_url | stylesheet_tag }}
+  <style>
+    html.age-gate-active {
+      --age-gate-blur: {{ backdrop_blur }}px;
+      --age-gate-backdrop-dim: {{ backdrop_dim }};
+    }
+  </style>
+  <script>
+    (function () {
+      var storageKey = 'scotland_age_verified';
+      var cookieMatch = 'scotland_age_verified=1';
+
+      function hasSessionCookie() {
+        return document.cookie.split(';').some(function (part) {
+          return part.trim() === cookieMatch;
+        });
+      }
+
+      try {
+        localStorage.removeItem(storageKey);
+      } catch (e) {}
+
+      if (document.documentElement.classList.contains('shopify-design-mode')) {
+        document.documentElement.classList.add('age-gate-active');
+        return;
+      }
+
+      try {
+        if (hasSessionCookie()) {
+          document.documentElement.classList.add('age-gate-verified');
+          return;
+        }
+
+        sessionStorage.removeItem(storageKey);
+      } catch (e) {}
+
+      document.documentElement.classList.add('age-gate-active');
+    })();
+  </script>
+{%- else -%}
+  <div
+    id="ScotlandAgeGate"
+    class="scotland-age-gate"
+    data-disagree-url="{{ disagree_url | escape }}"
+    style="--age-gate-bg: {{ age_gate_bg }}; --age-gate-bg-solid: {{ age_gate_bg_solid }}; --age-gate-text: {{ settings.age_gate_text_color }}; --age-gate-button-border: {{ settings.age_gate_button_border_color }};"
+  >
+    <div class="scotland-age-gate__overlay" aria-hidden="true"></div>
+    <div
+      class="scotland-age-gate__dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ScotlandAgeGateTitle"
+    >
+      {%- if settings.age_gate_heading != blank -%}
+        <h2 id="ScotlandAgeGateTitle" class="scotland-age-gate__heading">
+          {{ settings.age_gate_heading | escape }}
+        </h2>
+      {%- endif -%}
+
+      {%- if settings.age_gate_text != blank -%}
+        <p class="scotland-age-gate__text">{{ settings.age_gate_text | escape }}</p>
+      {%- endif -%}
+
+      <div class="scotland-age-gate__actions">
+        <button type="button" class="scotland-age-gate__button" data-age-gate-agree>
+          {{ settings.age_gate_agree_label | escape }}
+        </button>
+        <button type="button" class="scotland-age-gate__button" data-age-gate-disagree>
+          {{ settings.age_gate_disagree_label | escape }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ 'scotland-age-gate.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
