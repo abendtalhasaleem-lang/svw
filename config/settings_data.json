@@ -137,6 +137,8 @@
     "age_gate_backdrop_blur": 10,
     "age_gate_backdrop_dim": 35,
     "age_gate_bg_type": "gradient",
+    "age_gate_text_color": "#FFFFFF",
+    "age_gate_button_border_color": "#FFFFFF",
     "sections": {
       "main-password-header": {
         "type": "main-password-header",
