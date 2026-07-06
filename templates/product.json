@@ -192,10 +192,6 @@
             "item_4_text": "",
             "item_4_link": ""
           }
-        },
-        "description": {
-          "type": "description",
-          "settings": {}
         }
       },
       "block_order": [
@@ -208,8 +204,7 @@
         "quantity_selector",
         "scotland_delivery_timer_PYF4Xr",
         "buy_buttons",
-        "scotland_icon_text_pdp_biJGQT",
-        "description"
+        "scotland_icon_text_pdp_biJGQT"
       ],
       "settings": {
         "enable_sticky_info": true,
