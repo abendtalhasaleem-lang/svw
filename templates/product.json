@@ -192,6 +192,20 @@
             "item_4_text": "",
             "item_4_link": ""
           }
+        },
+        "curlear_collapsible_AiVRMi": {
+          "type": "curlear_collapsible",
+          "settings": {
+            "open_first_row": true,
+            "row_1_title": "Description",
+            "row_1_content": "{{ product.description }}",
+            "row_2_title": "",
+            "row_2_content": "",
+            "row_3_title": "",
+            "row_3_content": "",
+            "row_4_title": "",
+            "row_4_content": ""
+          }
         }
       },
       "block_order": [
@@ -204,7 +218,8 @@
         "quantity_selector",
         "scotland_delivery_timer_PYF4Xr",
         "buy_buttons",
-        "scotland_icon_text_pdp_biJGQT"
+        "scotland_icon_text_pdp_biJGQT",
+        "curlear_collapsible_AiVRMi"
       ],
       "settings": {
         "enable_sticky_info": true,
