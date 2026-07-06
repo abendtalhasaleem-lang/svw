@@ -85,6 +85,7 @@
         },
         "scotland_icon_text_pdp_y6GQnP": {
           "type": "scotland_icon_text_pdp",
+          "disabled": true,
           "settings": {
             "icon_size": 40,
             "item_gap": 14,
@@ -116,26 +117,6 @@
           "type": "quantity_selector",
           "settings": {}
         },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true,
-            "desktop_buttons_in_row": false,
-            "add_to_cart_bg_type": "gradient",
-            "add_to_cart_bg_color": "",
-            "add_to_cart_gradient_start": "#01277e",
-            "add_to_cart_gradient_end": "#14b8a6",
-            "add_to_cart_gradient_angle": 90,
-            "add_to_cart_text_color": "#ffffff",
-            "buy_button_bg_type": "solid",
-            "buy_button_bg_color": "#01277e",
-            "buy_button_gradient_start": "#01277e",
-            "buy_button_gradient_end": "#14b8a6",
-            "buy_button_gradient_angle": 90,
-            "buy_button_text_color": "#ffffff"
-          }
-        },
         "scotland_delivery_timer_PYF4Xr": {
           "type": "scotland_delivery_timer",
           "settings": {
@@ -160,6 +141,26 @@
             "text_color": "#000000",
             "highlight_color": "#14b8a6",
             "date_suffix_color": "#6b7280"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true,
+            "desktop_buttons_in_row": false,
+            "add_to_cart_bg_type": "gradient",
+            "add_to_cart_bg_color": "",
+            "add_to_cart_gradient_start": "#01277e",
+            "add_to_cart_gradient_end": "#14b8a6",
+            "add_to_cart_gradient_angle": 90,
+            "add_to_cart_text_color": "#ffffff",
+            "buy_button_bg_type": "solid",
+            "buy_button_bg_color": "#01277e",
+            "buy_button_gradient_start": "#01277e",
+            "buy_button_gradient_end": "#14b8a6",
+            "buy_button_gradient_angle": 90,
+            "buy_button_text_color": "#ffffff"
           }
         },
         "scotland_icon_text_pdp_biJGQT": {
@@ -205,8 +206,8 @@
         "variant_picker",
         "scotland_icon_text_pdp_y6GQnP",
         "quantity_selector",
-        "buy_buttons",
         "scotland_delivery_timer_PYF4Xr",
+        "buy_buttons",
         "scotland_icon_text_pdp_biJGQT",
         "description"
       ],
