@@ -196,7 +196,7 @@
         "curlear_collapsible_AiVRMi": {
           "type": "curlear_collapsible",
           "settings": {
-            "open_first_row": true,
+            "open_first_row": false,
             "row_1_title": "Description",
             "row_1_content": "{{ product.description }}",
             "row_2_title": "",
