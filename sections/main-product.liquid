@@ -233,6 +233,22 @@
                     {{ product.description }}
                   </div>
                 {%- endif -%}
+
+              
+              {%- when 'curlear_collapsible' -%}
+                {% render 'curlear-collapsible',
+                  open_first_row: block.settings.open_first_row,
+                  caret_icon: block.settings.caret_icon,
+                  row_1_title: block.settings.row_1_title,
+                  row_1_content: block.settings.row_1_content,
+                  row_2_title: block.settings.row_2_title,
+                  row_2_content: block.settings.row_2_content,
+                  row_3_title: block.settings.row_3_title,
+                  row_3_content: block.settings.row_3_content,
+                  row_4_title: block.settings.row_4_title,
+                  row_4_content: block.settings.row_4_content
+                %}
+                
               {%- when 'sku' -%}
                 <p
                   class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
