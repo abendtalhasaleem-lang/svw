@@ -122,7 +122,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "frontpage",
-            "image": "shopify://shop_images/shop-cp-pro-switch-30k-prefilled-vape-kit-box-of-5-blueberry-raspberry-sour-vape-blaze-2502928_670x-removebg-preview.png",
+            "image": "shopify://shop_images/Prefilled_c2d30b16-c909-4585-b8ee-61c80d1afc29-removebg-preview.png",
             "title": "E Liquids",
             "text": "Premium e-liquids in every flavour profile.",
             "link": ""
@@ -246,7 +246,7 @@
         "card_padding_horizontal": 16,
         "card_padding_bottom": 24,
         "card_image_circle_size": 140,
-        "card_image_max_height": 180,
+        "card_image_max_height": 130,
         "card_button_min_height": 40,
         "card_button_border_radius": 10,
         "card_button_font_size": 15,
