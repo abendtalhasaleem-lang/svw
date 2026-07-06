@@ -248,7 +248,7 @@
                   row_4_title: block.settings.row_4_title,
                   row_4_content: block.settings.row_4_content
                 %}
-                
+
               {%- when 'sku' -%}
                 <p
                   class="product__sku{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}{% if product.selected_or_first_available_variant.sku.size == 0 %} visibility-hidden{% endif %}"
@@ -2492,6 +2492,32 @@
           "label": "t:sections.main-product.blocks.complementary_products.settings.enable_quick_add.label",
           "default": false
         }
+      ]
+    },
+    {
+      "type": "curlear_collapsible",
+      "name": "Curlear collapsible",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "open_first_row",
+          "label": "Initially open first row",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "caret_icon",
+          "label": "Expand/collapse icon",
+          "info": "Optional. Replaces the + / − caret for all rows. Suggested: simple chevron or plus (approx. 48×48px)."
+        },
+        { "type": "text", "id": "row_1_title", "label": "Row 1 heading", "default": "Size guide" },
+        { "type": "richtext", "id": "row_1_content", "label": "Row 1 content" },
+        { "type": "text", "id": "row_2_title", "label": "Row 2 heading", "default": "Details" },
+        { "type": "richtext", "id": "row_2_content", "label": "Row 2 content" },
+        { "type": "text", "id": "row_3_title", "label": "Row 3 heading", "default": "Specs & features" },
+        { "type": "richtext", "id": "row_3_content", "label": "Row 3 content" },
+        { "type": "text", "id": "row_4_title", "label": "Row 4 heading" },
+        { "type": "richtext", "id": "row_4_content", "label": "Row 4 content" }
       ]
     },
     {
