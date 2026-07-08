@@ -172,8 +172,8 @@
             "border_radius": 16,
             "background_type": "gradient",
             "background_color": "#0b0b12",
-            "gradient_start": "#01277E",
-            "gradient_end": "#14B8A6",
+            "gradient_start": "#01277e",
+            "gradient_end": "#14b8a6",
             "gradient_angle": 135,
             "border_color": "#0b0b12",
             "icon_size": 22,
@@ -226,7 +226,13 @@
         "description_VhQkAL": {
           "type": "description",
           "disabled": true,
-          "settings": {}
+          "settings": {
+            "box_background_color": "#ffffff",
+            "box_border_color": "#e8e8e8",
+            "box_border_radius": 12,
+            "box_padding": 24,
+            "box_shadow_opacity": 18
+          }
         },
         "curlear_collapsible_DDxUxB": {
           "type": "curlear_collapsible",
@@ -276,6 +282,7 @@
     },
     "scotland-product-tabs": {
       "type": "scotland-product-tabs",
+      "disabled": true,
       "settings": {
         "default_tab": "1",
         "show_content_heading": true,
@@ -292,12 +299,12 @@
         "box_border_radius": 12,
         "box_padding": 32,
         "box_shadow_opacity": 18,
-        "tab_bar_background_color": "#f3f4f6",
-        "tab_bar_border_color": "#FFFFFF",
-        "active_tab_background_color": "#14B8A6",
+        "tab_bar_background_color": "#FFFFFF",
+        "tab_bar_border_color": "#ffffff",
+        "active_tab_background_color": "#14b8a6",
         "active_tab_text_color": "#ffffff",
-        "inactive_tab_text_color": "#01277E",
-        "inactive_tab_border_color": "#01277E",
+        "inactive_tab_text_color": "#01277e",
+        "inactive_tab_border_color": "#01277e",
         "content_heading_color": "#121212",
         "content_text_color": "#121212",
         "color_scheme": "scheme-1",
