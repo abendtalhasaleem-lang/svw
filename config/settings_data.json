@@ -133,6 +133,7 @@
     "show_cart_note": false,
     "cart_drawer_collection": "",
     "cart_color_scheme": "scheme-1",
+    "cart_icon_image": "shopify://shop_images/parcel.png",
     "age_gate_enable": true,
     "age_gate_backdrop_blur": 10,
     "age_gate_backdrop_dim": 35,
