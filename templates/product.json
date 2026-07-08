@@ -87,8 +87,15 @@
           "type": "scotland_icon_text_pdp",
           "disabled": true,
           "settings": {
-            "icon_size": 40,
+            "desktop_columns": "2",
+            "mobile_columns": "2",
             "item_gap": 14,
+            "card_background_color": "#ffffff",
+            "card_border_color": "#e8e8e8",
+            "card_border_radius": 16,
+            "card_padding": 20,
+            "icon_size": 40,
+            "icon_background_color": "#f3f4f6",
             "icon_color": "#121212",
             "heading_color": "#121212",
             "text_color": "#4b5563",
@@ -117,11 +124,31 @@
           "type": "quantity_selector",
           "settings": {
             "label_font_size": 14,
-            "bar_border_radius": 40,
+            "bar_border_radius": 10,
             "bar_background_color": "#ffffff",
             "text_color": "#01277e",
             "icon_size": 14,
             "button_size": 38
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true,
+            "desktop_buttons_in_row": true,
+            "add_to_cart_bg_type": "gradient",
+            "add_to_cart_bg_color": "",
+            "add_to_cart_gradient_start": "#01277e",
+            "add_to_cart_gradient_end": "#14b8a6",
+            "add_to_cart_gradient_angle": 90,
+            "add_to_cart_text_color": "#ffffff",
+            "buy_button_bg_type": "solid",
+            "buy_button_bg_color": "#01277e",
+            "buy_button_gradient_start": "#01277e",
+            "buy_button_gradient_end": "#14b8a6",
+            "buy_button_gradient_angle": 90,
+            "buy_button_text_color": "#ffffff"
           }
         },
         "scotland_delivery_timer_PYF4Xr": {
@@ -145,8 +172,8 @@
             "border_radius": 16,
             "background_type": "gradient",
             "background_color": "#0b0b12",
-            "gradient_start": "#0b0b12",
-            "gradient_end": "#151528",
+            "gradient_start": "#01277E",
+            "gradient_end": "#14B8A6",
             "gradient_angle": 135,
             "border_color": "#0b0b12",
             "icon_size": 22,
@@ -157,26 +184,6 @@
             "date_suffix_color": "#ffffff",
             "progress_bar_color": "#f4c430",
             "progress_bar_track_color": "#2a2a35"
-          }
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true,
-            "desktop_buttons_in_row": true,
-            "add_to_cart_bg_type": "gradient",
-            "add_to_cart_bg_color": "",
-            "add_to_cart_gradient_start": "#01277e",
-            "add_to_cart_gradient_end": "#14b8a6",
-            "add_to_cart_gradient_angle": 90,
-            "add_to_cart_text_color": "#ffffff",
-            "buy_button_bg_type": "solid",
-            "buy_button_bg_color": "#01277e",
-            "buy_button_gradient_start": "#01277e",
-            "buy_button_gradient_end": "#14b8a6",
-            "buy_button_gradient_angle": 90,
-            "buy_button_text_color": "#ffffff"
           }
         },
         "scotland_icon_text_pdp_biJGQT": {
@@ -195,25 +202,44 @@
             "heading_color": "#121212",
             "text_color": "#121212",
             "item_1_icon": "truck",
-            "item_1_custom_icon": "shopify://shop_images/reminder.png",
+            "item_1_custom_icon": "shopify://shop_images/stopwatch.png",
             "item_1_heading": "Spend £40 Get",
             "item_1_text": "Free Shipping",
             "item_1_link": "",
             "item_2_icon": "clock",
-            "item_2_custom_icon": "shopify://shop_images/box.png",
+            "item_2_custom_icon": "shopify://shop_images/box_6861f305-f002-4929-8c2e-0c0c76e2834b.png",
             "item_2_heading": "Next Day",
             "item_2_text": "Delivery",
             "item_2_link": "",
             "item_3_icon": "shield",
-            "item_3_custom_icon": "shopify://shop_images/delivery.png",
+            "item_3_custom_icon": "shopify://shop_images/express-delivery.png",
             "item_3_heading": "Trusted",
             "item_3_text": "Wholesaler",
             "item_3_link": "",
             "item_4_icon": "award",
-            "item_4_custom_icon": "shopify://shop_images/product.png",
+            "item_4_custom_icon": "shopify://shop_images/commercial.png",
             "item_4_heading": "Price Match",
             "item_4_text": "Guarantee",
             "item_4_link": ""
+          }
+        },
+        "description_VhQkAL": {
+          "type": "description",
+          "disabled": true,
+          "settings": {}
+        },
+        "curlear_collapsible_DDxUxB": {
+          "type": "curlear_collapsible",
+          "settings": {
+            "open_first_row": true,
+            "row_1_title": "Description",
+            "row_1_content": "{{ product.description }}",
+            "row_2_title": "",
+            "row_2_content": "",
+            "row_3_title": "",
+            "row_3_content": "",
+            "row_4_title": "",
+            "row_4_content": ""
           }
         }
       },
@@ -227,7 +253,9 @@
         "quantity_selector",
         "buy_buttons",
         "scotland_delivery_timer_PYF4Xr",
-        "scotland_icon_text_pdp_biJGQT"
+        "scotland_icon_text_pdp_biJGQT",
+        "description_VhQkAL",
+        "curlear_collapsible_DDxUxB"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -239,8 +267,8 @@
         "mobile_thumbnails": "hide",
         "media_position": "left",
         "image_zoom": "hover_zoom",
-        "hide_variants": false,
         "quantity_buttons_in_one_row": true,
+        "hide_variants": false,
         "enable_video_looping": false,
         "padding_top": 36,
         "padding_bottom": 12
@@ -265,11 +293,11 @@
         "box_padding": 32,
         "box_shadow_opacity": 18,
         "tab_bar_background_color": "#f3f4f6",
-        "tab_bar_border_color": "#d9dde3",
-        "active_tab_background_color": "#1a5632",
+        "tab_bar_border_color": "#FFFFFF",
+        "active_tab_background_color": "#14B8A6",
         "active_tab_text_color": "#ffffff",
-        "inactive_tab_text_color": "#1a5632",
-        "inactive_tab_border_color": "#1a5632",
+        "inactive_tab_text_color": "#01277E",
+        "inactive_tab_border_color": "#01277E",
         "content_heading_color": "#121212",
         "content_text_color": "#121212",
         "color_scheme": "scheme-1",
