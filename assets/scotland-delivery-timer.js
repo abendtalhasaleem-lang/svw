@@ -65,6 +65,27 @@
     return next;
   }
 
+  function getWindowStart(nextCutoff, cutoffHour, cutoffMinute, operatingDays) {
+    const start = new Date(nextCutoff);
+    start.setDate(start.getDate() - 1);
+
+    while (!isOperatingDay(start, operatingDays)) {
+      start.setDate(start.getDate() - 1);
+    }
+
+    start.setHours(cutoffHour, cutoffMinute, 0, 0);
+
+    if (start >= nextCutoff) {
+      start.setDate(start.getDate() - 1);
+      while (!isOperatingDay(start, operatingDays)) {
+        start.setDate(start.getDate() - 1);
+      }
+      start.setHours(cutoffHour, cutoffMinute, 0, 0);
+    }
+
+    return start;
+  }
+
   function getDispatchDate(now, cutoffHour, cutoffMinute, operatingDays) {
     const afterCutoff = isAfterCutoff(now, cutoffHour, cutoffMinute);
     const todayIsOperating = isOperatingDay(now, operatingDays);
@@ -78,7 +99,7 @@
 
   function formatCountdown(diffMs) {
     if (diffMs <= 0) {
-      return '0h 0m 0s';
+      return '0H 00M 00S';
     }
 
     const totalSeconds = Math.floor(diffMs / 1000);
@@ -86,7 +107,7 @@
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
 
-    return `${hours}h ${minutes}m ${seconds}s`;
+    return `${hours}H ${String(minutes).padStart(2, '0')}M ${String(seconds).padStart(2, '0')}S`;
   }
 
   function formatDeliveryDate(deliveryDate, now, showDateInParentheses) {
@@ -99,7 +120,7 @@
       if (showDateInParentheses) {
         return {
           label: 'Tomorrow',
-          suffix: `(${monthDay})`,
+          suffix: ` (${monthDay})`,
         };
       }
       return { label: 'Tomorrow', suffix: '' };
@@ -109,7 +130,7 @@
     if (showDateInParentheses) {
       return {
         label: weekday,
-        suffix: `(${monthDay})`,
+        suffix: ` (${monthDay})`,
       };
     }
 
@@ -123,6 +144,7 @@
     const timerEl = block.querySelector('[data-delivery-countdown]');
     const dateLabelEl = block.querySelector('[data-delivery-date-label]');
     const dateSuffixEl = block.querySelector('[data-delivery-date-suffix]');
+    const progressBarEl = block.querySelector('[data-delivery-progressbar]');
 
     if (!timerEl || !dateLabelEl) return;
 
@@ -135,8 +157,9 @@
     function updateDisplay() {
       const now = new Date();
       const nextCutoff = getNextCutoffDateTime(now, cutoffHour, cutoffMinute, operatingDays);
+      const remainingMs = Math.max(0, nextCutoff - now);
 
-      timerEl.textContent = formatCountdown(nextCutoff - now);
+      timerEl.textContent = formatCountdown(remainingMs);
 
       const dispatchDate = getDispatchDate(now, cutoffHour, cutoffMinute, operatingDays);
       const deliveryDate = addOperatingDays(dispatchDate, deliveryDays, operatingDays);
@@ -146,6 +169,22 @@
       if (dateSuffixEl) {
         dateSuffixEl.textContent = formatted.suffix;
         dateSuffixEl.hidden = !formatted.suffix;
+      }
+
+      const windowStart = getWindowStart(nextCutoff, cutoffHour, cutoffMinute, operatingDays);
+      const totalWindowMs = Math.max(1, nextCutoff - windowStart);
+      const elapsedMs = Math.min(totalWindowMs, Math.max(0, now - windowStart));
+      const progressPercent = Math.min(100, Math.max(0, (elapsedMs / totalWindowMs) * 100));
+
+      const currentProgressBar = block.querySelector('[data-delivery-progressbar]');
+      const progressFillEl = block.querySelector('[data-delivery-progress]');
+
+      if (progressFillEl) {
+        progressFillEl.style.width = `${progressPercent}%`;
+      }
+
+      if (currentProgressBar) {
+        currentProgressBar.setAttribute('aria-valuenow', String(Math.round(progressPercent)));
       }
     }
 
@@ -179,6 +218,10 @@
   });
 
   document.addEventListener('shopify:block:select', () => {
+    window.setTimeout(() => resetAndInit(), 100);
+  });
+
+  document.addEventListener('shopify:section:select', () => {
     window.setTimeout(() => resetAndInit(), 100);
   });
 })();

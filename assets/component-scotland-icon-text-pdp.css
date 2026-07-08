@@ -3,31 +3,55 @@
 }
 
 .scotland-icon-text-pdp__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--scotland-icon-text-pdp-gap, 1.4rem);
+  display: grid;
+  grid-template-columns: repeat(var(--scotland-icon-text-pdp-desktop-cols, 2), minmax(0, 1fr));
+  gap: var(--scotland-icon-text-pdp-gap, 14px);
   margin: 0;
   padding: 0;
 }
 
 .scotland-icon-text-pdp__item {
   list-style: none;
+  min-width: 0;
 }
 
-.scotland-icon-text-pdp__link,
-.scotland-icon-text-pdp__row {
+.scotland-icon-text-pdp__card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1.4rem;
+  height: 100%;
+  padding: var(--scotland-icon-text-pdp-card-padding, 1.25rem);
+  border: 1px solid var(--scotland-icon-text-pdp-card-border, #e8e8e8);
+  border-radius: var(--scotland-icon-text-pdp-card-radius, 16px);
+  background: var(--scotland-icon-text-pdp-card-bg, #ffffff);
   text-decoration: none;
   color: inherit;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 0.2rem 0.6rem rgba(15, 23, 42, 0.04);
+}
+
+.scotland-icon-text-pdp__card:hover,
+.scotland-icon-text-pdp__card:focus-visible {
+  transform: translateY(-0.4rem);
+  box-shadow: 0 1rem 2rem rgba(15, 23, 42, 0.12);
+}
+
+.scotland-icon-text-pdp__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: calc(var(--scotland-icon-text-pdp-icon-size, 32px) + 1.4rem);
+  height: calc(var(--scotland-icon-text-pdp-icon-size, 32px) + 1.4rem);
+  margin-bottom: 0.85rem;
+  border-radius: 50%;
+  background: var(--scotland-icon-text-pdp-icon-bg, #f3f4f6);
 }
 
 .scotland-icon-text-pdp__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
   width: var(--scotland-icon-text-pdp-icon-size, 32px);
   height: var(--scotland-icon-text-pdp-icon-size, 32px);
   color: var(--scotland-icon-text-pdp-icon-color, #121212);
@@ -75,7 +99,7 @@
 
 .scotland-icon-text-pdp__content {
   min-width: 0;
-  flex: 1 1 auto;
+  width: 100%;
 }
 
 .scotland-icon-text-pdp__heading {
@@ -84,14 +108,24 @@
   font-weight: 700;
   line-height: 1.35;
   color: var(--scotland-icon-text-pdp-heading-color, #121212);
+  text-align: center;
 }
 
 .scotland-icon-text-pdp__text {
-  margin: 0.2rem 0 0;
-  font-size: 1.4rem;
-  font-weight: 400;
-  line-height: 1.45;
-  color: var(--scotland-icon-text-pdp-text-color, #4b5563);
+  margin: 0.15rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--scotland-icon-text-pdp-heading-color, #121212);
+  text-align: center;
+}
+
+.scotland-icon-text-pdp__heading + .scotland-icon-text-pdp__text {
+  margin-top: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--scotland-icon-text-pdp-heading-color, #121212);
 }
 
 .scotland-icon-text-pdp__heading:only-child {
@@ -99,17 +133,42 @@
 }
 
 .scotland-icon-text-pdp__link:hover .scotland-icon-text-pdp__heading,
-.scotland-icon-text-pdp__link:focus-visible .scotland-icon-text-pdp__heading {
+.scotland-icon-text-pdp__link:focus-visible .scotland-icon-text-pdp__heading,
+.scotland-icon-text-pdp__link:hover .scotland-icon-text-pdp__text,
+.scotland-icon-text-pdp__link:focus-visible .scotland-icon-text-pdp__text {
   text-decoration: underline;
   text-underline-offset: 0.2rem;
 }
 
 @media screen and (max-width: 749px) {
-  .scotland-icon-text-pdp__heading {
-    font-size: 1.4rem;
+  .scotland-icon-text-pdp__list {
+    grid-template-columns: repeat(var(--scotland-icon-text-pdp-mobile-cols, 2), minmax(0, 1fr));
   }
 
-  .scotland-icon-text-pdp__text {
-    font-size: 1.3rem;
+  .scotland-icon-text-pdp__card {
+    padding: calc(var(--scotland-icon-text-pdp-card-padding, 1.25rem) * 0.9);
+  }
+
+  .scotland-icon-text-pdp__card:hover,
+  .scotland-icon-text-pdp__card:focus-visible {
+    transform: translateY(-0.3rem);
+  }
+
+  .scotland-icon-text-pdp__heading,
+  .scotland-icon-text-pdp__text,
+  .scotland-icon-text-pdp__heading + .scotland-icon-text-pdp__text,
+  .scotland-icon-text-pdp__heading:only-child {
+    font-size: 1.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scotland-icon-text-pdp__card {
+    transition: none;
+  }
+
+  .scotland-icon-text-pdp__card:hover,
+  .scotland-icon-text-pdp__card:focus-visible {
+    transform: none;
   }
 }

@@ -1,0 +1,114 @@
+.scotland-product-tabs-section .scotland-product-tabs {
+  margin: 0;
+  padding: var(--scotland-tabs-padding, 3.2rem);
+  border-radius: var(--scotland-tabs-radius, 12px);
+  background: var(--scotland-tabs-bg, #ffffff);
+  box-shadow:
+    0 0.2rem 0.8rem rgba(15, 23, 42, calc(var(--scotland-tabs-shadow, 0.16))),
+    0 0.8rem 2.4rem rgba(15, 23, 42, calc(var(--scotland-tabs-shadow, 0.16) * 0.7));
+}
+
+.scotland-product-tabs__nav-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.scotland-product-tabs__nav {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  padding: 0.45rem;
+  border: 0.1rem solid var(--scotland-tabs-nav-border, #d9dde3);
+  border-radius: 1rem;
+  background: var(--scotland-tabs-nav-bg, #f3f4f6);
+}
+
+.scotland-product-tabs__tab {
+  appearance: none;
+  border: 0.15rem solid transparent;
+  border-radius: 0.75rem;
+  background: transparent;
+  color: var(--scotland-tabs-inactive-text, #1a5632);
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 0.85rem 1.6rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.scotland-product-tabs__tab:not(.is-active) {
+  border-color: var(--scotland-tabs-inactive-border, #1a5632);
+  background: #ffffff;
+}
+
+.scotland-product-tabs__tab.is-active {
+  background: var(--scotland-tabs-active-bg, #1a5632);
+  border-color: var(--scotland-tabs-active-bg, #1a5632);
+  color: var(--scotland-tabs-active-text, #ffffff);
+}
+
+.scotland-product-tabs__tab:focus-visible {
+  outline: 0.2rem solid rgba(26, 86, 50, 0.35);
+  outline-offset: 0.15rem;
+}
+
+.scotland-product-tabs__panels {
+  color: var(--scotland-tabs-text-color, #121212);
+}
+
+.scotland-product-tabs__panel-heading {
+  margin: 0 0 1.2rem;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--scotland-tabs-heading-color, #121212);
+}
+
+.scotland-product-tabs__panel-content {
+  font-size: 1.5rem;
+  line-height: 1.65;
+}
+
+.scotland-product-tabs__panel-content > :first-child {
+  margin-top: 0;
+}
+
+.scotland-product-tabs__panel-content > :last-child {
+  margin-bottom: 0;
+}
+
+.scotland-product-tabs__panel[hidden] {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .scotland-product-tabs__nav {
+    width: 100%;
+  }
+
+  .scotland-product-tabs__tab {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0.75rem 0.9rem;
+    font-size: 1.25rem;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .scotland-product-tabs__panel-heading {
+    font-size: 2.2rem;
+  }
+
+  .scotland-product-tabs__panel-content {
+    font-size: 1.4rem;
+  }
+}

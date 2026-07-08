@@ -392,13 +392,7 @@
 
           <a href="{{ routes.cart_url }}" class="scotland-header__utility scotland-header__utility--cart scotland-header__utility--icon-only scotland-header__cart link focus-inset" id="cart-icon-bubble">
             <span class="scotland-header__utility-icon">
-              <span class="svg-wrapper">
-                {%- if cart == empty -%}
-                  {{ 'icon-cart-empty.svg' | inline_asset_content }}
-                {%- else -%}
-                  {{ 'icon-cart.svg' | inline_asset_content }}
-                {%- endif -%}
-              </span>
+              {% render 'cart-icon' %}
             </span>
             <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
             {%- if cart != empty -%}

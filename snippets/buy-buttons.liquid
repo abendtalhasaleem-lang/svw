@@ -6,6 +6,7 @@
   - product_form_id: {String} product form id.
   - section_id: {String} id of section to which this snippet belongs.
   - show_pickup_availability: {Boolean} for the pickup availability. If true the pickup availability is rendered, false - not rendered (optional).
+  - combined_actions_row: {Boolean} When true, styles buttons for the quantity + buy buttons row layout.
 
   Usage:
   {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true %}
@@ -117,7 +118,7 @@
           {%- render 'gift-card-recipient-form', product: product, form: form, section: section -%}
         {%- endif -%}
 
-        <div class="product-form__buttons{% if block.settings.desktop_buttons_in_row %} product-form__buttons--desktop-row{% endif %}">
+        <div class="product-form__buttons{% if block.settings.desktop_buttons_in_row or combined_actions_row %} product-form__buttons--row{% endif %}{% if combined_actions_row %} product-form__buttons--combined-row{% endif %}">
           {%- liquid
             assign check_against_inventory = true
             if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'

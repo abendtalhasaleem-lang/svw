@@ -22,7 +22,7 @@
   <div
     class="scotland-icon-text-pdp"
     {{ block.shopify_attributes }}
-    style="--scotland-icon-text-pdp-icon-size: {{ block.settings.icon_size }}px; --scotland-icon-text-pdp-icon-color: {{ block.settings.icon_color }}; --scotland-icon-text-pdp-heading-color: {{ block.settings.heading_color }}; --scotland-icon-text-pdp-text-color: {{ block.settings.text_color }}; --scotland-icon-text-pdp-gap: {{ block.settings.item_gap }}px;"
+    style="--scotland-icon-text-pdp-icon-size: {{ block.settings.icon_size }}px; --scotland-icon-text-pdp-icon-color: {{ block.settings.icon_color }}; --scotland-icon-text-pdp-icon-bg: {{ block.settings.icon_background_color }}; --scotland-icon-text-pdp-heading-color: {{ block.settings.heading_color }}; --scotland-icon-text-pdp-text-color: {{ block.settings.text_color }}; --scotland-icon-text-pdp-gap: {{ block.settings.item_gap }}px; --scotland-icon-text-pdp-desktop-cols: {{ block.settings.desktop_columns }}; --scotland-icon-text-pdp-mobile-cols: {{ block.settings.mobile_columns }}; --scotland-icon-text-pdp-card-bg: {{ block.settings.card_background_color }}; --scotland-icon-text-pdp-card-border: {{ block.settings.card_border_color }}; --scotland-icon-text-pdp-card-radius: {{ block.settings.card_border_radius }}px; --scotland-icon-text-pdp-card-padding: {{ block.settings.card_padding }}px;"
   >
     <ul class="scotland-icon-text-pdp__list list-unstyled">
       {%- for i in (1..4) -%}

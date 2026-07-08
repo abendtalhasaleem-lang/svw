@@ -322,6 +322,24 @@ a.product__text {
   font-weight: 600;
 }
 
+.product__description-box {
+  padding: var(--product-description-box-padding, 2.4rem);
+  border: 0.1rem solid var(--product-description-box-border, #e8e8e8);
+  border-radius: var(--product-description-box-radius, 12px);
+  background: var(--product-description-box-bg, #ffffff);
+  box-shadow:
+    0 0.2rem 0.8rem rgba(15, 23, 42, calc(var(--product-description-box-shadow, 0.16))),
+    0 0.8rem 2.4rem rgba(15, 23, 42, calc(var(--product-description-box-shadow, 0.16) * 0.7));
+}
+
+.product__description-box > :first-child {
+  margin-top: 0;
+}
+
+.product__description-box > :last-child {
+  margin-bottom: 0;
+}
+
 .product--no-media .product__title,
 .product--no-media .product__text,
 .product--no-media .product__tax,
@@ -372,12 +390,109 @@ a.product__text {
   margin-bottom: 0.6rem;
 }
 
-.price-per-item__label.form__label {
-  margin-bottom: 0rem;
+.scotland-quantity-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: var(--scotland-qty-padding-y, 14px) 1.35rem;
+  border: 1px solid rgba(1, 39, 126, 0.14);
+  border-radius: var(--scotland-qty-bar-radius, 40px);
+  background: var(--scotland-qty-bar-bg, #ffffff);
+}
+
+.scotland-quantity-bar__label {
+  margin: 0;
+  font-size: var(--scotland-qty-font-size, 14px);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--scotland-qty-text-color, #01277e);
+  white-space: nowrap;
+}
+
+.scotland-quantity-bar__label .quantity__rules-cart {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: calc(var(--scotland-qty-font-size, 14px) * 0.86);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: color-mix(in srgb, var(--scotland-qty-text-color, #01277e) 65%, transparent);
+}
+
+.product-form__quantity .scotland-quantity-input.quantity {
+  width: auto;
+  min-height: 0;
+  border-radius: 0;
+  gap: 0.7rem;
+  flex-shrink: 0;
+}
+
+.product-form__quantity .scotland-quantity-input.quantity::before,
+.product-form__quantity .scotland-quantity-input.quantity::after {
+  display: none;
+}
+
+.product-form__quantity .scotland-quantity-input .quantity__button {
+  width: var(--scotland-qty-btn-size, 38px);
+  height: var(--scotland-qty-btn-size, 38px);
+  min-height: var(--scotland-qty-btn-size, 38px);
+  margin: 0;
+  border: 1px solid rgba(1, 39, 126, 0.12);
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 2px 6px rgba(1, 39, 126, 0.08);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.product-form__quantity .scotland-quantity-input .quantity__button:hover {
+  box-shadow: 0 3px 8px rgba(1, 39, 126, 0.12);
+}
+
+.product-form__quantity .scotland-quantity-input .quantity__button .svg-wrapper {
+  width: var(--scotland-qty-icon-size, 14px);
+  height: var(--scotland-qty-icon-size, 14px);
+}
+
+.product-form__quantity .scotland-quantity-input .quantity__input {
+  width: 2.2rem;
+  min-width: 2.2rem;
+  flex-grow: 0;
+  padding: 0;
+  font-size: var(--scotland-qty-font-size, 14px);
+  font-weight: 700;
+  color: var(--scotland-qty-text-color, #01277e);
+  opacity: 1;
+}
+
+.product-form__quantity .price-per-item__container {
+  margin-top: 0.75rem;
 }
 
 .product-form__quantity-top .form__label {
   margin-bottom: 1.2rem;
+}
+
+.price-per-item__label.form__label {
+  margin-bottom: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .scotland-quantity-bar {
+    padding-top: var(--scotland-qty-padding-y, 14px);
+    padding-bottom: var(--scotland-qty-padding-y, 14px);
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .scotland-pdp-actions-row .scotland-quantity-bar {
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 .product-form__buttons {
@@ -392,8 +507,99 @@ a.product__text {
   width: 100%;
 }
 
+.scotland-pdp-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  margin: 0 0 1.6rem;
+  --scotland-pdp-actions-height: calc(4.5rem + var(--buttons-border-width, 1px) * 2);
+}
+
+.scotland-pdp-actions-row__quantity {
+  flex: 0 1 auto;
+  min-width: min(100%, 14rem);
+  max-width: 100%;
+}
+
+.scotland-pdp-actions-row__quantity .product-form__quantity {
+  margin-bottom: 0;
+}
+
+.scotland-pdp-actions-row .scotland-quantity-bar {
+  height: var(--scotland-pdp-actions-height);
+  min-height: var(--scotland-pdp-actions-height);
+  max-height: var(--scotland-pdp-actions-height);
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 1.35rem;
+  padding-right: 1.35rem;
+  box-sizing: border-box;
+}
+
+.scotland-pdp-actions-row .scotland-quantity-bar__label .quantity__rules-cart {
+  display: none;
+}
+
+.scotland-pdp-actions-row__buttons {
+  flex: 1 1 0;
+  min-width: min(100%, 14rem);
+}
+
+.scotland-pdp-actions-row__buttons .product-form__buttons--row,
+.scotland-pdp-actions-row__buttons .product-form__buttons--combined-row {
+  min-height: var(--scotland-pdp-actions-height);
+}
+
+.scotland-pdp-actions-row__buttons .product-form__submit,
+.scotland-pdp-actions-row__buttons .shopify-payment-button__button,
+.scotland-pdp-actions-row__buttons .shopify-payment-button__button--unbranded {
+  min-height: var(--scotland-pdp-actions-height);
+  height: var(--scotland-pdp-actions-height);
+  margin-bottom: 0;
+}
+
+.scotland-pdp-actions-row__buttons .product-form__buttons--combined-row:not(.product-form__buttons--row) {
+  display: flex;
+  align-items: stretch;
+}
+
+.scotland-pdp-actions-row__buttons .product-form__buttons--combined-row:not(.product-form__buttons--row) .product-form__submit {
+  width: 100%;
+}
+
+.scotland-quantity-extras {
+  width: 100%;
+  margin-bottom: 1.6rem;
+}
+
 .product-form__buttons .shopify-payment-button {
   margin-top: 1.2rem;
+}
+
+.product-form__buttons--row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.product-form__buttons--row .product-form__submit,
+.product-form__buttons--row .shopify-payment-button {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+  margin-top: 0;
+}
+
+.product-form__buttons--row .product-form__submit.button--full-width {
+  width: auto;
+}
+
+.product-form__buttons--row .shopify-payment-button__button,
+.product-form__buttons--row .shopify-payment-button__button--unbranded {
+  min-height: 100%;
 }
 
 @media screen and (min-width: 750px) {

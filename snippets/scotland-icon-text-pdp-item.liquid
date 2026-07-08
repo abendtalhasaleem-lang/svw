@@ -1,5 +1,5 @@
 {% comment %}
-  Renders one Scotland icon text PDP row.
+  Renders one Scotland icon text PDP card.
 
   Accepts:
   - icon: {String}
@@ -12,12 +12,14 @@
 {%- if heading != blank or text != blank -%}
   <li class="scotland-icon-text-pdp__item">
     {%- if link != blank -%}
-      <a href="{{ link }}" class="scotland-icon-text-pdp__link">
+      <a href="{{ link }}" class="scotland-icon-text-pdp__card scotland-icon-text-pdp__link">
     {%- else -%}
-      <div class="scotland-icon-text-pdp__row">
+      <div class="scotland-icon-text-pdp__card">
     {%- endif -%}
 
-    {% render 'scotland-icon-text-pdp-icon', icon: icon, custom_icon: custom_icon %}
+    <span class="scotland-icon-text-pdp__icon-wrap">
+      {% render 'scotland-icon-text-pdp-icon', icon: icon, custom_icon: custom_icon %}
+    </span>
 
     <div class="scotland-icon-text-pdp__content">
       {%- if heading != blank -%}

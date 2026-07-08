@@ -1,0 +1,351 @@
+{{ 'component-scotland-product-tabs.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'scotland-product-tabs.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign tab_count = 0
+  assign default_tab = section.settings.default_tab | default: '1' | append: ''
+
+  for i in (1..3)
+    assign label_key = 'tab_' | append: i | append: '_label'
+    if section.settings[label_key] != blank
+      assign tab_count = tab_count | plus: 1
+    endif
+  endfor
+-%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- if tab_count > 0 -%}
+  <div class="color-{{ section.settings.color_scheme }} gradient">
+    <div class="scotland-product-tabs-section page-width section-{{ section.id }}-padding">
+      <div
+        class="scotland-product-tabs"
+        style="
+          --scotland-tabs-bg: {{ section.settings.box_background_color }};
+          --scotland-tabs-radius: {{ section.settings.box_border_radius }}px;
+          --scotland-tabs-shadow: {{ section.settings.box_shadow_opacity | divided_by: 100.0 }};
+          --scotland-tabs-padding: {{ section.settings.box_padding }}px;
+          --scotland-tabs-nav-bg: {{ section.settings.tab_bar_background_color }};
+          --scotland-tabs-nav-border: {{ section.settings.tab_bar_border_color }};
+          --scotland-tabs-active-bg: {{ section.settings.active_tab_background_color }};
+          --scotland-tabs-active-text: {{ section.settings.active_tab_text_color }};
+          --scotland-tabs-inactive-text: {{ section.settings.inactive_tab_text_color }};
+          --scotland-tabs-inactive-border: {{ section.settings.inactive_tab_border_color }};
+          --scotland-tabs-heading-color: {{ section.settings.content_heading_color }};
+          --scotland-tabs-text-color: {{ section.settings.content_text_color }};
+        "
+      >
+        <scotland-product-tabs data-default-tab="{{ default_tab }}">
+          <div class="scotland-product-tabs__nav-wrap">
+            <div class="scotland-product-tabs__nav" role="tablist" aria-label="Product information">
+              {%- for i in (1..3) -%}
+                {%- liquid
+                  assign label_key = 'tab_' | append: i | append: '_label'
+                  assign tab_label = section.settings[label_key]
+                  assign tab_id = 'ScotlandTab-' | append: section.id | append: '-' | append: i
+                  assign tab_index = i | append: ''
+                  assign is_active = false
+                  if default_tab == tab_index
+                    assign is_active = true
+                  endif
+                -%}
+                {%- if tab_label != blank -%}
+                  <button
+                    type="button"
+                    class="scotland-product-tabs__tab{% if is_active %} is-active{% endif %}"
+                    role="tab"
+                    id="{{ tab_id }}-button"
+                    aria-controls="{{ tab_id }}-panel"
+                    aria-selected="{{ is_active }}"
+                    tabindex="{% if is_active %}0{% else %}-1{% endif %}"
+                    data-tab-button="{{ i }}"
+                  >
+                    {{ tab_label | escape }}
+                  </button>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </div>
+
+          <div class="scotland-product-tabs__panels">
+            {%- for i in (1..3) -%}
+              {%- liquid
+                assign label_key = 'tab_' | append: i | append: '_label'
+                assign content_key = 'tab_' | append: i | append: '_content'
+                assign heading_key = 'tab_' | append: i | append: '_heading'
+                assign tab_label = section.settings[label_key]
+                assign tab_content = section.settings[content_key]
+                assign tab_heading = section.settings[heading_key]
+                assign tab_id = 'ScotlandTab-' | append: section.id | append: '-' | append: i
+                assign tab_index = i | append: ''
+                assign is_active = false
+                if default_tab == tab_index
+                  assign is_active = true
+                endif
+              -%}
+              {%- if tab_label != blank -%}
+                <div
+                  class="scotland-product-tabs__panel{% if is_active %} is-active{% endif %}"
+                  role="tabpanel"
+                  id="{{ tab_id }}-panel"
+                  aria-labelledby="{{ tab_id }}-button"
+                  data-tab-panel="{{ i }}"
+                  {% unless is_active %}hidden{% endunless %}
+                >
+                  {%- if section.settings.show_content_heading -%}
+                    <h2 class="scotland-product-tabs__panel-heading">
+                      {{ tab_heading | default: tab_label | escape }}
+                    </h2>
+                  {%- endif -%}
+                  {%- if tab_content != blank -%}
+                    <div class="scotland-product-tabs__panel-content rte">
+                      {{ tab_content }}
+                    </div>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </scotland-product-tabs>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Scotland product tabs",
+  "tag": "section",
+  "class": "section-scotland-product-tabs",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "select",
+      "id": "default_tab",
+      "label": "Default open tab",
+      "default": "1",
+      "options": [
+        { "value": "1", "label": "Tab 1" },
+        { "value": "2", "label": "Tab 2" },
+        { "value": "3", "label": "Tab 3" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_content_heading",
+      "label": "Show content heading",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Tab 1"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_label",
+      "label": "Tab label",
+      "default": "Description"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_heading",
+      "label": "Content heading",
+      "info": "Optional. Uses tab label if empty."
+    },
+    {
+      "type": "richtext",
+      "id": "tab_1_content",
+      "label": "Tab content"
+    },
+    {
+      "type": "header",
+      "content": "Tab 2"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_label",
+      "label": "Tab label",
+      "default": "Delivery"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_heading",
+      "label": "Content heading"
+    },
+    {
+      "type": "richtext",
+      "id": "tab_2_content",
+      "label": "Tab content"
+    },
+    {
+      "type": "header",
+      "content": "Tab 3"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_label",
+      "label": "Tab label",
+      "default": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_heading",
+      "label": "Content heading"
+    },
+    {
+      "type": "richtext",
+      "id": "tab_3_content",
+      "label": "Tab content"
+    },
+    {
+      "type": "header",
+      "content": "Box style"
+    },
+    {
+      "type": "color",
+      "id": "box_background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "box_border_radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "box_padding",
+      "min": 16,
+      "max": 56,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "box_shadow_opacity",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "%",
+      "label": "Shadow strength",
+      "default": 18
+    },
+    {
+      "type": "header",
+      "content": "Tab bar"
+    },
+    {
+      "type": "color",
+      "id": "tab_bar_background_color",
+      "label": "Tab bar background",
+      "default": "#f3f4f6"
+    },
+    {
+      "type": "color",
+      "id": "tab_bar_border_color",
+      "label": "Tab bar border",
+      "default": "#d9dde3"
+    },
+    {
+      "type": "color",
+      "id": "active_tab_background_color",
+      "label": "Active tab background",
+      "default": "#1a5632"
+    },
+    {
+      "type": "color",
+      "id": "active_tab_text_color",
+      "label": "Active tab text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "inactive_tab_text_color",
+      "label": "Inactive tab text",
+      "default": "#1a5632"
+    },
+    {
+      "type": "color",
+      "id": "inactive_tab_border_color",
+      "label": "Inactive tab border",
+      "default": "#1a5632"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "color",
+      "id": "content_heading_color",
+      "label": "Heading color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "content_text_color",
+      "label": "Text color",
+      "default": "#121212"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scotland product tabs"
+    }
+  ]
+}
+{% endschema %}

@@ -1496,6 +1496,16 @@
         "id": "cart_color_scheme",
         "label": "t:sections.all.colors.label",
         "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "Cart icon"
+      },
+      {
+        "type": "image_picker",
+        "id": "cart_icon_image",
+        "label": "Custom cart icon",
+        "info": "Optional. Replaces the default cart icon in the header when set. Recommended size: 80 x 80px PNG or SVG."
       }
     ]
   },

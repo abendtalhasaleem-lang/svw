@@ -30,7 +30,7 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 1.2rem 2rem;
+  gap: 1.2rem 1px;
   padding-top: var(--scotland-header-padding-top, 12px);
   padding-bottom: var(--scotland-header-padding-bottom, 12px);
 }
@@ -251,6 +251,13 @@
   display: block;
   transform: scale(1.08);
   transform-origin: center;
+}
+
+.scotland-header__utility--cart .scotland-header__utility-icon .cart-icon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .scotland-header__utility--icon-only {
@@ -859,11 +866,20 @@
 
   .scotland-header__top-grid {
     grid-template-columns: 1fr auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   .scotland-header__utilities {
     gap: 0;
+  }
+
+  .scotland-header__utilities > .scotland-header__utility {
+    border-right: 0 !important;
+    border-left: 0 !important;
+  }
+
+  .scotland-header__utility--icon-only + .scotland-header__utility--icon-only {
+    margin-left: 0.8rem;
   }
 }

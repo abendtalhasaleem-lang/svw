@@ -59,13 +59,19 @@
   if operating_days == blank
     assign operating_days = '1,2,3,4,5'
   endif
+
+  if block.settings.background_type == 'gradient'
+    assign delivery_bg = 'linear-gradient(' | append: block.settings.gradient_angle | append: 'deg, ' | append: block.settings.gradient_start | append: ' 0%, ' | append: block.settings.gradient_end | append: ' 100%)'
+  else
+    assign delivery_bg = block.settings.background_color
+  endif
 -%}
 
 {{ 'component-scotland-delivery-timer.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'scotland-delivery-timer.js' | asset_url }}" defer="defer"></script>
 
 <div
-  class="scotland-delivery-timer"
+  class="scotland-delivery-timer{% unless block.settings.show_icons %} scotland-delivery-timer--no-icons{% endunless %}{% if block.settings.show_progress_bar == false %} scotland-delivery-timer--no-progress{% endif %}"
   {{ block.shopify_attributes }}
   data-initialized="false"
   data-cutoff-time="{{ cutoff_time | escape }}"
@@ -77,67 +83,66 @@
     --scotland-delivery-icon: {{ block.settings.icon_color }};
     --scotland-delivery-text: {{ block.settings.text_color }};
     --scotland-delivery-highlight: {{ block.settings.highlight_color }};
+    --scotland-delivery-date-highlight: {{ block.settings.date_highlight_color }};
     --scotland-delivery-date-suffix: {{ block.settings.date_suffix_color }};
     --scotland-delivery-border: {{ block.settings.border_color }};
-    --scotland-delivery-bg: {{ block.settings.background_color }};
+    --scotland-delivery-bg: {{ delivery_bg }};
+    --scotland-delivery-radius: {{ block.settings.border_radius }}px;
+    --scotland-delivery-progress-fill: {{ block.settings.progress_bar_color | default: '#f4c430' }};
+    --scotland-delivery-progress-track: {{ block.settings.progress_bar_track_color | default: '#2a2a35' }};
   "
 >
-  <div class="scotland-delivery-timer__row">
-    <span class="scotland-delivery-timer__icon" aria-hidden="true">
-      {%- if block.settings.icon_1_upload != blank -%}
-        {{
-          block.settings.icon_1_upload
-          | image_url: width: 60
-          | image_tag:
-            loading: 'lazy',
-            widths: '30, 60',
-            sizes: '30px',
-            class: 'scotland-delivery-timer__icon-img',
-            alt: ''
-        }}
-      {%- else -%}
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      {%- endif -%}
-    </span>
-    <div class="scotland-delivery-timer__text">
+  <div class="scotland-delivery-timer__countdown-row">
+    {%- if block.settings.show_icons -%}
+      <span class="scotland-delivery-timer__icon" aria-hidden="true">
+        {%- if block.settings.icon_1_upload != blank -%}
+          {{
+            block.settings.icon_1_upload
+            | image_url: width: 60
+            | image_tag:
+              loading: 'lazy',
+              widths: '30, 60',
+              sizes: '30px',
+              class: 'scotland-delivery-timer__icon-img',
+              alt: ''
+          }}
+        {%- else -%}
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M12 8V12L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        {%- endif -%}
+      </span>
+    {%- endif -%}
+
+    <div class="scotland-delivery-timer__countdown-text">
       {%- if block.settings.text_1 != blank -%}
-        <span class="scotland-delivery-timer__label">{{ block.settings.text_1 | escape }}</span>
+        <span class="scotland-delivery-timer__order-label">{{ block.settings.text_1 | escape }}</span>
       {%- endif -%}
       <span class="scotland-delivery-timer__highlight" data-delivery-countdown>Calculating...</span>
     </div>
   </div>
 
-  <div class="scotland-delivery-timer__row">
-    <span class="scotland-delivery-timer__icon" aria-hidden="true">
-      {%- if block.settings.icon_2_upload != blank -%}
-        {{
-          block.settings.icon_2_upload
-          | image_url: width: 60
-          | image_tag:
-            loading: 'lazy',
-            widths: '30, 60',
-            sizes: '30px',
-            class: 'scotland-delivery-timer__icon-img',
-            alt: ''
-        }}
-      {%- else -%}
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M3 7H15V17H3V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-          <path d="M15 10H18L21 13V17H15V10Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-          <circle cx="7" cy="17" r="1.5" fill="currentColor"/>
-          <circle cx="18" cy="17" r="1.5" fill="currentColor"/>
-        </svg>
-      {%- endif -%}
+  <div class="scotland-delivery-timer__delivery-row">
+    {%- if block.settings.text_2 != blank -%}
+      <span class="scotland-delivery-timer__delivery-prefix">{{ block.settings.text_2 | escape }}</span>
+    {%- endif -%}
+    <span class="scotland-delivery-timer__date-highlight">
+      <span class="scotland-delivery-timer__date-label" data-delivery-date-label>Calculating...</span><span class="scotland-delivery-timer__date-suffix" data-delivery-date-suffix hidden></span>
     </span>
-    <div class="scotland-delivery-timer__text">
-      {%- if block.settings.text_2 != blank -%}
-        <span class="scotland-delivery-timer__label">{{ block.settings.text_2 | escape }}</span>
-      {%- endif -%}
-      <span class="scotland-delivery-timer__date-label" data-delivery-date-label>Calculating...</span>
-      <span class="scotland-delivery-timer__date-suffix" data-delivery-date-suffix hidden></span>
-    </div>
   </div>
+
+  {%- if block.settings.show_progress_bar != false -%}
+    <div
+      class="scotland-delivery-timer__progress"
+      role="progressbar"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+      aria-label="Order cutoff progress"
+      data-delivery-progressbar
+    >
+      <span class="scotland-delivery-timer__progress-fill" data-delivery-progress></span>
+    </div>
+  {%- endif -%}
 </div>

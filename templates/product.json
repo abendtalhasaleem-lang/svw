@@ -115,18 +115,26 @@
         },
         "quantity_selector": {
           "type": "quantity_selector",
-          "settings": {}
+          "settings": {
+            "label_font_size": 14,
+            "bar_border_radius": 40,
+            "bar_background_color": "#ffffff",
+            "text_color": "#01277e",
+            "icon_size": 14,
+            "button_size": 38
+          }
         },
         "scotland_delivery_timer_PYF4Xr": {
           "type": "scotland_delivery_timer",
           "settings": {
             "cutoff_time": "03:22",
             "text_1": "Order within:",
+            "show_icons": true,
             "icon_1_upload": "shopify://shop_images/product.png",
             "text_2": "Get it by",
             "delivery_days": 1,
             "show_date_in_parentheses": true,
-            "icon_2_upload": "shopify://shop_images/box-truck.png",
+            "show_progress_bar": true,
             "deliver_monday": true,
             "deliver_tuesday": true,
             "deliver_wednesday": true,
@@ -134,13 +142,21 @@
             "deliver_friday": true,
             "deliver_saturday": false,
             "deliver_sunday": false,
-            "icon_size": 40,
-            "background_color": "#fafafa",
-            "border_color": "#fbfbfb",
-            "icon_color": "#121212",
-            "text_color": "#000000",
-            "highlight_color": "#14b8a6",
-            "date_suffix_color": "#6b7280"
+            "border_radius": 16,
+            "background_type": "gradient",
+            "background_color": "#0b0b12",
+            "gradient_start": "#0b0b12",
+            "gradient_end": "#151528",
+            "gradient_angle": 135,
+            "border_color": "#0b0b12",
+            "icon_size": 22,
+            "icon_color": "#f4c430",
+            "text_color": "#ffffff",
+            "highlight_color": "#f4c430",
+            "date_highlight_color": "#f4c430",
+            "date_suffix_color": "#ffffff",
+            "progress_bar_color": "#f4c430",
+            "progress_bar_track_color": "#2a2a35"
           }
         },
         "buy_buttons": {
@@ -148,7 +164,7 @@
           "settings": {
             "show_dynamic_checkout": true,
             "show_gift_card_recipient": true,
-            "desktop_buttons_in_row": false,
+            "desktop_buttons_in_row": true,
             "add_to_cart_bg_type": "gradient",
             "add_to_cart_bg_color": "",
             "add_to_cart_gradient_start": "#01277e",
@@ -166,45 +182,38 @@
         "scotland_icon_text_pdp_biJGQT": {
           "type": "scotland_icon_text_pdp",
           "settings": {
-            "icon_size": 24,
+            "desktop_columns": "2",
+            "mobile_columns": "2",
             "item_gap": 14,
+            "card_background_color": "#ffffff",
+            "card_border_color": "#e8e8e8",
+            "card_border_radius": 16,
+            "card_padding": 20,
+            "icon_size": 24,
+            "icon_background_color": "#f3f4f6",
             "icon_color": "#121212",
             "heading_color": "#121212",
-            "text_color": "#4b5563",
+            "text_color": "#121212",
             "item_1_icon": "truck",
             "item_1_custom_icon": "shopify://shop_images/reminder.png",
-            "item_1_heading": "Spend £40 Get Free Shipping",
-            "item_1_text": "",
+            "item_1_heading": "Spend £40 Get",
+            "item_1_text": "Free Shipping",
             "item_1_link": "",
-            "item_2_icon": "box",
+            "item_2_icon": "clock",
             "item_2_custom_icon": "shopify://shop_images/box.png",
-            "item_2_heading": "Next Day Delivery",
-            "item_2_text": "",
+            "item_2_heading": "Next Day",
+            "item_2_text": "Delivery",
             "item_2_link": "",
-            "item_3_icon": "stock",
+            "item_3_icon": "shield",
             "item_3_custom_icon": "shopify://shop_images/delivery.png",
-            "item_3_heading": "Trusted Wholesaler",
-            "item_3_text": "",
+            "item_3_heading": "Trusted",
+            "item_3_text": "Wholesaler",
             "item_3_link": "",
-            "item_4_icon": "truck",
+            "item_4_icon": "award",
             "item_4_custom_icon": "shopify://shop_images/product.png",
-            "item_4_heading": "Price Match Guarantee",
-            "item_4_text": "",
+            "item_4_heading": "Price Match",
+            "item_4_text": "Guarantee",
             "item_4_link": ""
-          }
-        },
-        "curlear_collapsible_AiVRMi": {
-          "type": "curlear_collapsible",
-          "settings": {
-            "open_first_row": false,
-            "row_1_title": "Description",
-            "row_1_content": "{{ product.description }}",
-            "row_2_title": "",
-            "row_2_content": "",
-            "row_3_title": "",
-            "row_3_content": "",
-            "row_4_title": "",
-            "row_4_content": ""
           }
         }
       },
@@ -216,10 +225,9 @@
         "variant_picker",
         "scotland_icon_text_pdp_y6GQnP",
         "quantity_selector",
-        "scotland_delivery_timer_PYF4Xr",
         "buy_buttons",
-        "scotland_icon_text_pdp_biJGQT",
-        "curlear_collapsible_AiVRMi"
+        "scotland_delivery_timer_PYF4Xr",
+        "scotland_icon_text_pdp_biJGQT"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -231,10 +239,42 @@
         "mobile_thumbnails": "hide",
         "media_position": "left",
         "image_zoom": "hover_zoom",
-        "hide_variants": true,
+        "hide_variants": false,
+        "quantity_buttons_in_one_row": true,
         "enable_video_looping": false,
         "padding_top": 36,
         "padding_bottom": 12
+      }
+    },
+    "scotland-product-tabs": {
+      "type": "scotland-product-tabs",
+      "settings": {
+        "default_tab": "1",
+        "show_content_heading": true,
+        "tab_1_label": "Description",
+        "tab_1_heading": "Description",
+        "tab_1_content": "{{ product.description }}",
+        "tab_2_label": "Delivery",
+        "tab_2_heading": "Delivery",
+        "tab_2_content": "<p>Add your delivery information here.</p>",
+        "tab_3_label": "Reviews",
+        "tab_3_heading": "Reviews",
+        "tab_3_content": "<p>Add your reviews content here.</p>",
+        "box_background_color": "#ffffff",
+        "box_border_radius": 12,
+        "box_padding": 32,
+        "box_shadow_opacity": 18,
+        "tab_bar_background_color": "#f3f4f6",
+        "tab_bar_border_color": "#d9dde3",
+        "active_tab_background_color": "#1a5632",
+        "active_tab_text_color": "#ffffff",
+        "inactive_tab_text_color": "#1a5632",
+        "inactive_tab_border_color": "#1a5632",
+        "content_heading_color": "#121212",
+        "content_text_color": "#121212",
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 36
       }
     },
     "related-products": {
@@ -258,6 +298,7 @@
   },
   "order": [
     "main",
+    "scotland-product-tabs",
     "related-products"
   ]
 }

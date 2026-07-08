@@ -102,6 +102,26 @@
         >
           {%- assign product_form_id = 'product-form-' | append: section.id -%}
 
+          {%- liquid
+            assign scotland_combined_actions_row = false
+            if section.settings.quantity_buttons_in_one_row
+              for buy_block in section.blocks
+                if buy_block.type == 'buy_buttons'
+                  assign scotland_dynamic_checkout_active = false
+                  if buy_block.settings.show_dynamic_checkout
+                    unless buy_block.settings.show_gift_card_recipient and product.gift_card?
+                      assign scotland_dynamic_checkout_active = true
+                    endunless
+                  endif
+                  unless scotland_dynamic_checkout_active
+                    assign scotland_combined_actions_row = true
+                  endunless
+                  break
+                endif
+              endfor
+            endif
+          -%}
+
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when '@app' -%}
@@ -229,7 +249,20 @@
                 </p>
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
-                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                  {%- style -%}
+                    #ProductDescription-{{ block.id }} {
+                      --product-description-box-bg: {{ block.settings.box_background_color }};
+                      --product-description-box-border: {{ block.settings.box_border_color }};
+                      --product-description-box-radius: {{ block.settings.box_border_radius }}px;
+                      --product-description-box-padding: {{ block.settings.box_padding }}px;
+                      --product-description-box-shadow: {{ block.settings.box_shadow_opacity | divided_by: 100.0 }};
+                    }
+                  {%- endstyle -%}
+                  <div
+                    id="ProductDescription-{{ block.id }}"
+                    class="product__description product__description-box rte quick-add-hidden"
+                    {{ block.shopify_attributes }}
+                  >
                     {{ product.description }}
                   </div>
                 {%- endif -%}
@@ -280,10 +313,24 @@
                   </details>
                 </div>
               {%- when 'quantity_selector' -%}
+                {%- style -%}
+                  #Quantity-Form-{{ section.id }} {
+                    --scotland-qty-bar-bg: {{ block.settings.bar_background_color }};
+                    --scotland-qty-bar-radius: {{ block.settings.bar_border_radius }}px;
+                    --scotland-qty-font-size: {{ block.settings.label_font_size }}px;
+                    --scotland-qty-text-color: {{ block.settings.text_color }};
+                    --scotland-qty-icon-size: {{ block.settings.icon_size }}px;
+                    --scotland-qty-btn-size: {{ block.settings.button_size }}px;
+                  }
+                {%- endstyle -%}
+                {%- if scotland_combined_actions_row -%}
+                  <div class="scotland-pdp-actions-row">
+                    <div class="scotland-pdp-actions-row__quantity" {{ block.shopify_attributes }}>
+                {%- endif -%}
                 <div
                   id="Quantity-Form-{{ section.id }}"
-                  class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
-                  {{ block.shopify_attributes }}
+                  class="product-form__input product-form__quantity scotland-quantity{% if scotland_combined_actions_row == false and settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
+                  {% if scotland_combined_actions_row == false %}{{ block.shopify_attributes }}{% endif %}
                 >
                   {% comment %} TODO: enable theme-check once `item_count_for_variant` is accepted as valid filter {% endcomment %}
                   {% # theme-check-disable %}
@@ -291,19 +338,19 @@
                     | item_count_for_variant: product.selected_or_first_available_variant.id
                   -%}
                   {% # theme-check-enable %}
-                  <label class="quantity__label form__label" for="Quantity-{{ section.id }}">
-                    {{ 'products.product.quantity.label' | t }}
-                    <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
-                      {%- render 'loading-spinner' -%}
-                      <span
-                        >(
-                        {{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}}
-                        )</span
-                      >
-                    </span>
-                  </label>
-                  <div class="price-per-item__container">
-                    <quantity-input class="quantity" data-url="{{ product.url }}" data-section="{{ section.id }}">
+                  <div class="scotland-quantity-bar">
+                    <label class="quantity__label form__label scotland-quantity-bar__label" for="Quantity-{{ section.id }}">
+                      {{ 'products.product.quantity.label' | t }}
+                      <span class="quantity__rules-cart{% if cart_qty == 0 %} hidden{% endif %}">
+                        {%- render 'loading-spinner' -%}
+                        <span
+                          >(
+                          {{- 'products.product.quantity.in_cart_html' | t: quantity: cart_qty -}}
+                          )</span
+                        >
+                      </span>
+                    </label>
+                    <quantity-input class="quantity scotland-quantity-input" data-url="{{ product.url }}" data-section="{{ section.id }}">
                       <button class="quantity__button" name="minus" type="button">
                         <span class="visually-hidden">
                           {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
@@ -337,161 +384,14 @@
                         </span>
                       </button>
                     </quantity-input>
-                    {%- liquid
-                      assign volume_pricing_array = product.selected_or_first_available_variant.quantity_price_breaks | sort: 'quantity' | reverse
-                      assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.min
-                      if cart_qty > 0
-                        assign current_qty_for_volume_pricing = cart_qty | plus: product.selected_or_first_available_variant.quantity_rule.increment
-                      endif
-                    -%}
-                    {%- if product.quantity_price_breaks_configured? -%}
-                      <price-per-item
-                        id="Price-Per-Item-{{ section.id }}"
-                        data-section-id="{{ section.id }}"
-                        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                      >
-                        {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
-                          {%- assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price -%}
-                          <div class="price-per-item">
-                            {%- if variant_price_compare -%}
-                              <dl class="price-per-item--current">
-                                <dt class="visually-hidden">
-                                  {{ 'products.product.price.regular_price' | t }}
-                                </dt>
-                                <dd>
-                                  <s class="variant-item__old-price">
-                                    {{ variant_price_compare | money_with_currency }}
-                                  </s>
-                                </dd>
-                              </dl>
-                            {%- endif -%}
-                            {%- if current_qty_for_volume_pricing < volume_pricing_array.last.minimum_quantity -%}
-                              {%- assign variant_price = product.selected_or_first_available_variant.price
-                                | money_with_currency
-                              -%}
-                              <span class="price-per-item--current">
-                                {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
-                              </span>
-                            {%- else -%}
-                              {%- for price_break in volume_pricing_array -%}
-                                {%- if current_qty_for_volume_pricing >= price_break.minimum_quantity -%}
-                                  {%- assign price_break_price = price_break.price | money_with_currency -%}
-                                  <span class="price-per-item--current">
-                                    {{-
-                                      'products.product.volume_pricing.price_at_each_html'
-                                      | t: price: price_break_price
-                                    -}}
-                                  </span>
-                                  {%- break -%}
-                                {%- endif -%}
-                              {%- endfor -%}
-                            {%- endif -%}
-                          </div>
-                        {%- else -%}
-                          {%- assign variant_price = product.selected_or_first_available_variant.price
-                            | money_with_currency
-                          -%}
-                          {%- assign variant_price_compare = product.selected_or_first_available_variant.compare_at_price -%}
-                          <div class="price-per-item">
-                            {%- if variant_price_compare -%}
-                              <dl class="price-per-item--current">
-                                <dt class="visually-hidden">
-                                  {{ 'products.product.price.regular_price' | t }}
-                                </dt>
-                                <dd>
-                                  <s class="variant-item__old-price">
-                                    {{ variant_price_compare | money_with_currency }}
-                                  </s>
-                                </dd>
-                                <dt class="visually-hidden">
-                                  {{ 'products.product.price.sale_price' | t }}
-                                </dt>
-                                <dd>
-                                  <span class="price-per-item--current">
-                                    {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
-                                  </span>
-                                </dd>
-                              </dl>
-                            {%- else -%}
-                              <span class="price-per-item--current">
-                                {{- 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price -}}
-                              </span>
-                            {%- endif -%}
-                          </div>
-                        {%- endif -%}
-                      </price-per-item>
-                    {%- endif -%}
                   </div>
-                  <div class="quantity__rules caption" id="Quantity-Rules-{{ section.id }}">
-                    {%- if product.selected_or_first_available_variant.quantity_rule.increment > 1 -%}
-                      <span class="divider">
-                        {{-
-                          'products.product.quantity.multiples_of'
-                          | t: quantity: product.selected_or_first_available_variant.quantity_rule.increment
-                        -}}
-                      </span>
-                    {%- endif -%}
-                    {%- if product.selected_or_first_available_variant.quantity_rule.min > 1 -%}
-                      <span class="divider">
-                        {{-
-                          'products.product.quantity.minimum_of'
-                          | t: quantity: product.selected_or_first_available_variant.quantity_rule.min
-                        -}}
-                      </span>
-                    {%- endif -%}
-                    {%- if product.selected_or_first_available_variant.quantity_rule.max != null -%}
-                      <span class="divider">
-                        {{-
-                          'products.product.quantity.maximum_of'
-                          | t: quantity: product.selected_or_first_available_variant.quantity_rule.max
-                        -}}
-                      </span>
-                    {%- endif -%}
-                  </div>
-                  {%- if product.quantity_price_breaks_configured? -%}
-                    <volume-pricing class="parent-display" id="Volume-{{ section.id }}">
-                      {%- if product.selected_or_first_available_variant.quantity_price_breaks.size > 0 -%}
-                        <span class="caption-large">{{ 'products.product.volume_pricing.title' | t }}</span>
-                        <ul class="list-unstyled">
-                          <li>
-                            <span>{{ product.selected_or_first_available_variant.quantity_rule.min }}+</span>
-                            {%- assign price = product.selected_or_first_available_variant.price
-                              | money_with_currency
-                            -%}
-                            <span data-text="{{ 'products.product.volume_pricing.price_at_each_html' | t: price: variant_price }}">
-                              {{- 'sections.quick_order_list.each' | t: money: price -}}
-                            </span>
-                          </li>
-                          {%- for price_break in product.selected_or_first_available_variant.quantity_price_breaks -%}
-                            {%- assign price_break_price = price_break.price | money_with_currency -%}
-                            <li class="{%- if forloop.index >= 3 -%}show-more-item hidden{%- endif -%}">
-                              <span>
-                                {{- price_break.minimum_quantity -}}
-                                <span aria-hidden="true">+</span></span
-                              >
-                              <span data-text="{{ 'products.product.volume_pricing.price_at_each_html' | t: price: price_break_price }}">
-                                {{- 'sections.quick_order_list.each' | t: money: price_break_price -}}
-                              </span>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
-                        {%- if product.selected_or_first_available_variant.quantity_price_breaks.size >= 3 -%}
-                          <show-more-button>
-                            <button
-                              class="button-show-more link underlined-link"
-                              id="Show-More-{{ section.id }}"
-                              type="button"
-                            >
-                              <span class="label-show-more label-text"
-                                ><span aria-hidden="true">+ </span>{{ 'products.facets.show_more' | t }}
-                              </span>
-                            </button>
-                          </show-more-button>
-                        {%- endif -%}
-                      {%- endif -%}
-                    </volume-pricing>
-                  {%- endif -%}
+                  {%- if scotland_combined_actions_row -%}
                 </div>
+                    </div>
+                  {%- else -%}
+                    {% render 'quantity-selector-extras', product: product, section: section, cart_qty: cart_qty %}
+                </div>
+                  {%- endif -%}
               {%- when 'popup' -%}
                 <modal-opener
                   class="product-popup-modal__opener quick-add-hidden"
@@ -516,13 +416,27 @@
               {%- when 'variant_picker' -%}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
               {%- when 'buy_buttons' -%}
+                {%- if scotland_combined_actions_row -%}
+                  <div class="scotland-pdp-actions-row__buttons">
+                {%- endif -%}
                 {%- render 'buy-buttons',
                   block: block,
                   product: product,
                   product_form_id: product_form_id,
                   section_id: section.id,
-                  show_pickup_availability: true
+                  show_pickup_availability: true,
+                  combined_actions_row: scotland_combined_actions_row
                 -%}
+                {%- if scotland_combined_actions_row -%}
+                  </div>
+                  </div>
+                  {% # theme-check-disable %}
+                  {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
+                  {% # theme-check-enable %}
+                  <div class="scotland-quantity-extras">
+                    {% render 'quantity-selector-extras', product: product, section: section, cart_qty: cart_qty %}
+                  </div>
+                {%- endif -%}
               {%- when 'reviews_slider' -%}
                 {% render 'product-reviews-slider', block: block, section: section %}
               {%- when 'scotland_icon_text_pdp' -%}
@@ -905,7 +819,65 @@
     {
       "type": "quantity_selector",
       "name": "t:sections.main-product.blocks.quantity_selector.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Quantity bar style"
+        },
+        {
+          "type": "range",
+          "id": "label_font_size",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Font size",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "bar_border_radius",
+          "min": 0,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "label": "Border radius",
+          "default": 40
+        },
+        {
+          "type": "color",
+          "id": "bar_background_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#01277e"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 10,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Plus and minus icon size",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "button_size",
+          "min": 28,
+          "max": 48,
+          "step": 2,
+          "unit": "px",
+          "label": "Plus and minus button size",
+          "default": 38
+        }
+      ]
     },
     {
       "type": "variant_picker",
@@ -973,9 +945,9 @@
         {
           "type": "checkbox",
           "id": "desktop_buttons_in_row",
-          "default": false,
-          "label": "Show buttons in one row on desktop",
-          "info": "Displays Add to cart and Buy it now side by side on screens 750px and wider."
+          "default": true,
+          "label": "Show buttons in one row",
+          "info": "Displays Add to cart and Buy it now side by side."
         },
         {
           "type": "header",
@@ -1402,7 +1374,77 @@
       "settings": [
         {
           "type": "header",
-          "content": "Style"
+          "content": "Layout"
+        },
+        {
+          "type": "select",
+          "id": "desktop_columns",
+          "label": "Cards per row on desktop",
+          "default": "2",
+          "options": [
+            { "value": "2", "label": "2" },
+            { "value": "3", "label": "3" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "mobile_columns",
+          "label": "Cards per row on mobile",
+          "default": "2",
+          "options": [
+            { "value": "1", "label": "1" },
+            { "value": "2", "label": "2" }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "item_gap",
+          "min": 8,
+          "max": 32,
+          "step": 2,
+          "unit": "px",
+          "label": "Gap between cards",
+          "default": 14
+        },
+        {
+          "type": "header",
+          "content": "Card style"
+        },
+        {
+          "type": "color",
+          "id": "card_background_color",
+          "label": "Card background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "card_border_color",
+          "label": "Card border color",
+          "default": "#e8e8e8"
+        },
+        {
+          "type": "range",
+          "id": "card_border_radius",
+          "min": 0,
+          "max": 32,
+          "step": 2,
+          "unit": "px",
+          "label": "Card border radius",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "card_padding",
+          "min": 8,
+          "max": 32,
+          "step": 2,
+          "unit": "px",
+          "label": "Card padding",
+          "default": 20
+        },
+        {
+          "type": "header",
+          "content": "Icon style"
         },
         {
           "type": "range",
@@ -1412,18 +1454,13 @@
           "step": 2,
           "unit": "px",
           "label": "Icon size",
-          "default": 32,
-          "info": "Adjust the size of all row icons."
+          "default": 32
         },
         {
-          "type": "range",
-          "id": "item_gap",
-          "min": 8,
-          "max": 32,
-          "step": 2,
-          "unit": "px",
-          "label": "Space between rows",
-          "default": 14
+          "type": "color",
+          "id": "icon_background_color",
+          "label": "Icon circle background",
+          "default": "#f3f4f6"
         },
         {
           "type": "color",
@@ -1441,11 +1478,11 @@
           "type": "color",
           "id": "text_color",
           "label": "Text color",
-          "default": "#4b5563"
+          "default": "#121212"
         },
         {
           "type": "header",
-          "content": "Row 1"
+          "content": "Card 1"
         },
         {
           "type": "select",
@@ -1459,7 +1496,8 @@
             { "value": "clock", "label": "Clock" },
             { "value": "calendar", "label": "Calendar" },
             { "value": "shield", "label": "Shield" },
-            { "value": "star", "label": "Star" }
+            { "value": "star", "label": "Star" },
+            { "value": "award", "label": "Award ribbon" }
           ]
         },
         {
@@ -1487,13 +1525,13 @@
         },
         {
           "type": "header",
-          "content": "Row 2"
+          "content": "Card 2"
         },
         {
           "type": "select",
           "id": "item_2_icon",
           "label": "Icon",
-          "default": "box",
+          "default": "clock",
           "options": [
             { "value": "truck", "label": "Delivery truck" },
             { "value": "box", "label": "Box" },
@@ -1501,7 +1539,8 @@
             { "value": "clock", "label": "Clock" },
             { "value": "calendar", "label": "Calendar" },
             { "value": "shield", "label": "Shield" },
-            { "value": "star", "label": "Star" }
+            { "value": "star", "label": "Star" },
+            { "value": "award", "label": "Award ribbon" }
           ]
         },
         {
@@ -1514,13 +1553,13 @@
           "type": "text",
           "id": "item_2_heading",
           "label": "Heading",
-          "default": "Fast Dispatch Till 5PM"
+          "default": "Next Day"
         },
         {
           "type": "text",
           "id": "item_2_text",
           "label": "Text",
-          "default": "We Ship 7 Days A Week"
+          "default": "Delivery"
         },
         {
           "type": "url",
@@ -1529,7 +1568,7 @@
         },
         {
           "type": "header",
-          "content": "Row 3"
+          "content": "Card 3"
         },
         {
           "type": "select",
@@ -1543,7 +1582,8 @@
             { "value": "clock", "label": "Clock" },
             { "value": "calendar", "label": "Calendar" },
             { "value": "shield", "label": "Shield" },
-            { "value": "star", "label": "Star" }
+            { "value": "star", "label": "Star" },
+            { "value": "award", "label": "Award ribbon" }
           ]
         },
         {
@@ -1556,12 +1596,13 @@
           "type": "text",
           "id": "item_3_heading",
           "label": "Heading",
-          "default": "In stock and ready for shipping"
+          "default": "Trusted"
         },
         {
           "type": "text",
           "id": "item_3_text",
-          "label": "Text"
+          "label": "Text",
+          "default": "Wholesaler"
         },
         {
           "type": "url",
@@ -1570,13 +1611,13 @@
         },
         {
           "type": "header",
-          "content": "Row 4"
+          "content": "Card 4"
         },
         {
           "type": "select",
           "id": "item_4_icon",
           "label": "Icon",
-          "default": "truck",
+          "default": "award",
           "options": [
             { "value": "truck", "label": "Delivery truck" },
             { "value": "box", "label": "Box" },
@@ -1584,7 +1625,8 @@
             { "value": "clock", "label": "Clock" },
             { "value": "calendar", "label": "Calendar" },
             { "value": "shield", "label": "Shield" },
-            { "value": "star", "label": "Star" }
+            { "value": "star", "label": "Star" },
+            { "value": "award", "label": "Award ribbon" }
           ]
         },
         {
@@ -1596,12 +1638,14 @@
         {
           "type": "text",
           "id": "item_4_heading",
-          "label": "Heading"
+          "label": "Heading",
+          "default": "Price Match"
         },
         {
           "type": "text",
           "id": "item_4_text",
-          "label": "Text"
+          "label": "Text",
+          "default": "Guarantee"
         },
         {
           "type": "url",
@@ -1633,10 +1677,16 @@
           "default": "Order within:"
         },
         {
+          "type": "checkbox",
+          "id": "show_icons",
+          "label": "Show icons",
+          "default": true
+        },
+        {
           "type": "image_picker",
           "id": "icon_1_upload",
           "label": "Timer icon image",
-          "info": "Optional. Upload PNG or SVG (displayed at 30x30)."
+          "info": "Optional. Upload PNG or SVG. Shown on the countdown row when icons are enabled."
         },
         {
           "type": "header",
@@ -1665,10 +1715,10 @@
           "default": true
         },
         {
-          "type": "image_picker",
-          "id": "icon_2_upload",
-          "label": "Delivery icon image",
-          "info": "Optional. Upload PNG or SVG (displayed at 30x30)."
+          "type": "checkbox",
+          "id": "show_progress_bar",
+          "label": "Show progress bar",
+          "default": true
         },
         {
           "type": "header",
@@ -1726,50 +1776,110 @@
         },
         {
           "type": "range",
-          "id": "icon_size",
-          "min": 20,
-          "max": 40,
+          "id": "border_radius",
+          "min": 0,
+          "max": 32,
           "step": 2,
           "unit": "px",
-          "label": "Icon size",
-          "default": 30
+          "label": "Border radius",
+          "default": 16
+        },
+        {
+          "type": "select",
+          "id": "background_type",
+          "label": "Background type",
+          "default": "solid",
+          "options": [
+            { "value": "solid", "label": "Solid color" },
+            { "value": "gradient", "label": "Gradient" }
+          ]
         },
         {
           "type": "color",
           "id": "background_color",
           "label": "Background color",
-          "default": "#ffffff"
+          "default": "#0b0b12"
+        },
+        {
+          "type": "color",
+          "id": "gradient_start",
+          "label": "Gradient start color",
+          "default": "#0b0b12"
+        },
+        {
+          "type": "color",
+          "id": "gradient_end",
+          "label": "Gradient end color",
+          "default": "#151528"
+        },
+        {
+          "type": "range",
+          "id": "gradient_angle",
+          "min": 0,
+          "max": 360,
+          "step": 15,
+          "unit": "deg",
+          "label": "Gradient angle",
+          "default": 135
         },
         {
           "type": "color",
           "id": "border_color",
           "label": "Border color",
-          "default": "#e5e7eb"
+          "default": "#0b0b12"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 16,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "label": "Icon size",
+          "default": 22
         },
         {
           "type": "color",
           "id": "icon_color",
           "label": "Icon color",
-          "default": "#121212"
+          "default": "#f4c430"
         },
         {
           "type": "color",
           "id": "text_color",
-          "label": "Text color",
-          "default": "#121212"
+          "label": "Delivery text color",
+          "default": "#ffffff"
         },
         {
           "type": "color",
           "id": "highlight_color",
           "label": "Countdown color",
-          "default": "#dc2626"
+          "default": "#f4c430"
+        },
+        {
+          "type": "color",
+          "id": "date_highlight_color",
+          "label": "Delivery date underline color",
+          "default": "#f4c430"
         },
         {
           "type": "color",
           "id": "date_suffix_color",
           "label": "Delivery date suffix color",
-          "default": "#6b7280",
-          "info": "Color for the date in parentheses, e.g. (Jun 25)."
+          "default": "#ffffff",
+          "info": "Color for the date in parentheses, e.g. (10 Jul)."
+        },
+        {
+          "type": "color",
+          "id": "progress_bar_color",
+          "label": "Progress bar fill color",
+          "default": "#f4c430"
+        },
+        {
+          "type": "color",
+          "id": "progress_bar_track_color",
+          "label": "Progress bar track color",
+          "default": "#2a2a35"
         }
       ]
     },
@@ -1961,7 +2071,55 @@
     {
       "type": "description",
       "name": "t:sections.main-product.blocks.description.name",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Box style"
+        },
+        {
+          "type": "color",
+          "id": "box_background_color",
+          "label": "Background color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "box_border_color",
+          "label": "Border color",
+          "default": "#e8e8e8"
+        },
+        {
+          "type": "range",
+          "id": "box_border_radius",
+          "min": 0,
+          "max": 32,
+          "step": 2,
+          "unit": "px",
+          "label": "Border radius",
+          "default": 12
+        },
+        {
+          "type": "range",
+          "id": "box_padding",
+          "min": 16,
+          "max": 48,
+          "step": 4,
+          "unit": "px",
+          "label": "Padding",
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "box_shadow_opacity",
+          "min": 0,
+          "max": 30,
+          "step": 2,
+          "unit": "%",
+          "label": "Shadow strength",
+          "default": 18
+        }
+      ]
     },
     {
       "type": "share",
@@ -3286,6 +3444,13 @@
       ],
       "default": "lightbox",
       "label": "t:sections.main-product.settings.image_zoom.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "quantity_buttons_in_one_row",
+      "default": false,
+      "label": "Show quantity and Add to cart in one row",
+      "info": "When Dynamic checkout is off, places the quantity selector and Add to cart side by side. When Dynamic checkout is on, quantity stays on its own row and buy buttons appear below."
     },
     {
       "type": "checkbox",
